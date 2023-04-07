@@ -43,7 +43,7 @@ public class merchantShop : UIinit
         merchantShop_ = this;
 
         // init slot
-        initSlot(slotCount, slotPrefab, slotContent);
+        initSlot(slotCount, slotPrefab, slotContent, 100.0f);
 
         //DEMO
         examineISrefresh();
@@ -242,7 +242,6 @@ public class merchantShop : UIinit
             print("錢不夠");
         }
     }
-
 
 
     //商店關閉

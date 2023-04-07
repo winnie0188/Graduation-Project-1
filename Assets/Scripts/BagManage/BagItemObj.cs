@@ -23,7 +23,10 @@ public class clothe
 {
     public enum clotheType
     {
-        clothe
+        hat,
+        clothe,
+        pants
+
     }
 
     public clotheType clotheType_;

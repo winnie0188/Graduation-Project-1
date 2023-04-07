@@ -34,7 +34,7 @@ public class BagItem : ScriptableObject
 
     [SerializeField] potion potion;
     [SerializeField] equipment equipment;
-    [SerializeField] clothe clothe;
+    public clothe clothe;
     [SerializeField] material material;
     [SerializeField] food food;
     [SerializeField] tool tool;

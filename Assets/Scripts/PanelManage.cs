@@ -32,6 +32,7 @@ public class PanelManage : MonoBehaviour
             if (panels.BagPanel.gameObject.activeSelf)
             {
                 panels.BagPanel.gameObject.SetActive(false);
+                BagManage.bagManage.hiddenBagInfo();
             }
             else
             {
