@@ -7,6 +7,8 @@ public class PanelManage : MonoBehaviour
 
     public static PanelManage panelManage;
 
+
+
     private void Awake()
     {
         panelManage = this;
@@ -48,4 +50,5 @@ public class Panels
 {
     public Transform shopPanel;
     public Transform BagPanel;
+    public Transform HotKeyPanel;
 }

@@ -25,10 +25,20 @@ public class playerController : MonoBehaviour
     //奔跑處理
     private float lastClickTime;//最後點擊時間
     private float doubleTapTimeThreshold = 0.3f;//0.3秒內按兩次則奔跑
-    private bool isRunning;//是否奔跑
+    [SerializeField] bool isRunning;//是否奔跑
     KeyCode tempCode;//判斷按的按鍵與上一次按的是否相同
 
     #endregion
+
+    #region  Camera旋轉
+
+    [SerializeField] MouseLook m_MouseLook;
+    public Transform m_Camera;
+    bool isLock = false;
+
+    #endregion
+
+    public float x;
     //
 
     public static playerController playerController_;//唯一性
@@ -39,6 +49,8 @@ public class playerController : MonoBehaviour
         playerController_ = this;
         rigi = GetComponent<Rigidbody>();
         initKecode();
+
+        m_MouseLook.Init(transform, m_Camera.transform);
     }
 
     void initKecode()
@@ -87,13 +99,38 @@ public class playerController : MonoBehaviour
             isJump = false;
         }
 
-        rigi.MovePosition(rigi.position + new Vector3(moveItem[0] * speed * Time.fixedDeltaTime, 0, moveItem[1] * speed * 2 * Time.fixedDeltaTime) * (isRunning ? 1.3f : 1.0f));
+        Vector3 localMovement = new Vector3(moveItem[0], 0, moveItem[1]);
+        Vector3 worldMovement = transform.TransformDirection(localMovement);
+        rigi.MovePosition(rigi.position + worldMovement * speed * Time.fixedDeltaTime * (isRunning ? 2.0f : 1.0f));
+
 
     }
 
     private void Update()
     {
+        m_MouseLook.InternalLockUpdate();
+
+        CameraLook();
+
         Move();
+    }
+
+    void CameraLook()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            isLock = !isLock;
+        }
+
+        if (isLock)
+        {
+            m_MouseLook.openLock();
+            m_MouseLook.LookRotation(transform, m_Camera.transform);
+        }
+        else
+        {
+            m_MouseLook.closeLock();
+        }
     }
 
     void Move()
@@ -138,7 +175,7 @@ public class playerController : MonoBehaviour
             isRunY = false;
         }
 
-        Run();
+        Run(isRunx || isRunY);
 
         if (isRunx && isRunY)
         {
@@ -150,9 +187,9 @@ public class playerController : MonoBehaviour
 
     }
 
-    void Run()
+    void Run(bool isWalk)
     {
-        bool isWalk = true;
+        bool isDownTouch = true;
         KeyCode nowKecode = KeyCode.None;
 
         if (Input.GetKeyDown(playerKeyCodes.leftMove))
@@ -173,10 +210,18 @@ public class playerController : MonoBehaviour
         }
         else
         {
-            isWalk = false;
+            isDownTouch = false;
         }
 
-        if (isWalk)
+
+        if (isRunning)
+        {
+            if (!isWalk)
+            {
+                isRunning = false;
+            }
+        }
+        else if (isDownTouch)
         {
             if (Time.time - lastClickTime < doubleTapTimeThreshold && nowKecode == tempCode)
             {
@@ -190,6 +235,7 @@ public class playerController : MonoBehaviour
 
             tempCode = nowKecode;
         }
+
 
     }
 

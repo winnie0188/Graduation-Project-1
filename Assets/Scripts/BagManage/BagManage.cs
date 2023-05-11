@@ -424,6 +424,9 @@ public class BagManage : UIinit
                             HotKeys[j].HotKey_Bag = -1;
                             HotKeys[j].HotKey_item = -1;
                             KeyPanel.GetChild(j).GetChild(0).GetComponent<Image>().sprite = null;
+
+                            // 關閉
+                            KeyPanel.GetChild(j).GetChild(0).gameObject.SetActive(false);
                         }
                         break;
                     }
@@ -446,6 +449,10 @@ public class BagManage : UIinit
             newPosImg.sprite = item.BagItem_icon;
 
             isHotKeyEditor = false;
+
+            // 開啟
+            KeyPanel.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            // 
         }
 
         //沒有進入編輯模式，則使用
@@ -453,11 +460,50 @@ public class BagManage : UIinit
         {
 
         }
-    }
 
+
+        // 刷新
+        Refresh_HotKey();
+    }
 
     #endregion
 
+    #region 刷新快捷鍵
+    void Refresh_HotKey()
+    {
+        Transform HotKey = PanelManage.panelManage.panels.HotKeyPanel;
+
+        Transform BasicKey = HotKey.GetChild(1);
+        Transform PotionKey = HotKey.GetChild(0);
+
+        for (int i = 0; i < BasicKey.childCount; i++)
+        {
+            if (BasicHotKeyPanel.GetChild(i).GetChild(0).gameObject.activeSelf)
+            {
+                BasicKey.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                BasicKey.GetChild(i).GetChild(0).GetComponent<Image>().sprite = BasicHotKeyPanel.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
+            }
+            else
+            {
+                BasicKey.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < PotionKey.childCount; i++)
+        {
+            if (PotionHotKeyPanel.GetChild(i).GetChild(0).gameObject.activeSelf)
+            {
+                PotionKey.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                PotionKey.GetChild(i).GetChild(0).GetComponent<Image>().sprite = PotionHotKeyPanel.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
+            }
+            else
+            {
+                PotionKey.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+    }
+    #endregion
 
     #region Update_Bag
     //加載紀錄時的背包

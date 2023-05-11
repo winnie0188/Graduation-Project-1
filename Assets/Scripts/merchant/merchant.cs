@@ -14,7 +14,7 @@ public class merchant : MonoBehaviour
     [SerializeField] bool isToch;//是否碰到玩家
 
     [SerializeField] List<merchantItem> AllItem;//商人販賣商品
-    int AllItemcount;
+    //int AllItemcount;
 
     public merchantState merchantState_;
 
@@ -22,23 +22,23 @@ public class merchant : MonoBehaviour
     [SerializeField] int sellLength;//商品數量。會隨時變動
 
     //設置AllItem.Count
-    private void OnValidate()
-    {
-        if (AllItem != null)
-            AllItemcount = AllItem.Count;
-    }
+    // private void OnValidate()
+    // {
+    //     if (AllItem != null)
+    //         AllItemcount = AllItem.Count;
+    // }
 
     //商人切換商品
     public void merchantSwitchItem()
     {
         //避免數量溢出
-        if (sellLength > AllItemcount)
+        if (sellLength > AllItem.Count)
         {
-            sellLength = AllItemcount;
+            sellLength = AllItem.Count;
         }
 
 
-        itemIndex = merchantShop.merchantShop_.refresh_product(sellLength, itemIndex, AllItemcount);
+        itemIndex = merchantShop.merchantShop_.refresh_product(sellLength, itemIndex, AllItem.Count);
     }
 
     public bool interaction()//互動

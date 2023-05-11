@@ -28,14 +28,14 @@ RectTransform:
   m_GameObject: {fileID: 3435279961231707770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3063, y: 1.3063, z: 1.3063}
   m_Children: []
   m_Father: {fileID: 8282425393889957469}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.7}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9109969788959610088
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a5588513bd13d4e49a29d79022106e77, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d5a393632abbcf8478c503e64e5917af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -123,7 +123,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.3, y: -0.3}
+  m_AnchoredPosition: {x: -0.39999962, y: -0.3000002}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8282425393620907656
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 8282425393889957466}
   - component: {fileID: -4772281758884878952}
   m_Layer: 5
-  m_Name: BagHotKey
+  m_Name: PotionHotKey
   m_TagString: HotKeyTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5ebcb9a76958eb944ab01339ac71e633, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3365c6faeec2dc4e9273fc722dd30b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
