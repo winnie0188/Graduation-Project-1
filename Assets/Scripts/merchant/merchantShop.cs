@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
@@ -30,6 +31,7 @@ public class merchantShop : UIinit
     #region ShopMoney Basic
 
     [SerializeField] int Playerprice;//玩家的錢
+    [SerializeField] Text PlayerpriceTxt;//玩家的錢渲染
 
     #endregion
 
@@ -37,6 +39,11 @@ public class merchantShop : UIinit
     #region DEMO
     [SerializeField] Text text;
     #endregion
+
+
+    [Header("商人是否旋轉")]
+    [SerializeField] bool mIsRotation;
+
 
     private void Awake()
     {
@@ -47,6 +54,9 @@ public class merchantShop : UIinit
 
         //DEMO
         examineISrefresh();
+
+        // 更新玩家錢錢渲染
+        UpdatePlayerprice();
 
     }
 
@@ -61,6 +71,33 @@ public class merchantShop : UIinit
         }
     }
 
+
+    #region 將商人旋轉到跟玩家一樣角度
+
+    public void Rotation_merchant()
+    {
+        mIsRotation = true;
+        StartCoroutine(RotationMerchant());
+    }
+    IEnumerator RotationMerchant()
+    {
+        while (mIsRotation)
+        {
+            for (int i = 0; i < merchants.Count; i++)
+            {
+                merchants[i].transform.GetChild(0).localRotation = playerController.playerController_.transform.localRotation;
+            }
+            yield return null;
+        }
+    }
+
+    // 如果玩家旋轉視角則設置MisRotation
+    public void SetMisRotation(bool MisRotation)
+    {
+        mIsRotation = MisRotation;
+    }
+
+    #endregion
 
 
     #region SwitchItem
@@ -232,15 +269,23 @@ public class merchantShop : UIinit
             //扣錢
             Playerprice -= tempprice;
 
-            BagManage.bagManage.checkItem(All_index_merchantItem_BagIem);
+            BagManage.bagManage.checkItem(All_index_merchantItem_BagIem, 1);
 
             text.text = "購買成功";
+
+            // 購滿成功則
+            UpdatePlayerprice();
         }
         else
         {
             text.text = "錢不夠";
             print("錢不夠");
         }
+    }
+
+    public void UpdatePlayerprice()
+    {
+        PlayerpriceTxt.text = Playerprice + "";
     }
 
 

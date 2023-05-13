@@ -7,6 +7,8 @@ public class PanelManage : MonoBehaviour
 
     public static PanelManage panelManage;
 
+    [SerializeField] BagItem bagItem;
+
 
 
     private void Awake()
@@ -22,7 +24,8 @@ public class PanelManage : MonoBehaviour
                 panels.shopPanel.gameObject.SetActive(false);
                 merchantShop.merchantShop_.Buy_close();
             }
-            else
+            // 如果全部的panel都沒被打開
+            else if (!AllPanelStatus())
             {
                 merchantShop.merchantShop_.keydownOpenShopPanel();
             }
@@ -31,16 +34,35 @@ public class PanelManage : MonoBehaviour
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenBag))
         {
-            if (panels.BagPanel.gameObject.activeSelf)
-            {
-                panels.BagPanel.gameObject.SetActive(false);
-                BagManage.bagManage.hiddenBagInfo();
-            }
-            else
-            {
-                panels.BagPanel.gameObject.SetActive(true);
-            }
+            OpenBag();
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            BagManage.bagManage.checkItem(bagItem, -1);
+        }
+
+
+    }
+
+    // 開啟背包
+    public void OpenBag()
+    {
+        if (panels.BagPanel.gameObject.activeSelf)
+        {
+            panels.BagPanel.gameObject.SetActive(false);
+            BagManage.bagManage.hiddenBagInfo();
+        }
+        // 如果全部的panel都沒被打開
+        else if (!AllPanelStatus())
+        {
+            panels.BagPanel.gameObject.SetActive(true);
+        }
+    }
+
+    // 所有panel狀態
+    public bool AllPanelStatus()
+    {
+        return panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf;
     }
 }
 

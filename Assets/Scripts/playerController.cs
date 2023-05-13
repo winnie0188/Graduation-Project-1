@@ -1,11 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
 {
     #region Player Basic
+    [Header("會變動的屬性")]
+    // 血量
+    [SerializeField] float maxHp;//最大血量
+    [SerializeField] float Hp;
+    [SerializeField] Text HpTxt;
+    [SerializeField] Transform HpLine;
+    // 
+    // 飢餓
+    [SerializeField] float maxHungry;//最大飢餓
+    [SerializeField] float Hungry;
+    [SerializeField] Text HungryTxt;
+    [SerializeField] Transform HungryLine;
+    // 
+
+    // 黑化
+    [SerializeField] float maxBlackening;//最大黑化
+    [SerializeField] float Blackening;
+    [SerializeField] Transform BlackeningLine;
+    // 
+
     //按鍵設定
     [Header("玩家按鍵")]
     public PlayerKeyCode playerKeyCodes;//玩家按鍵
@@ -38,7 +57,7 @@ public class playerController : MonoBehaviour
 
     #endregion
 
-    public float x;
+
     //
 
     public static playerController playerController_;//唯一性
@@ -108,18 +127,80 @@ public class playerController : MonoBehaviour
 
     private void Update()
     {
-        m_MouseLook.InternalLockUpdate();
-
         CameraLook();
 
         Move();
     }
 
+    #region 基礎數值變動
+
+    //更新血量 
+    public void HpUpdate(float hp)
+    {
+        if (Hp + hp > maxHp || Hp + hp < 0)
+        {
+            return;
+        }
+
+        Hp += hp;
+
+        float HpPerson = Hp / maxHp;
+
+        HpTxt.text = (HpPerson * 100) + "%";
+        HpLine.localScale = new Vector3(1 - HpPerson, 1, 1);
+    }
+
+    //更新飢餓
+    public void HungryUpdate(float hungry)
+    {
+        if (Hungry + hungry > maxHungry || Hungry + hungry < 0)
+        {
+            return;
+        }
+
+        Hungry += hungry;
+
+        float HungryPerson = Hungry / maxHungry;
+
+        HungryTxt.text = (HungryPerson * 100) + "%";
+        HungryLine.localScale = new Vector3(1 - HungryPerson, 1, 1);
+    }
+
+    //更新飢餓
+    public void BlackeningUpdate(float blackening)
+    {
+        if (Blackening + blackening > maxBlackening || Blackening + blackening < 0)
+        {
+            return;
+        }
+
+        Blackening += blackening;
+
+        float BlackeningPerson = Blackening / maxBlackening;
+
+        BlackeningLine.localScale = new Vector3(1 - BlackeningPerson, 1, 1);
+    }
+
+    #endregion
+
+
+    // 視角轉動
     void CameraLook()
     {
+        m_MouseLook.InternalLockUpdate();
+
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             isLock = !isLock;
+
+            if (isLock)
+            {
+                merchantShop.merchantShop_.Rotation_merchant();
+            }
+            else
+            {
+                merchantShop.merchantShop_.SetMisRotation(false);
+            }
         }
 
         if (isLock)
@@ -133,6 +214,7 @@ public class playerController : MonoBehaviour
         }
     }
 
+    // 移動
     void Move()
     {
         bool isRunx = true;
@@ -182,11 +264,8 @@ public class playerController : MonoBehaviour
             moveItem[0] /= 2;
             moveItem[1] /= 1.1f;
         }
-
-
-
     }
-
+    // 奔跑
     void Run(bool isWalk)
     {
         bool isDownTouch = true;

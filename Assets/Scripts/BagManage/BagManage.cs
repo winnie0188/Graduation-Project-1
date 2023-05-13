@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BagManage : UIinit
 {
@@ -29,14 +30,7 @@ public class BagManage : UIinit
     // 判斷現在是哪個HotKey
     int HotKeyID;
 
-    // 熱鍵物資儲存
-    // 一般的熱鍵
-    [SerializeField] HotKey[] HotKeys;
-    //藥水熱鍵
-    [SerializeField] HotKey[] HotKeys_potion;
-    //衣服熱鍵
-    [SerializeField] HotKey[] HotKeys_Clothe;
-    [SerializeField] HotKey[] HotKeys_equip;
+    [SerializeField] HotKeyStore hotKeyStore;
 
     // 熱鍵panel
     [SerializeField] Transform BasicHotKeyPanel;
@@ -73,35 +67,35 @@ public class BagManage : UIinit
         scrollRect = slotContentParent.GetComponent<ScrollRect>();
 
         // 熱鍵數量
-        HotKeys = new HotKey[BasicHotKeyPanel.childCount];
-        for (int i = 0; i < HotKeys.Length; i++)
+        hotKeyStore.HotKeys = new HotKey[BasicHotKeyPanel.childCount];
+        for (int i = 0; i < hotKeyStore.HotKeys.Length; i++)
         {
-            HotKeys[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(BasicHotKeyPanel.GetChild(i).GetComponent<Button>(), i, BasicHotKeyPanel));
+            hotKeyStore.HotKeys[i] = new HotKey();
+            StartCoroutine(HotKeyAddListener(BasicHotKeyPanel.GetChild(i).GetComponent<Button>(), i, BasicHotKeyPanel, hotKeyStore.HotKeys));
         }
 
         //藥水熱鍵
-        HotKeys_potion = new HotKey[PotionHotKeyPanel.childCount];
-        for (int i = 0; i < HotKeys_potion.Length; i++)
+        hotKeyStore.HotKeys_potion = new HotKey[PotionHotKeyPanel.childCount];
+        for (int i = 0; i < hotKeyStore.HotKeys_potion.Length; i++)
         {
-            HotKeys_potion[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(PotionHotKeyPanel.GetChild(i).GetComponent<Button>(), i, PotionHotKeyPanel));
+            hotKeyStore.HotKeys_potion[i] = new HotKey();
+            StartCoroutine(HotKeyAddListener(PotionHotKeyPanel.GetChild(i).GetComponent<Button>(), i, PotionHotKeyPanel, hotKeyStore.HotKeys_potion));
         }
 
         //衣服熱鍵
-        HotKeys_Clothe = new HotKey[CloteHotKeyPanel.childCount];
-        for (int i = 0; i < HotKeys_Clothe.Length; i++)
+        hotKeyStore.HotKeys_Clothe = new HotKey[CloteHotKeyPanel.childCount];
+        for (int i = 0; i < hotKeyStore.HotKeys_Clothe.Length; i++)
         {
-            HotKeys_Clothe[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(CloteHotKeyPanel.GetChild(i).GetComponent<Button>(), i, CloteHotKeyPanel));
+            hotKeyStore.HotKeys_Clothe[i] = new HotKey();
+            StartCoroutine(HotKeyAddListener(CloteHotKeyPanel.GetChild(i).GetComponent<Button>(), i, CloteHotKeyPanel, hotKeyStore.HotKeys_Clothe));
         }
 
         // 裝備熱鍵
-        HotKeys_equip = new HotKey[EquipHotKeyPanel.childCount];
-        for (int i = 0; i < HotKeys_equip.Length; i++)
+        hotKeyStore.HotKeys_equip = new HotKey[EquipHotKeyPanel.childCount];
+        for (int i = 0; i < hotKeyStore.HotKeys_equip.Length; i++)
         {
-            HotKeys_equip[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(EquipHotKeyPanel.GetChild(i).GetComponent<Button>(), i, EquipHotKeyPanel));
+            hotKeyStore.HotKeys_equip[i] = new HotKey();
+            StartCoroutine(HotKeyAddListener(EquipHotKeyPanel.GetChild(i).GetComponent<Button>(), i, EquipHotKeyPanel, hotKeyStore.HotKeys_equip));
         }
 
 
@@ -130,10 +124,10 @@ public class BagManage : UIinit
         yield return null;
     }
 
-    IEnumerator HotKeyAddListener(Button btn, int i, Transform KeyPanel)
+    IEnumerator HotKeyAddListener(Button btn, int i, Transform KeyPanel, HotKey[] hotKeys)
     {
         btn.name = "" + i;
-        btn.onClick.AddListener(() => HotKey(i, HotKeys, KeyPanel));
+        btn.onClick.AddListener(() => HotKey(i, hotKeys, KeyPanel));
         yield return null;
     }
 
@@ -183,9 +177,10 @@ public class BagManage : UIinit
     }
     #endregion
 
-    #region add new obj in Bag
+    #region add/delete new obj in Bag
     // 新增物品到背包
-    public void checkItem(BagItem newBagIem)
+    // amount是要增加或減少的數量
+    public void checkItem(BagItem newBagIem, int amount)
     {
         //判斷道具種類並放到該類型的背包裏面
         bagSoreIndex = 0;
@@ -215,12 +210,20 @@ public class BagManage : UIinit
                 break;
         }
 
+
         // 更新背包UI
-        Update_BagUI(bagSore[bagSoreIndex], PutItemInBag(bagSore[bagSoreIndex], newBagIem), true);
+        if (amount > 0)
+        {
+            PutItemInBag(bagSore[bagSoreIndex], newBagIem, amount);
+        }
+        else if (amount < 0)
+        {
+            deleteItemInBag(bagSore[bagSoreIndex], newBagIem, amount);
+        }
     }
 
     //將商品放入背包
-    public int PutItemInBag(BagSore BagSore, BagItem NewBagItem)
+    public void PutItemInBag(BagSore BagSore, BagItem NewBagItem, int amount)
     {
         var BagSore_BagItems = BagSore.BagItems;
         int index = BagSore_BagItems.Count;
@@ -236,8 +239,7 @@ public class BagManage : UIinit
                     // 要互動的道具索引
                     index = i;
                     // 
-
-                    BagSore.ItemCount[i]++;
+                    BagSore.ItemCount[i] += amount;
                     break;
                 }
             }
@@ -245,14 +247,58 @@ public class BagManage : UIinit
         else
         {
             //直接加新的道具到背包
-            BagSore_BagItems.Add(NewBagItem);
-            BagSore.ItemCount.Add(1);
+            BagSore.BagItems.Add(NewBagItem);
+            BagSore.ItemCount.Add(amount);
             BagSore.isWear.Add(false);
         }
 
-        bagSore[bagSoreIndex] = BagSore;
+        //bagSore[bagSoreIndex] = BagSore;
 
-        return index;
+        Update_BagUI(bagSore[bagSoreIndex], index, true);
+    }
+
+    //將商品移出背包
+    public void deleteItemInBag(BagSore BagSore, BagItem NewBagItem, int amount)
+    {
+        var BagSore_BagItems = BagSore.BagItems;
+
+        // 什麼事都沒發生傳-1
+        int index = -1;
+
+        //找尋該背包是否有該道具
+        if (BagSore_BagItems.Contains(NewBagItem))
+        {
+            //找到該位置增加count
+            for (int i = 0; i < BagSore_BagItems.Count; i++)
+            {
+                if (BagSore_BagItems[i].Equals(NewBagItem))
+                {
+                    // 要互動的道具索引
+                    index = i;
+                    // 
+
+                    if (BagSore.ItemCount[i] + amount > 0)
+                    {
+
+                        BagSore.ItemCount[i] += amount;
+
+                        Update_BagUI(bagSore[bagSoreIndex], index, true);
+                    }
+                    else
+                    {
+                        BagSore.BagItems.RemoveAt(i);
+                        BagSore.ItemCount.RemoveAt(i);
+                        BagSore.isWear.RemoveAt(i);
+
+                        Update_BagUI(bagSore[bagSoreIndex], index, false);
+                    }
+
+
+                    break;
+                }
+            }
+        }
+
     }
 
     #endregion
@@ -270,20 +316,21 @@ public class BagManage : UIinit
 
 
         //如果需樣wear介面就取消註解*****************************************************************************************
+        if (!DragItem.gameObject.activeSelf)
+        {
+            var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[i];
 
-        // var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[i];
+            BagInfo.gameObject.SetActive(true);
 
-        // BagInfo.gameObject.SetActive(true);
+            // icon
+            BagInfo.GetChild(0).GetComponent<Image>().sprite = bagSore_BagIndex_BagItems_i.BagItem_icon;
 
-        // // icon
-        // BagInfo.GetChild(0).GetComponent<Image>().sprite = bagSore_BagIndex_BagItems_i.BagItem_icon;
+            //名稱 
+            BagInfo.GetChild(1).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_name;
 
-        // //名稱 
-        // BagInfo.GetChild(1).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_name;
-
-        // // 介紹
-        // BagInfo.GetChild(2).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_info;
-
+            // 介紹
+            BagInfo.GetChild(2).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_info;
+        }
         //*********************************************************************************************************
 
 
@@ -292,8 +339,8 @@ public class BagManage : UIinit
 
 
         //如果需樣wear介面就刪掉*****************************************************************************************
-
-        wear();
+        if (DragItem.gameObject.activeSelf)
+            wear();
 
         //*********************************************************************************************************
     }
@@ -401,7 +448,7 @@ public class BagManage : UIinit
 
             var item = bagSore[BagIndex].BagItems[itemIndex];
 
-            var newPosImg = KeyPanel.GetChild(i).GetChild(0).GetComponent<Image>();
+
 
             // 已經裝備過
             if (bagSore[BagIndex].isWear[itemIndex])
@@ -417,16 +464,11 @@ public class BagManage : UIinit
                         {
                             HotKeys[j].HotKey_Bag = HotKeys[i].HotKey_Bag;
                             HotKeys[j].HotKey_item = HotKeys[i].HotKey_item;
-                            KeyPanel.GetChild(j).GetChild(0).GetComponent<Image>().sprite = newPosImg.sprite;
                         }
                         else
                         {
                             HotKeys[j].HotKey_Bag = -1;
                             HotKeys[j].HotKey_item = -1;
-                            KeyPanel.GetChild(j).GetChild(0).GetComponent<Image>().sprite = null;
-
-                            // 關閉
-                            KeyPanel.GetChild(j).GetChild(0).gameObject.SetActive(false);
                         }
                         break;
                     }
@@ -444,15 +486,10 @@ public class BagManage : UIinit
             HotKeys[i].HotKey_item = itemIndex;
 
 
-            // 渲染
-            // slot.icon
-            newPosImg.sprite = item.BagItem_icon;
-
             isHotKeyEditor = false;
 
-            // 開啟
-            KeyPanel.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            // 
+            // 刷新
+            Refresh_HotKey();
         }
 
         //沒有進入編輯模式，則使用
@@ -460,15 +497,11 @@ public class BagManage : UIinit
         {
 
         }
-
-
-        // 刷新
-        Refresh_HotKey();
     }
 
     #endregion
 
-    #region 刷新快捷鍵
+    #region 刷新快捷鍵渲染
     void Refresh_HotKey()
     {
         Transform HotKey = PanelManage.panelManage.panels.HotKeyPanel;
@@ -476,34 +509,35 @@ public class BagManage : UIinit
         Transform BasicKey = HotKey.GetChild(1);
         Transform PotionKey = HotKey.GetChild(0);
 
-        for (int i = 0; i < BasicKey.childCount; i++)
-        {
-            if (BasicHotKeyPanel.GetChild(i).GetChild(0).gameObject.activeSelf)
-            {
-                BasicKey.GetChild(i).GetChild(0).gameObject.SetActive(true);
-                BasicKey.GetChild(i).GetChild(0).GetComponent<Image>().sprite = BasicHotKeyPanel.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
-            }
-            else
-            {
-                BasicKey.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            }
-        }
+        UpdateHotKeyPanel(BasicKey, hotKeyStore.HotKeys);
+        UpdateHotKeyPanel(PotionKey, hotKeyStore.HotKeys_potion);
 
-        for (int i = 0; i < PotionKey.childCount; i++)
-        {
-            if (PotionHotKeyPanel.GetChild(i).GetChild(0).gameObject.activeSelf)
-            {
-                PotionKey.GetChild(i).GetChild(0).gameObject.SetActive(true);
-                PotionKey.GetChild(i).GetChild(0).GetComponent<Image>().sprite = PotionHotKeyPanel.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
-            }
-            else
-            {
-                PotionKey.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            }
-        }
+        UpdateHotKeyPanel(BasicHotKeyPanel, hotKeyStore.HotKeys);
+        UpdateHotKeyPanel(PotionHotKeyPanel, hotKeyStore.HotKeys_potion);
+        UpdateHotKeyPanel(CloteHotKeyPanel, hotKeyStore.HotKeys_Clothe);
+        UpdateHotKeyPanel(EquipHotKeyPanel, hotKeyStore.HotKeys_equip);
 
     }
+
+    private void UpdateHotKeyPanel(Transform hotKeyPanel, HotKey[] hotKeys)
+    {
+        for (int i = 0; i < hotKeys.Length; i++)
+        {
+            Transform hotKeyItem = hotKeyPanel.GetChild(i);
+            if (hotKeys[i].HotKey_Bag != -1)
+            {
+                hotKeyItem.GetChild(0).gameObject.SetActive(true);
+                hotKeyItem.GetChild(0).GetComponent<Image>().sprite = bagSore[hotKeys[i].HotKey_Bag].BagItems[hotKeys[i].HotKey_item].BagItem_icon;
+            }
+            else
+            {
+                hotKeyItem.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+    }
+
     #endregion
+
 
     #region Update_Bag
     //加載紀錄時的背包
@@ -529,6 +563,16 @@ public class BagManage : UIinit
         }
     }
 
+    public void defaultSlot(int index)
+    {
+        //道具圖片//改變SLOT裡的icon
+        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = null;
+        //道具名字
+        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(1).GetComponent<Text>().text = "道具名";
+        //道具數量
+        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(2).GetComponent<Text>().text = "數量";
+    }
+
     // isAdd=>true 增加資料 isAdd=>刪除資料
     public void Update_BagUI(BagSore BagSore, int index, bool isAdd)
     {
@@ -544,14 +588,55 @@ public class BagManage : UIinit
         else
         {
             //從index包含以後的物件全部重新加載
-            for (int i = index; i < BagSore.BagItems.Count; i++)
+            if (BagSore.BagItems.Count == index)
             {
-                //道具圖片//改變SLOT裡的icon
-                slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(0).GetComponent<Image>().sprite = BagSore.BagItems[i].BagItem_icon;
-                //道具名字
-                slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(1).GetComponent<Text>().text = BagSore.BagItems[i].BagItem_name;
-                //道具數量
-                slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(2).GetComponent<Text>().text = BagSore.ItemCount[i].ToString();
+                defaultSlot(index);
+            }
+            else
+            {
+                for (int i = index; i < BagSore.BagItems.Count + 1; i++)
+                {
+                    if (i == BagSore.BagItems.Count)
+                    {
+                        defaultSlot(i);
+                        break;
+                    }
+                    //道具圖片//改變SLOT裡的icon
+                    slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(0).GetComponent<Image>().sprite = BagSore.BagItems[i].BagItem_icon;
+                    //道具名字
+                    slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(1).GetComponent<Text>().text = BagSore.BagItems[i].BagItem_name;
+                    //道具數量
+                    slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(2).GetComponent<Text>().text = BagSore.ItemCount[i].ToString();
+                }
+            }
+
+
+
+            // 刷新快捷鍵對應關係
+            Refresh_HotKeyStore(hotKeyStore.HotKeys, index);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_Clothe, index);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_equip, index);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_potion, index);
+            // 刷新快捷鍵渲染
+            Refresh_HotKey();
+        }
+    }
+    // 刷新快捷鍵對應關係
+    public void Refresh_HotKeyStore(HotKey[] hotKeys, int index)
+    {
+        for (int j = 0; j < hotKeys.Length; j++)
+        {
+            if (hotKeys[j].HotKey_Bag == bagSoreIndex)
+            {
+                if (hotKeys[j].HotKey_item > index)
+                {
+                    hotKeys[j].HotKey_item -= 1;
+                }
+                else if (hotKeys[j].HotKey_item == index)
+                {
+                    hotKeys[j].HotKey_item = -1;
+                    hotKeys[j].HotKey_Bag = -1;
+                }
             }
         }
     }
@@ -562,34 +647,56 @@ public class BagManage : UIinit
     // 
     public void initDrag(Transform newDrag)
     {
-        // 如果有隱藏
-        if (!DragItem.gameObject.activeSelf)
-        {
-            // 初始化Drag物件
-            DragItem.gameObject.SetActive(true);
+        // 初始化Drag物件
+        DragItem.gameObject.SetActive(true);
 
-            DragItem.GetComponent<Image>().sprite = newDrag.GetChild(0).GetComponent<Image>().sprite;
+        DragItem.GetComponent<Image>().sprite = newDrag.GetChild(0).GetComponent<Image>().sprite;
 
-            newDrag.GetComponent<Image>().color -= new Color(0, 0, 0, 1);
+        newDrag.GetChild(0).GetComponent<Image>().color -= new Color(0, 0, 0, 1);
 
-            // 觸發編輯事件
-            newDrag.GetComponent<Button>().onClick.Invoke();
-        }
-        else
-        {
+        // 觸發編輯事件
+        newDrag.GetComponent<Button>().onClick.Invoke();
 
-        }
-
+        StartCoroutine(DragCheck(newDrag));
     }
+
+    // 檢查drag是否有問題
+    IEnumerator DragCheck(Transform newDrag)
+    {
+        Vector3 prePos = new Vector3(0, 0, 0);
+        Vector3 nowPos = DragItem.position;
+        while (true)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            if (prePos != nowPos)
+            {
+                prePos = nowPos;
+                nowPos = DragItem.position;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
+        newDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        DragItem.gameObject.SetActive(false);
+    }
+
+
 
     // 放開後會發生的事件(拖曳，碰撞到的)
     public void DragEnd(Transform newDrag, Transform EditDragSlot, bool isToch)
     {
-        Image newDragImg = newDrag.GetComponent<Image>();
-        newDragImg.color += new Color(0, 0, 0, 1);
+        //Image newDragImg = newDrag.GetComponent<Image>();
+        newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
 
         if (isToch)
+        {
             EditDragSlot.GetComponent<Button>().onClick.Invoke();
+        }
     }
 
 
@@ -612,20 +719,6 @@ public class BagSore
     //是否已裝備 
     public List<bool> isWear;
 
-    // //右側裝備欄
-    // public List<BagItem> potionBagItem;//背包物品_藥水
-    // public List<BagItem> equipmentBagItem;//背包物品_裝備
-
-    // //左側裝備欄
-    // public List<BagItem> clotheBagItem;//衣服
-
-    // //無法手持
-    // public List<BagItem> materialBagItem;//材料
-
-
-    // //可以手持
-    // public List<BagItem> foodBagItem;//食物
-    // public List<BagItem> toolBagItem;//工具
 }
 
 [System.Serializable]
@@ -635,3 +728,15 @@ public class HotKey
     public int HotKey_item = -1;
 }
 
+[System.Serializable]
+public class HotKeyStore
+{
+    // 熱鍵物資儲存
+    // 一般的熱鍵
+    public HotKey[] HotKeys;
+    //藥水熱鍵
+    public HotKey[] HotKeys_potion;
+    //衣服熱鍵
+    public HotKey[] HotKeys_Clothe;
+    public HotKey[] HotKeys_equip;
+}

@@ -10,6 +10,7 @@ public class BagItemDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         BagManage.bagManage.initDrag(transform);
         GetComponent<CanvasGroup>().blocksRaycasts = false;//射線阻擋關閉
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -35,4 +36,6 @@ public class BagItemDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         BagManage.bagManage.DragItem.gameObject.SetActive(false);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
+
+
 }
