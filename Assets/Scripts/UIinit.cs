@@ -8,7 +8,7 @@ public class UIinit : MonoBehaviour
     // Start is called before the first frame update
     #region initButton
 
-    public void initSlot(int slotCount, GameObject slotPrefab, Transform slotContent, float size)
+    public void initSlot(int slotCount, GameObject slotPrefab, Transform slotContent, float size, int child)
     {
         int length = 1;
 
@@ -17,7 +17,15 @@ public class UIinit : MonoBehaviour
         {
             var index = i; // 保存当前索引值
             var temp = Instantiate(slotPrefab, slotContent.position, Quaternion.identity, slotContent);
-            StartCoroutine(AddListener(temp.GetComponent<Button>(), index));
+
+            if (child == -1)
+            {
+                StartCoroutine(AddListener(temp.GetComponent<Button>(), index));
+            }
+            else
+            {
+                StartCoroutine(AddListener(temp.transform.GetChild(child).GetComponent<Button>(), index));
+            }
         }
 
 

@@ -50,7 +50,7 @@ public class merchantShop : UIinit
         merchantShop_ = this;
 
         // init slot
-        initSlot(slotCount, slotPrefab, slotContent, 100.0f);
+        initSlot(slotCount, slotPrefab, slotContent, 100.0f, -1);
 
         //DEMO
         examineISrefresh();

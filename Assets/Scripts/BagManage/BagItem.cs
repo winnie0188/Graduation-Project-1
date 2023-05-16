@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEditor;
+
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "BagItem", menuName = "Scriptables/BagItem", order = 2)]

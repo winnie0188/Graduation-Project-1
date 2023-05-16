@@ -66,43 +66,30 @@ public class BagManage : UIinit
         isUpperReady = new bool[slotContentParent.childCount];
         scrollRect = slotContentParent.GetComponent<ScrollRect>();
 
-        // 熱鍵數量
-        hotKeyStore.HotKeys = new HotKey[BasicHotKeyPanel.childCount];
-        for (int i = 0; i < hotKeyStore.HotKeys.Length; i++)
-        {
-            hotKeyStore.HotKeys[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(BasicHotKeyPanel.GetChild(i).GetComponent<Button>(), i, BasicHotKeyPanel, hotKeyStore.HotKeys));
-        }
 
-        //藥水熱鍵
-        hotKeyStore.HotKeys_potion = new HotKey[PotionHotKeyPanel.childCount];
-        for (int i = 0; i < hotKeyStore.HotKeys_potion.Length; i++)
-        {
-            hotKeyStore.HotKeys_potion[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(PotionHotKeyPanel.GetChild(i).GetComponent<Button>(), i, PotionHotKeyPanel, hotKeyStore.HotKeys_potion));
-        }
+        // 熱鍵初始化----------------------------------------------
+        hotKeyStore.HotKeys = InitializeHotKeys(BasicHotKeyPanel.childCount, BasicHotKeyPanel);
+        hotKeyStore.HotKeys_potion = InitializeHotKeys(PotionHotKeyPanel.childCount, PotionHotKeyPanel);
+        hotKeyStore.HotKeys_Clothe = InitializeHotKeys(CloteHotKeyPanel.childCount, CloteHotKeyPanel);
+        hotKeyStore.HotKeys_equip = InitializeHotKeys(EquipHotKeyPanel.childCount, EquipHotKeyPanel);
 
-        //衣服熱鍵
-        hotKeyStore.HotKeys_Clothe = new HotKey[CloteHotKeyPanel.childCount];
-        for (int i = 0; i < hotKeyStore.HotKeys_Clothe.Length; i++)
+        HotKey[] InitializeHotKeys(int count, Transform panel)
         {
-            hotKeyStore.HotKeys_Clothe[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(CloteHotKeyPanel.GetChild(i).GetComponent<Button>(), i, CloteHotKeyPanel, hotKeyStore.HotKeys_Clothe));
+            HotKey[] hotKeys = new HotKey[count];
+            for (int i = 0; i < count; i++)
+            {
+                hotKeys[i] = new HotKey();
+                StartCoroutine(HotKeyAddListener(panel.GetChild(i).GetComponent<Button>(), i, panel, hotKeys));
+            }
+            return hotKeys;
         }
-
-        // 裝備熱鍵
-        hotKeyStore.HotKeys_equip = new HotKey[EquipHotKeyPanel.childCount];
-        for (int i = 0; i < hotKeyStore.HotKeys_equip.Length; i++)
-        {
-            hotKeyStore.HotKeys_equip[i] = new HotKey();
-            StartCoroutine(HotKeyAddListener(EquipHotKeyPanel.GetChild(i).GetComponent<Button>(), i, EquipHotKeyPanel, hotKeyStore.HotKeys_equip));
-        }
+        // 熱鍵初始化----------------------------------------------
 
 
         //slot初始化
         for (int i = 0; i < slotContentParent.childCount; i++)
         {
-            initSlot(slotCount, slotPrefab, slotContentParent.GetChild(i), 50);
+            initSlot(slotCount, slotPrefab, slotContentParent.GetChild(i), 50, -1);
         }
 
         // category初始化

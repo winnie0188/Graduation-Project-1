@@ -7,7 +7,7 @@ public class PanelManage : MonoBehaviour
 
     public static PanelManage panelManage;
 
-    [SerializeField] BagItem bagItem;
+
 
 
 
@@ -36,10 +36,6 @@ public class PanelManage : MonoBehaviour
         {
             OpenBag();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            BagManage.bagManage.checkItem(bagItem, -1);
-        }
 
 
     }
@@ -59,10 +55,43 @@ public class PanelManage : MonoBehaviour
         }
     }
 
+    // 開啟任務清單
+    public void OpenTaskPanel()
+    {
+        if (panels.TaskPanel.gameObject.activeSelf)
+        {
+            panels.TaskPanel.gameObject.SetActive(false);
+        }
+        // 如果全部的panel都沒被打開
+        else if (!AllPanelStatus())
+        {
+            panels.TaskPanel.gameObject.SetActive(true);
+        }
+    }
+
+    // 開啟大地圖
+    public void OpenBigMapPanel()
+    {
+        if (panels.BigMapPanel.gameObject.activeSelf)
+        {
+
+            panels.BigMapPhotography.gameObject.SetActive(false);
+            panels.BigMapPanel.gameObject.SetActive(false);
+        }
+        // 如果全部的panel都沒被打開
+        else if (!AllPanelStatus())
+        {
+            panels.BigMapPanel.gameObject.SetActive(true);
+            panels.BigMapPhotography.gameObject.SetActive(true);
+
+            BigMapSystem.bigMapSystem.Update_Map_Void();
+        }
+    }
+
     // 所有panel狀態
     public bool AllPanelStatus()
     {
-        return panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf;
+        return panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf || panels.TaskPanel.gameObject.activeSelf || panels.BigMapPanel.gameObject.activeSelf;
     }
 }
 
@@ -70,7 +99,17 @@ public class PanelManage : MonoBehaviour
 [System.Serializable]
 public class Panels
 {
+    // 商店
     public Transform shopPanel;
+    // 背包
     public Transform BagPanel;
     public Transform HotKeyPanel;
+    // 任務
+    public Transform TaskPanel;
+
+    #region 大地圖
+    // 大地圖
+    public Transform BigMapPanel;
+    public Transform BigMapPhotography;
+    #endregion
 }
