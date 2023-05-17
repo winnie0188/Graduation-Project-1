@@ -17,13 +17,28 @@ public class BigMapSystem : MonoBehaviour
     #endregion
 
 
-    #region slider控制攝影機y
-    public Slider slider;
-    public GameObject targetObject;
-    float sliderValue = 50;
+    #region slider控制大小
+    [SerializeField] Slider slider;
+    float sliderValue = 5;
     #endregion
 
+    #region 地圖標記
+    [SerializeField] Transform[] markerPrefab;
+    // 以標記數量
+    int markCount;
+
+    [SerializeField] Transform PlayerMark;
+
+    #endregion
+
+
+    [SerializeField] Transform MapShader;
+
+
     public static BigMapSystem bigMapSystem;
+
+
+
 
     private void Awake()
     {
@@ -33,45 +48,41 @@ public class BigMapSystem : MonoBehaviour
         slider.onValueChanged.AddListener(OnSliderValueChanged);
     }
 
-
-    #region 放大地圖
-    private void OnSliderValueChanged(float value)
+    public void Update_MapLoad()
     {
-        isDragging = false;
-        sliderValue = value;
-
-        // 將 Slider 的值應用到目標物件的 posY
-        Vector3 newPosition = targetObject.transform.position;
-        newPosition.y = value * 10;
-        targetObject.transform.position = newPosition;
-    }
-    #endregion
-
-    #region 移動地圖
-    public void Update_Map_Void()
-    {
-        StartCoroutine(Update_Map());
+        StartCoroutine(Update_mapLoad());
     }
 
-    IEnumerator Update_Map()
+
+
+    IEnumerator Update_mapLoad()
     {
-        yield return null;
         GameObject BigMapPanel = PanelManage.panelManage.panels.BigMapPanel.gameObject;
-        while (BigMapPanel.activeSelf)
+
+        do
         {
             yield return null;
-            MoveMap();
-        }
+            PlayerPosMap();
+            DragMap();
+            markMode();
+
+        } while (BigMapPanel.activeSelf);
     }
 
+    // 更新玩家在地圖上的位置
+    public void PlayerPosMap()
+    {
+        PlayerMark.localPosition = new Vector3(playerController.playerController_.transform.position.x / 2.0f, playerController.playerController_.transform.position.z / 2.0f, PlayerMark.localPosition.z);
+    }
 
-    void MoveMap()
+    // 脫拽地圖
+    public void DragMap()
     {
         if (Input.GetMouseButtonDown(0))
         {
             // 滑鼠按下時，記錄初始點位置和地圖位置
             initialMousePosition = Input.mousePosition;
-            initialMapPosition = targetObject.transform.position;
+            initialMapPosition = MapShader.transform.position;
             isDragging = true;
         }
         else if (Input.GetMouseButtonUp(0))
@@ -86,8 +97,40 @@ public class BigMapSystem : MonoBehaviour
             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
 
             // 將位移量應用到地圖上
-            targetObject.transform.position = initialMapPosition + new Vector3(-mouseDelta.x, 0, -mouseDelta.y) * (sliderValue / 1000.0f) * 5;
+            MapShader.transform.position = initialMapPosition + mouseDelta;
         }
+    }
+
+    // 放大縮小
+    private void OnSliderValueChanged(float value)
+    {
+        isDragging = false;
+        sliderValue = value;
+
+        MapShader.transform.localScale = new Vector3(1, 1, 1) * value / 5.0f;
+    }
+
+    #region 地圖標記
+    public void markMode()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            markPos(markCount);
+        }
+    }
+
+    public void markPos(int i)
+    {
+        // -320 -180
+        if (markerPrefab.Length <= markCount)
+            return;
+        markerPrefab[i].gameObject.SetActive(true);
+
+        markerPrefab[i].position = Input.mousePosition;
+
+
+        markCount = i + 1;
+        // 關閉標記模式
     }
     #endregion
 }

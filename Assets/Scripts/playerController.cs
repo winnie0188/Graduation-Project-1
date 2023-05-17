@@ -55,6 +55,9 @@ public class playerController : MonoBehaviour
     public Transform m_Camera;
     bool isLock = false;
 
+    // 是否可以旋轉
+    bool isCanRotate = true;
+
     #endregion
 
 
@@ -183,25 +186,40 @@ public class playerController : MonoBehaviour
 
     #endregion
 
+    public void setCanRotateCamera(bool iscan)
+    {
+        isCanRotate = iscan;
+    }
 
     // 視角轉動
     void CameraLook()
     {
         m_MouseLook.InternalLockUpdate();
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (isCanRotate)
         {
-            isLock = !isLock;
+            if (Input.GetKeyDown(playerKeyCodes.RotateCamera))
+            {
+                isLock = !isLock;
 
-            if (isLock)
-            {
-                merchantShop.merchantShop_.Rotation_merchant();
-            }
-            else
-            {
-                merchantShop.merchantShop_.SetMisRotation(false);
+                if (isLock)
+                {
+                    merchantShop.merchantShop_.Rotation_merchant();
+                }
+                else
+                {
+                    merchantShop.merchantShop_.SetMisRotation(false);
+                }
             }
         }
+        else
+        {
+            isLock = false;
+            merchantShop.merchantShop_.SetMisRotation(false);
+
+        }
+
+
 
         if (isLock)
         {
@@ -331,4 +349,6 @@ public class PlayerKeyCode
     public KeyCode Jump;
     public KeyCode OpenShop;
     public KeyCode OpenBag;
+    public KeyCode OpenMap;
+    public KeyCode RotateCamera;
 }

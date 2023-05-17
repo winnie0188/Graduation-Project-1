@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb8d1b8b56576540b7f80564f70558e, type: 3}
+  m_Name: talkContent
+  m_EditorClassIdentifier: 
+  TextFile: {fileID: 4900000, guid: 0f1367f5c2b670447a933c39f3eacce9, type: 3}
+  TextDataList:
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 714350bba1141d1428b0d47a8e647466, type: 3}
+    - {fileID: 21300000, guid: e86ae071d37ccdb47bcd799621071716, type: 3}
+    PeopleName: "\u4EBA\u7269\u4E00"
+    Text: "\u3010\u5B89\u5B89\u3011"
+  - PeopleIcon:
+    - {fileID: 21300000, guid: e86ae071d37ccdb47bcd799621071716, type: 3}
+    - {fileID: 21300000, guid: 714350bba1141d1428b0d47a8e647466, type: 3}
+    PeopleName: "\u4EBA\u7269\u4E8C"
+    Text: "\u3010\u65E9\u5B89\u3011"
+  reset: 0

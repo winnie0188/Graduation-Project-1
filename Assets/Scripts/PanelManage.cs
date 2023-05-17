@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PanelManage : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PanelManage : MonoBehaviour
     public static PanelManage panelManage;
 
 
-
+    public talkContent currentTextDataList;
 
 
     private void Awake()
@@ -35,6 +36,17 @@ public class PanelManage : MonoBehaviour
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenBag))
         {
             OpenBag();
+        }
+
+        if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenMap))
+        {
+            OpenBigMapPanel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+
+            talkSystem.talkSystem_.openTalk(currentTextDataList.TextDataList);
         }
 
 
@@ -74,17 +86,15 @@ public class PanelManage : MonoBehaviour
     {
         if (panels.BigMapPanel.gameObject.activeSelf)
         {
-
-            panels.BigMapPhotography.gameObject.SetActive(false);
             panels.BigMapPanel.gameObject.SetActive(false);
+            playerController.playerController_.setCanRotateCamera(true);
         }
         // 如果全部的panel都沒被打開
         else if (!AllPanelStatus())
         {
             panels.BigMapPanel.gameObject.SetActive(true);
-            panels.BigMapPhotography.gameObject.SetActive(true);
-
-            BigMapSystem.bigMapSystem.Update_Map_Void();
+            playerController.playerController_.setCanRotateCamera(false);
+            BigMapSystem.bigMapSystem.Update_MapLoad();
         }
     }
 
@@ -112,4 +122,5 @@ public class Panels
     public Transform BigMapPanel;
     public Transform BigMapPhotography;
     #endregion
+    public Transform talkPanel;
 }
