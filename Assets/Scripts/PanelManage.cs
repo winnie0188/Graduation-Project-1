@@ -8,7 +8,6 @@ public class PanelManage : MonoBehaviour
 
     public static PanelManage panelManage;
 
-
     public talkContent currentTextDataList;
 
 
@@ -98,6 +97,19 @@ public class PanelManage : MonoBehaviour
         }
     }
 
+    // show/hide小地圖
+    public void OpenSmallMap()
+    {
+        if (panelManage.panels.smallMap.gameObject.activeSelf)
+        {
+            panelManage.panels.smallMap.gameObject.SetActive(false);
+        }
+        else
+        {
+            panelManage.panels.smallMap.gameObject.SetActive(true);
+        }
+    }
+
     // 所有panel狀態
     public bool AllPanelStatus()
     {
@@ -122,5 +134,6 @@ public class Panels
     public Transform BigMapPanel;
     public Transform BigMapPhotography;
     #endregion
+    public Transform smallMap;
     public Transform talkPanel;
 }

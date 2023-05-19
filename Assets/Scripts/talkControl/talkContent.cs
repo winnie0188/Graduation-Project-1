@@ -12,16 +12,16 @@ public class talkContent : ScriptableObject
     [SerializeField] TextAsset TextFile;
     // 內容拆解
     public List<TextDataFile> TextDataList = new List<TextDataFile>();
-    [SerializeField] bool reset;
 
 
 
-    private void OnValidate()
+    [ContextMenu("點我設定")]
+    private void set()
     {
         talkSystem talkSystem_ = FindObjectOfType<talkSystem>();
 
 
-        if (TextFile == null || !reset)
+        if (TextFile == null || talkSystem_ == null)
             return;
 
 
@@ -39,12 +39,7 @@ public class talkContent : ScriptableObject
             }
 
 
-            if (line.Contains("【"))
-            {
-                TextDataList[index].Text = line.Trim();
-                index++;
-            }
-            else if (line[0] == '"')
+            if (line[0] == '"')
             {
                 string image_text = line.Trim();
 
@@ -72,8 +67,24 @@ public class talkContent : ScriptableObject
                     TextDataList[index].PeopleName = line.Trim().Substring(1);
                 }
             }
+            else if (line.Trim().Length == 0)
+            {
+
+            }
+            else if (line[0] == '/')
+            {
+                TextDataList[index].sendMess.Add(line.Trim().Substring(1));
+            }
+            else
+            {
+                TextDataList[index].Text = line.Trim();
+                index++;
+            }
         }
+
+
     }
+
 }
 
 [System.Serializable]
@@ -88,4 +99,6 @@ public class TextDataFile
 
     // 內容拆解
     public string Text;
+    // 觸發事件
+    public List<string> sendMess = new List<string>();
 }

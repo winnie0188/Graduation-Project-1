@@ -12,8 +12,8 @@ public class peopleIcon : ScriptableObject
     public Sprite[] Icon;
 
 
-
-    private void OnValidate()
+    [ContextMenu("點我設定")]
+    private void set()
     {
         // 清空字典
         Icon_.Clear();
