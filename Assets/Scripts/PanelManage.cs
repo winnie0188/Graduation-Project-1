@@ -9,7 +9,7 @@ public class PanelManage : MonoBehaviour
     public static PanelManage panelManage;
 
     public talkContent currentTextDataList;
-
+    [SerializeField] BagItem bagItem;
 
     private void Awake()
     {
@@ -42,10 +42,23 @@ public class PanelManage : MonoBehaviour
             OpenBigMapPanel();
         }
 
+        if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenESC))
+        {
+            OpenESCPanel();
+        }
+
+
+        // --------------------------------------要刪
+
         if (Input.GetKeyDown(KeyCode.Z))
         {
 
             talkSystem.talkSystem_.openTalk(currentTextDataList.TextDataList);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            BagManage.bagManage.checkItem(bagItem, -10);
         }
 
 
@@ -97,6 +110,20 @@ public class PanelManage : MonoBehaviour
         }
     }
 
+    // 開啟選單
+    public void OpenESCPanel()
+    {
+        if (panels.ESCpanel.gameObject.activeSelf)
+        {
+            panels.ESCpanel.gameObject.SetActive(false);
+        }
+        // 如果全部的panel都沒被打開
+        else if (!AllPanelStatus())
+        {
+            panels.ESCpanel.gameObject.SetActive(true);
+        }
+    }
+
     // show/hide小地圖
     public void OpenSmallMap()
     {
@@ -113,7 +140,17 @@ public class PanelManage : MonoBehaviour
     // 所有panel狀態
     public bool AllPanelStatus()
     {
-        return panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf || panels.TaskPanel.gameObject.activeSelf || panels.BigMapPanel.gameObject.activeSelf;
+        return
+        panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf ||
+        panels.TaskPanel.gameObject.activeSelf || panels.BigMapPanel.gameObject.activeSelf ||
+        panels.talkPanel.gameObject.activeSelf || panels.ESCpanel.gameObject.activeSelf
+        ;
+    }
+
+    // 退出遊戲
+    public void ExitGame()
+    {
+
     }
 }
 
@@ -134,6 +171,10 @@ public class Panels
     public Transform BigMapPanel;
     public Transform BigMapPhotography;
     #endregion
+    // 小地圖
     public Transform smallMap;
+    // 對話
     public Transform talkPanel;
+    // 選單畫面
+    public Transform ESCpanel;
 }

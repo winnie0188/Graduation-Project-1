@@ -351,4 +351,5 @@ public class PlayerKeyCode
     public KeyCode OpenBag;
     public KeyCode OpenMap;
     public KeyCode RotateCamera;
+    public KeyCode OpenESC;
 }

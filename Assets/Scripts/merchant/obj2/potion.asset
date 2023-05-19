@@ -16,15 +16,15 @@ MonoBehaviour:
   BagItem_icon: {fileID: 21300000, guid: da1cff8318289774ea16d3ae40e21114, type: 3}
   BagItem_info: "\u80FD\u56DE\u5FA9\u8840\u91CF"
   sellPrice: 14
+  bagSoreIndex: 0
+  keySoreIndex: 1
   BagItemType_: 0
   potion:
     bloodHP: 23
-  equipment:
-    defense: 0
-  clothe:
-    clotheType_: 0
   food:
     bloodHungry: 0
     ArmSprite: {fileID: 0}
   tool:
+    ArmSprite: {fileID: 0}
+  block:
     ArmSprite: {fileID: 0}

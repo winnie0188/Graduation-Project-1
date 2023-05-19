@@ -12,6 +12,8 @@ public class BagItemInspector : Editor
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("BagItem_icon"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("sellPrice"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("BagItem_info"));
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("bagSoreIndex"));
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("keySoreIndex"));
 
         var BagItemType_ = this.serializedObject.FindProperty("BagItemType_");
         EditorGUILayout.PropertyField(BagItemType_);
@@ -21,9 +23,9 @@ public class BagItemInspector : Editor
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("potion"));
         }
 
-        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "equipment")
+        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "other")
         {
-            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("equipment"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("other"));
         }
         if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "clothe")
         {
@@ -45,6 +47,14 @@ public class BagItemInspector : Editor
         if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "block")
         {
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("block"));
+        }
+        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "Ingredients")
+        {
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Ingredients"));
+        }
+        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "teachBook")
+        {
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("teachBook"));
         }
 
 

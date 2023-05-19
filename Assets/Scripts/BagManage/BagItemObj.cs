@@ -12,24 +12,16 @@ public class potion
 
 
 [System.Serializable]
-public class equipment
+public class other
 {
-    [Range(1, 100)] public int defense;//防禦
+    // [Range(1, 100)] public int defense;//防禦
 }
 
 
 [System.Serializable]
 public class clothe
 {
-    public enum clotheType
-    {
-        hat,
-        clothe,
-        pants
 
-    }
-
-    public clotheType clotheType_;
 }
 
 [System.Serializable]
@@ -55,4 +47,16 @@ public class block
 {
     [Header("手持物件")]
     public Sprite ArmSprite;
+}
+
+[System.Serializable]
+public class Ingredients
+{
+
+}
+
+[System.Serializable]
+public class teachBook
+{
+
 }

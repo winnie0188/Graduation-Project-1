@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+
 
 public class BagManage : UIinit
 {
@@ -27,8 +27,6 @@ public class BagManage : UIinit
     #region HotKey
 
     bool isHotKeyEditor;
-    // 判斷現在是哪個HotKey
-    int HotKeyID;
 
     [SerializeField] HotKeyStore hotKeyStore;
 
@@ -44,12 +42,15 @@ public class BagManage : UIinit
 
     //slotContentParent
     ScrollRect scrollRect;
-    //新增或刪除物件時，對應了哪個背包
+
+    //當前背包索引:切分頁需要
     int bagSoreIndex;
+
     //每頁已經置頂過了
     bool[] isUpperReady;
-    // 當前背包索引
+    // 背包索引:快捷鍵需要
     int BagIndex;
+
     // 當前道具索引
     int itemIndex;
 
@@ -121,7 +122,8 @@ public class BagManage : UIinit
 
 
 
-    //切換分類，記得要拉到按鈕上
+    //切換分類
+    // ***********************************************************記得層級要child符合
     #region switch category
     public void switch_category(int id)
     {
@@ -141,7 +143,6 @@ public class BagManage : UIinit
                     // 延遲置頂
                     StartCoroutine(ContentcomeBack(i));
                 }
-
             }
             else
             {
@@ -152,7 +153,7 @@ public class BagManage : UIinit
 
 
         // 判斷現在是什麼背包
-        BagIndex = id;
+        bagSoreIndex = id;
     }
 
     //內容置頂
@@ -170,42 +171,15 @@ public class BagManage : UIinit
     public void checkItem(BagItem newBagIem, int amount)
     {
         //判斷道具種類並放到該類型的背包裏面
-        bagSoreIndex = 0;
-
-        switch (newBagIem.BagItemType_)
-        {
-            case BagItem.BagItemType.potion:
-                bagSoreIndex = 0;
-                break;
-            case BagItem.BagItemType.equipment:
-                bagSoreIndex = 1;
-                break;
-            case BagItem.BagItemType.clothe:
-                bagSoreIndex = 2;
-                break;
-            case BagItem.BagItemType.material:
-                bagSoreIndex = 3;
-                break;
-            case BagItem.BagItemType.food:
-                bagSoreIndex = 4;
-                break;
-            case BagItem.BagItemType.tool:
-                bagSoreIndex = 5;
-                break;
-            case BagItem.BagItemType.block:
-                bagSoreIndex = 6;
-                break;
-        }
-
 
         // 更新背包UI
         if (amount > 0)
         {
-            PutItemInBag(bagSore[bagSoreIndex], newBagIem, amount);
+            PutItemInBag(bagSore[newBagIem.bagSoreIndex], newBagIem, amount);
         }
         else if (amount < 0)
         {
-            deleteItemInBag(bagSore[bagSoreIndex], newBagIem, amount);
+            deleteItemInBag(bagSore[newBagIem.bagSoreIndex], newBagIem, amount);
         }
     }
 
@@ -241,7 +215,7 @@ public class BagManage : UIinit
 
         //bagSore[bagSoreIndex] = BagSore;
 
-        Update_BagUI(bagSore[bagSoreIndex], index, true);
+        Update_BagUI(NewBagItem.bagSoreIndex, index, true);
     }
 
     //將商品移出背包
@@ -269,7 +243,7 @@ public class BagManage : UIinit
 
                         BagSore.ItemCount[i] += amount;
 
-                        Update_BagUI(bagSore[bagSoreIndex], index, true);
+                        Update_BagUI(NewBagItem.bagSoreIndex, index, true);
                     }
                     else
                     {
@@ -277,7 +251,7 @@ public class BagManage : UIinit
                         BagSore.ItemCount.RemoveAt(i);
                         BagSore.isWear.RemoveAt(i);
 
-                        Update_BagUI(bagSore[bagSoreIndex], index, false);
+                        Update_BagUI(NewBagItem.bagSoreIndex, index, false);
                     }
 
 
@@ -294,9 +268,37 @@ public class BagManage : UIinit
     #region indexSlot
     public override void slot_event(int i)
     {
+        if (bagSoreIndex >= bagSore.Length)
+        {
 
-        // 如果溢出則...
-        if (bagSore[BagIndex].BagItems.Count <= i)
+            var Allcategory = slotContentParent.GetChild(bagSore.Length).GetChild(i);
+
+            if (Allcategory.GetChild(1).GetComponent<Text>().text == "道具名")
+            {
+                return;
+            }
+            else
+            {
+                var itemName = Allcategory.GetChild(1).GetComponent<Text>().text;
+                BagIndex = int.Parse(Allcategory.GetChild(2).GetComponent<Text>().text);
+                for (int j = 0; j < bagSore[BagIndex].BagItems.Count; j++)
+                {
+                    if (bagSore[BagIndex].BagItems[j].BagItem_name == itemName)
+                    {
+                        itemIndex = j;
+                        break;
+                    }
+                }
+            }
+        }
+        // 如果沒溢出則...
+        else if (bagSore[bagSoreIndex].BagItems.Count > i)
+        {
+            BagIndex = bagSoreIndex;
+            //當前item索引 
+            itemIndex = i;
+        }
+        else
         {
             return;
         }
@@ -305,7 +307,7 @@ public class BagManage : UIinit
         //如果需樣wear介面就取消註解*****************************************************************************************
         if (!DragItem.gameObject.activeSelf)
         {
-            var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[i];
+            var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[itemIndex];
 
             BagInfo.gameObject.SetActive(true);
 
@@ -321,8 +323,7 @@ public class BagManage : UIinit
         //*********************************************************************************************************
 
 
-        //當前item索引 
-        itemIndex = i;
+
 
 
         //如果需樣wear介面就刪掉*****************************************************************************************
@@ -336,40 +337,7 @@ public class BagManage : UIinit
     // 裝備鍵
     public void wear()
     {
-        // 關閉編輯
-        isHotKeyEditor = false;
-
-        // 
-        var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[itemIndex];
-        switch (bagSore_BagIndex_BagItems_i.BagItemType_)
-        {
-            case BagItem.BagItemType.potion:
-                isHotKeyEditor = true;
-                HotKeyID = 0;
-                break;
-            case BagItem.BagItemType.equipment:
-                isHotKeyEditor = true;
-                HotKeyID = 1;
-                break;
-            case BagItem.BagItemType.clothe:
-                isHotKeyEditor = true;
-                HotKeyID = 2;
-                break;
-            case BagItem.BagItemType.material:
-                HotKeyID = 3;
-                break;
-            case BagItem.BagItemType.food:
-                HotKeyID = 4;
-                break;
-            case BagItem.BagItemType.tool:
-                HotKeyID = 5;
-                break;
-            case BagItem.BagItemType.block:
-                HotKeyID = 6;
-                isHotKeyEditor = true;
-                break;
-
-        }
+        isHotKeyEditor = true;
         hiddenBagInfo();
     }
 
@@ -379,61 +347,61 @@ public class BagManage : UIinit
         BagInfo.gameObject.SetActive(false);
     }
 
-    // 判斷服裝位置是否正確
-    int canWearClothe(clothe.clotheType clotheType)
-    {
-        if (clotheType == clothe.clotheType.hat)
-        {
-            return 0;
-        }
-        else if (clotheType == clothe.clotheType.clothe)
-        {
-            return 1;
-        }
-        else if (clotheType == clothe.clotheType.pants)
-        {
-            return 2;
-        }
-        else
-        {
-            return -1;
-        }
-    }
+    // // 判斷服裝位置是否正確
+    // int canWearClothe(clothe.clotheType clotheType)
+    // {
+    //     if (clotheType == clothe.clotheType.hat)
+    //     {
+    //         return 0;
+    //     }
+    //     else if (clotheType == clothe.clotheType.clothe)
+    //     {
+    //         return 1;
+    //     }
+    //     else if (clotheType == clothe.clotheType.pants)
+    //     {
+    //         return 2;
+    //     }
+    //     else
+    //     {
+    //         return -1;
+    //     }
+    // }
 
 
     // 選擇快捷鍵(索引)
     public void HotKey(int i, HotKey[] HotKeys, Transform KeyPanel)
     {
-
         // 進入編輯模式
         if (isHotKeyEditor)
         {
-            if (HotKeyID == 0 && KeyPanel != PotionHotKeyPanel)
+            // 判斷可以裝嗎
+            int bagSoreIndex = -1;
+
+            if (KeyPanel == BasicHotKeyPanel)
             {
-                return;
+                bagSoreIndex = 0;
             }
-            else if (HotKeyID == 1 && KeyPanel != EquipHotKeyPanel)
+            else if (KeyPanel == PotionHotKeyPanel)
             {
-                return;
+                bagSoreIndex = 1;
             }
-            else if (HotKeyID == 2)
+            else if (KeyPanel == EquipHotKeyPanel)
             {
-                if (KeyPanel != CloteHotKeyPanel)
-                {
-                    return;
-                }
-                // 確保每個部位穿正確的衣服
-                if (canWearClothe(bagSore[BagIndex].BagItems[itemIndex].clothe.clotheType_) != i)
-                {
-                    return;
-                }
+                bagSoreIndex = 2;
             }
-            else if (HotKeyID == 6 && KeyPanel != BasicHotKeyPanel)
+            else if (KeyPanel == CloteHotKeyPanel)
             {
-                return;
+                bagSoreIndex = 3;
             }
 
             var item = bagSore[BagIndex].BagItems[itemIndex];
+
+            if (item.keySoreIndex != bagSoreIndex)
+            {
+                return;
+            }
+            // 判斷可以裝嗎
 
 
 
@@ -493,11 +461,14 @@ public class BagManage : UIinit
     {
         Transform HotKey = PanelManage.panelManage.panels.HotKeyPanel;
 
-        Transform BasicKey = HotKey.GetChild(1);
+
         Transform PotionKey = HotKey.GetChild(0);
+        Transform BasicKey = HotKey.GetChild(1);
+        Transform EquipKey = HotKey.GetChild(2);
 
         UpdateHotKeyPanel(BasicKey, hotKeyStore.HotKeys);
         UpdateHotKeyPanel(PotionKey, hotKeyStore.HotKeys_potion);
+        UpdateHotKeyPanel(EquipKey, hotKeyStore.HotKeys_equip);
 
         UpdateHotKeyPanel(BasicHotKeyPanel, hotKeyStore.HotKeys);
         UpdateHotKeyPanel(PotionHotKeyPanel, hotKeyStore.HotKeys_potion);
@@ -544,25 +515,41 @@ public class BagManage : UIinit
                     //道具名字
                     slotContentParent.GetChild(i).GetChild(j).GetChild(1).GetComponent<Text>().text = bagSore[i].BagItems[j].BagItem_name;
                     //道具數量
-                    slotContentParent.GetChild(i).GetChild(j).GetChild(2).GetComponent<Text>().text = bagSore[i].ItemCount[j].ToString();
+                    slotContentParent.GetChild(i).GetChild(j).GetChild(2).GetComponent<Text>().text = bagSore[i].BagItems[j].bagSoreIndex.ToString();
                 }
             }
         }
     }
 
-    public void defaultSlot(int index)
+    // 更新全部標籤的背包
+    public void Update_AllBag()
     {
-        //道具圖片//改變SLOT裡的icon
-        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = null;
-        //道具名字
-        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(1).GetComponent<Text>().text = "道具名";
-        //道具數量
-        slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(2).GetComponent<Text>().text = "數量";
+        var Allcategory = slotContentParent.GetChild(slotContentParent.childCount - 1);
+        int index = 0;
+        for (int i = 0; i < bagSore.Length; i++)
+        {
+            for (int j = 0; j < bagSore[i].BagItems.Count; j++)
+            {
+                Allcategory.GetChild(index).GetChild(0).GetComponent<Image>().sprite = bagSore[i].BagItems[j].BagItem_icon;
+                //道具名字
+                Allcategory.GetChild(index).GetChild(1).GetComponent<Text>().text = bagSore[i].BagItems[j].BagItem_name;
+                //道具數量
+                Allcategory.GetChild(index).GetChild(2).GetComponent<Text>().text = bagSore[i].BagItems[j].bagSoreIndex.ToString();
+                index++;
+            }
+        }
+
+        while (Allcategory.GetChild(index).GetChild(0).GetComponent<Image>().sprite != null)
+        {
+            defaultSlot(slotContentParent.childCount - 1, index);
+            index++;
+        }
     }
 
     // isAdd=>true 增加資料 isAdd=>刪除資料
-    public void Update_BagUI(BagSore BagSore, int index, bool isAdd)
+    public void Update_BagUI(int bagSoreIndex, int index, bool isAdd)
     {
+        var BagSore = bagSore[bagSoreIndex];
         if (isAdd)
         {
             //道具圖片//改變SLOT裡的icon
@@ -570,14 +557,14 @@ public class BagManage : UIinit
             //道具名字
             slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(1).GetComponent<Text>().text = BagSore.BagItems[index].BagItem_name;
             //道具數量
-            slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(2).GetComponent<Text>().text = BagSore.ItemCount[index].ToString();
+            slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(2).GetComponent<Text>().text = BagSore.BagItems[index].bagSoreIndex.ToString();
         }
         else
         {
             //從index包含以後的物件全部重新加載
             if (BagSore.BagItems.Count == index)
             {
-                defaultSlot(index);
+                defaultSlot(bagSoreIndex, index);
             }
             else
             {
@@ -585,7 +572,7 @@ public class BagManage : UIinit
                 {
                     if (i == BagSore.BagItems.Count)
                     {
-                        defaultSlot(i);
+                        defaultSlot(bagSoreIndex, i);
                         break;
                     }
                     //道具圖片//改變SLOT裡的icon
@@ -593,23 +580,36 @@ public class BagManage : UIinit
                     //道具名字
                     slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(1).GetComponent<Text>().text = BagSore.BagItems[i].BagItem_name;
                     //道具數量
-                    slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(2).GetComponent<Text>().text = BagSore.ItemCount[i].ToString();
+                    slotContentParent.GetChild(bagSoreIndex).GetChild(i).GetChild(2).GetComponent<Text>().text = BagSore.BagItems[i].bagSoreIndex.ToString();
                 }
             }
 
-
-
             // 刷新快捷鍵對應關係
-            Refresh_HotKeyStore(hotKeyStore.HotKeys, index);
-            Refresh_HotKeyStore(hotKeyStore.HotKeys_Clothe, index);
-            Refresh_HotKeyStore(hotKeyStore.HotKeys_equip, index);
-            Refresh_HotKeyStore(hotKeyStore.HotKeys_potion, index);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys, index, bagSoreIndex);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_Clothe, index, bagSoreIndex);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_equip, index, bagSoreIndex);
+            Refresh_HotKeyStore(hotKeyStore.HotKeys_potion, index, bagSoreIndex);
             // 刷新快捷鍵渲染
             Refresh_HotKey();
         }
+
+        Update_AllBag();
+
     }
+
+    // 預設格子
+    void defaultSlot(int bagIndex, int index)
+    {
+        //道具圖片//改變SLOT裡的icon
+        slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = null;
+        //道具名字
+        slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(1).GetComponent<Text>().text = "道具名";
+        //道具數量
+        slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(2).GetComponent<Text>().text = "數量";
+    }
+
     // 刷新快捷鍵對應關係
-    public void Refresh_HotKeyStore(HotKey[] hotKeys, int index)
+    public void Refresh_HotKeyStore(HotKey[] hotKeys, int index, int bagSoreIndex)
     {
         for (int j = 0; j < hotKeys.Length; j++)
         {
