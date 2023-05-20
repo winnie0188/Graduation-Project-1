@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public enum merchantState
     shop//此模式觸碰可以進行交易
 }
 
-public class merchant : MonoBehaviour
+public class merchant : people
 {
     // Start is called before the first frame update
     [SerializeField] bool isToch;//是否碰到玩家

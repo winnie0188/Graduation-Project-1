@@ -279,16 +279,10 @@ public class BagManage : UIinit
             }
             else
             {
-                var itemName = Allcategory.GetChild(1).GetComponent<Text>().text;
-                BagIndex = int.Parse(Allcategory.GetChild(2).GetComponent<Text>().text);
-                for (int j = 0; j < bagSore[BagIndex].BagItems.Count; j++)
-                {
-                    if (bagSore[BagIndex].BagItems[j].BagItem_name == itemName)
-                    {
-                        itemIndex = j;
-                        break;
-                    }
-                }
+                var IJindex = Allcategory.GetChild(2).GetComponent<Text>().text.Split('/');
+                print(IJindex);
+                BagIndex = int.Parse(IJindex[0]);
+                itemIndex = int.Parse(IJindex[1]);
             }
         }
         // 如果沒溢出則...
@@ -534,7 +528,7 @@ public class BagManage : UIinit
                 //道具名字
                 Allcategory.GetChild(index).GetChild(1).GetComponent<Text>().text = bagSore[i].BagItems[j].BagItem_name;
                 //道具數量
-                Allcategory.GetChild(index).GetChild(2).GetComponent<Text>().text = bagSore[i].BagItems[j].bagSoreIndex.ToString();
+                Allcategory.GetChild(index).GetChild(2).GetComponent<Text>().text = bagSore[i].BagItems[j].bagSoreIndex + "/" + j;
                 index++;
             }
         }

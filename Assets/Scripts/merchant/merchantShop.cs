@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class merchantShop : UIinit
 {
     // Start is called before the first frame update
+    [Header("商人父物件")]
+    [SerializeField] Transform merchantParent;
+
     #region  Slot
     [SerializeField] int slotCount;//格子數量
     [SerializeField] Transform slotContent;//格子放置位置
@@ -17,6 +20,7 @@ public class merchantShop : UIinit
     #region Variable
     public static merchantShop merchantShop_;//唯一
     List<merchantItem> AllItem;//全部商品
+    [Header("所有商人")]
     public List<merchant> merchants;//所有商人
     [SerializeField] Transform BUYui;//購買UI
     #endregion
@@ -52,12 +56,25 @@ public class merchantShop : UIinit
         // init slot
         initSlot(slotCount, slotPrefab, slotContent, 100.0f, -1);
 
+        // 初始化商人
+        setmerchants();
+
         //DEMO
         examineISrefresh();
 
         // 更新玩家錢錢渲染
         UpdatePlayerprice();
 
+    }
+
+    // 放置商人數據
+    public void setmerchants()
+    {
+        merchants = new List<merchant>();
+        for (int i = 0; i < merchantParent.childCount; i++)
+        {
+            merchants.Add(merchantParent.GetChild(i).GetComponent<merchant>());
+        }
     }
 
 

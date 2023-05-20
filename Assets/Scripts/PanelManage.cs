@@ -147,11 +147,7 @@ public class PanelManage : MonoBehaviour
         ;
     }
 
-    // 退出遊戲
-    public void ExitGame()
-    {
 
-    }
 }
 
 
