@@ -41,6 +41,9 @@ public class BagItem : ScriptableObject
     [Header("裝備到哪")]
     public int keySoreIndex;
 
+    [Header("道具ID")]
+    public int id;
+
 #pragma warning disable CS0414
 
     [Header("物品類型")]
@@ -58,7 +61,7 @@ public class BagItem : ScriptableObject
     [SerializeField] teachBook teachBook;
 
 
-    private void OnValidate()
+    public void reset_()
     {
         if (BagItemType_ != BagItemType.potion)
         {

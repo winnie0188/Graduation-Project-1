@@ -7,21 +7,21 @@ public class playerController : MonoBehaviour
     #region Player Basic
     [Header("會變動的屬性")]
     // 血量
-    [SerializeField] float maxHp;//最大血量
-    [SerializeField] float Hp;
+    public float maxHp;//最大血量
+    public float Hp;
     [SerializeField] Text HpTxt;
     [SerializeField] Transform HpLine;
     // 
     // 飢餓
-    [SerializeField] float maxHungry;//最大飢餓
-    [SerializeField] float Hungry;
+    public float maxHungry;//最大飢餓
+    public float Hungry;
     [SerializeField] Text HungryTxt;
     [SerializeField] Transform HungryLine;
     // 
 
     // 黑化
-    [SerializeField] float maxBlackening;//最大黑化
-    [SerializeField] float Blackening;
+    public float maxBlackening;//最大黑化
+    public float Blackening;
     [SerializeField] Transform BlackeningLine;
     // 
 

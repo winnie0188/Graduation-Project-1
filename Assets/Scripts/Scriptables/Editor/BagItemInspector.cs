@@ -14,6 +14,7 @@ public class BagItemInspector : Editor
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("BagItem_info"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("bagSoreIndex"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("keySoreIndex"));
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("id"));
 
         var BagItemType_ = this.serializedObject.FindProperty("BagItemType_");
         EditorGUILayout.PropertyField(BagItemType_);

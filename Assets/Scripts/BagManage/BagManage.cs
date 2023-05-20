@@ -13,7 +13,7 @@ public class BagManage : UIinit
     #region init_Slot
     [SerializeField] int slotCount;
     [SerializeField] GameObject slotPrefab;
-    [SerializeField] Transform slotContentParent;
+    public Transform slotContentParent;
 
     //背包UI 
     [SerializeField] Transform BagInfo;
@@ -28,7 +28,7 @@ public class BagManage : UIinit
 
     bool isHotKeyEditor;
 
-    [SerializeField] HotKeyStore hotKeyStore;
+    public HotKeyStore hotKeyStore;
 
     // 熱鍵panel
     [SerializeField] Transform BasicHotKeyPanel;
@@ -168,14 +168,15 @@ public class BagManage : UIinit
     #region add/delete new obj in Bag
     // 新增物品到背包
     // amount是要增加或減少的數量
-    public void checkItem(BagItem newBagIem, int amount)
+    // iswear是為了存檔
+    public void checkItem(BagItem newBagIem, int amount, bool iswear)
     {
         //判斷道具種類並放到該類型的背包裏面
 
         // 更新背包UI
         if (amount > 0)
         {
-            PutItemInBag(bagSore[newBagIem.bagSoreIndex], newBagIem, amount);
+            PutItemInBag(bagSore[newBagIem.bagSoreIndex], newBagIem, amount, iswear);
         }
         else if (amount < 0)
         {
@@ -184,7 +185,7 @@ public class BagManage : UIinit
     }
 
     //將商品放入背包
-    public void PutItemInBag(BagSore BagSore, BagItem NewBagItem, int amount)
+    public void PutItemInBag(BagSore BagSore, BagItem NewBagItem, int amount, bool iswear)
     {
         var BagSore_BagItems = BagSore.BagItems;
         int index = BagSore_BagItems.Count;
@@ -210,7 +211,7 @@ public class BagManage : UIinit
             //直接加新的道具到背包
             BagSore.BagItems.Add(NewBagItem);
             BagSore.ItemCount.Add(amount);
-            BagSore.isWear.Add(false);
+            BagSore.isWear.Add(iswear);
         }
 
         //bagSore[bagSoreIndex] = BagSore;
@@ -451,7 +452,7 @@ public class BagManage : UIinit
     #endregion
 
     #region 刷新快捷鍵渲染
-    void Refresh_HotKey()
+    public void Refresh_HotKey()
     {
         Transform HotKey = PanelManage.panelManage.panels.HotKeyPanel;
 

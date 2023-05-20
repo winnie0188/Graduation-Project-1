@@ -58,7 +58,12 @@ public class PanelManage : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
 
-            BagManage.bagManage.checkItem(bagItem, -10);
+            BagManage.bagManage.checkItem(bagItem, -10, false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SaveMange.saveMange.loadGame(0);
         }
 
 
@@ -116,6 +121,7 @@ public class PanelManage : MonoBehaviour
         if (panels.ESCpanel.gameObject.activeSelf)
         {
             panels.ESCpanel.gameObject.SetActive(false);
+            ESCsystem.ESCsystem_.hiddeESCchild();
         }
         // 如果全部的panel都沒被打開
         else if (!AllPanelStatus())

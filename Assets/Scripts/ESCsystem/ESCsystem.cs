@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +6,7 @@ public class ESCsystem : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] Transform ExitPanel;
     [SerializeField] Transform SettingPanel;
+    [SerializeField] Transform SavePanel;
 
     #region 好感度渲染
     [SerializeField] peopleTxt peopleTxt;
@@ -18,12 +18,28 @@ public class ESCsystem : MonoBehaviour
     [Header("人物父物件")]
     [SerializeField] Transform peopleParent;
 
+    public static ESCsystem ESCsystem_;
+
+    private void Awake()
+    {
+        ESCsystem_ = this;
+    }
+
+    public void hiddeESCchild()
+    {
+        closeExitPanel();
+        closeSettingPanel();
+        closeloveValueSettingPanel();
+        closeSavePanel();
+    }
+
     public void openPanel(Transform panel)
     {
         panel.gameObject.SetActive(true);
         peopleOutIndex = 0;
         peopleindex = 0;
         printloveValue();
+        SaveMange.saveMange.showSave();
     }
 
     #region Exit
@@ -32,7 +48,7 @@ public class ESCsystem : MonoBehaviour
     {
         if (i == 0)
         {
-
+            openPanel(SavePanel);
         }
         else if (i == 1)
         {
@@ -119,6 +135,13 @@ public class ESCsystem : MonoBehaviour
         printloveValue();
     }
 
+    #endregion
+
+    #region Save
+    public void closeSavePanel()
+    {
+        SavePanel.gameObject.SetActive(false);
+    }
     #endregion
 }
 [System.Serializable]
