@@ -35,6 +35,8 @@ public class ESCsystem : MonoBehaviour
 
     public void openPanel(Transform panel)
     {
+        hiddeESCchild();
+
         panel.gameObject.SetActive(true);
         peopleOutIndex = 0;
         peopleindex = 0;
@@ -49,6 +51,7 @@ public class ESCsystem : MonoBehaviour
         if (i == 0)
         {
             openPanel(SavePanel);
+            SaveMange.saveMange.setIsSave(true);
         }
         else if (i == 1)
         {

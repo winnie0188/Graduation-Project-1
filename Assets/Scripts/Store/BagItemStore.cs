@@ -12,8 +12,7 @@ public class BagItemStore : ScriptableObject
     {
         for (int i = 0; i < BagItems.Length; i++)
         {
-            BagItems[i].id = i;
-            BagItems[i].reset_();
+            BagItems[i].reset_(i);
         }
     }
 }

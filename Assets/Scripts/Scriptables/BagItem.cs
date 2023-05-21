@@ -61,8 +61,9 @@ public class BagItem : ScriptableObject
     [SerializeField] teachBook teachBook;
 
 
-    public void reset_()
+    public void reset_(int i)
     {
+        id = i;
         if (BagItemType_ != BagItemType.potion)
         {
             potion = null;

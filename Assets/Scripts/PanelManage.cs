@@ -61,10 +61,6 @@ public class PanelManage : MonoBehaviour
             BagManage.bagManage.checkItem(bagItem, -10, false);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SaveMange.saveMange.loadGame(0);
-        }
 
 
     }

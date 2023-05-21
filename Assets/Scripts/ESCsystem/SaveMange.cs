@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SaveMange : MonoBehaviour
 {
+    [Header("存檔數據")]
     [SerializeField] GameData gameData = new GameData();
     SaveData saveData = new SaveData();
     [SerializeField] Transform LoadParent;
+
     [Header("0:未存,1:有存")]
     [SerializeField] Sprite[] SaveImg;
     [SerializeField] Text pageTxt;
@@ -15,7 +17,11 @@ public class SaveMange : MonoBehaviour
     public static bool load;
     public static int loadID;
 
+
+    [Header("當前頁和單位格")]
+
     int page;
+    int slotID;
 
     [SerializeField] BagItemStore bagItemStore;
 
@@ -24,6 +30,11 @@ public class SaveMange : MonoBehaviour
     [SerializeField] Image dontSelectImg;
 
     public static SaveMange saveMange;
+
+    [Header("是否存檔")]
+    public bool isSave;
+    public Transform checkSavePanel;
+
 
     private void Start()
     {
@@ -40,6 +51,8 @@ public class SaveMange : MonoBehaviour
         }
     }
 
+    #region 禁用管理
+
     public void Select()
     {
         if (dontSelect)
@@ -53,6 +66,7 @@ public class SaveMange : MonoBehaviour
             dontSelectImg.color = new Color(1, 1, 1, 1);
         }
     }
+    #endregion
 
     public void prePage()
     {
@@ -291,12 +305,44 @@ public class SaveMange : MonoBehaviour
     public void manualSave(int i)
     {
         i += page * 6;
+        slotID = i;
 
-        saveData.SaveState[i] = 2;
-        saveData.DateTime[i] = System.DateTime.Now.ToString();
-        setGameData(i);
+        if (isSave)
+        {
+            checkSavePanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            loadGame(slotID);
+        }
     }
+
+    public void YesSave()
+    {
+        saveData.SaveState[slotID] = 2;
+        saveData.DateTime[slotID] = System.DateTime.Now.ToString();
+        setGameData(slotID);
+        checkSavePanel.gameObject.SetActive(false);
+    }
+    public void NoSave()
+    {
+        checkSavePanel.gameObject.SetActive(false);
+    }
+
     #endregion
+
+    public void setIsSave(bool isSave)
+    {
+        this.isSave = isSave;
+        if (isSave)
+        {
+            dontSelectImg.gameObject.SetActive(true);
+        }
+        else
+        {
+            dontSelectImg.gameObject.SetActive(false);
+        }
+    }
 
 }
 [System.Serializable]
