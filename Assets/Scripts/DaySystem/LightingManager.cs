@@ -22,8 +22,24 @@ public class LightingManager : MonoBehaviour
     // 更新時鐘需要的時間
     [SerializeField] float updateInterval;
 
+    public static LightingManager lightingManager;
+
+    public void addTime(int i)
+    {
+        if (i == 1)
+        {
+            TimeOfDay = 12;
+        }
+        else
+        {
+            TimeOfDay = 24;
+        }
+    }
+
     private void Awake()
     {
+        lightingManager = this;
+
         timeOfDayToZ = new float[30 * 60];
 
         for (int i = 360; i < 1800; i++)

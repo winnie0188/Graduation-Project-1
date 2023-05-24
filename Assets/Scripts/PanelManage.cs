@@ -60,6 +60,15 @@ public class PanelManage : MonoBehaviour
 
             BagManage.bagManage.checkItem(bagItem, -10, false);
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+            LightingManager.lightingManager.addTime(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            LightingManager.lightingManager.addTime(1);
+        }
 
 
 

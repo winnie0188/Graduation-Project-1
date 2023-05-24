@@ -123,7 +123,7 @@ public class playerController : MonoBehaviour
 
         Vector3 localMovement = new Vector3(moveItem[0], 0, moveItem[1]);
         Vector3 worldMovement = transform.TransformDirection(localMovement);
-        rigi.MovePosition(rigi.position + worldMovement * speed * Time.fixedDeltaTime * (isRunning ? 2.0f : 1.0f));
+        rigi.MovePosition(rigi.position + worldMovement * speed * Time.fixedDeltaTime * (isRunning ? 3.0f : 1.0f));
 
 
     }
