@@ -10,13 +10,15 @@ public class UIinit : MonoBehaviour
 
     public void initSlot(int slotCount, GameObject slotPrefab, Transform slotContent, float size, int child)
     {
-        int length = 1;
+        //int length = 1;
 
         //創建slot
         for (int i = 0; i < slotCount; i++)
         {
             var index = i; // 保存当前索引值
             var temp = Instantiate(slotPrefab, slotContent.position, Quaternion.identity, slotContent);
+
+            temp.transform.localScale = new Vector3(size, size, 1);
 
             if (child == -1)
             {
@@ -29,10 +31,10 @@ public class UIinit : MonoBehaviour
         }
 
 
-        length = (int)(slotContent.parent.GetComponent<RectTransform>().sizeDelta.x / size);
+        //length = (int)(slotContent.parent.GetComponent<RectTransform>().sizeDelta.x / size);
 
-        slotContent.position -= new Vector3(0, 1000, 0);
-        slotContent.GetComponent<GridLayoutGroup>().constraintCount = length;
+        //slotContent.position -= new Vector3(0, 1000, 0);
+        //slotContent.GetComponent<GridLayoutGroup>().constraintCount = length;
     }
 
     IEnumerator AddListener(Button btn, int i)

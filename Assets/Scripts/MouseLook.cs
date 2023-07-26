@@ -29,7 +29,7 @@ public class MouseLook
 
 
         MaximumX = 45F;
-        MinimumX = 0F;
+        MinimumX = -10F;
     }
 
 

@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804bf49869d3b4315a850958d8530433, type: 3}
   m_Name: gassBlur
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 550
     blitMaterial: {fileID: 2100000, guid: 26eda08516e644849b26e8486973019f, type: 2}
@@ -68,10 +68,10 @@ MonoBehaviour:
     materialErrorPS: {fileID: 4800000, guid: 5fd9a8feb75a4b5894c241777f519d4e, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 1855
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 1855
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0

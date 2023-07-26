@@ -21,8 +21,8 @@ public class BagItem : ScriptableObject
         food,//食物5
         tool,//工具6
         block,//建築7
-        Ingredients,//食材8
-        teachBook//教學書9
+        taskList,//任務8
+        teachBook//筆記9
     }
 
 
@@ -57,7 +57,7 @@ public class BagItem : ScriptableObject
     public tool tool;
     [SerializeField] block block;
 
-    [SerializeField] Ingredients Ingredients;
+    [SerializeField] taskList taskList;
     [SerializeField] teachBook teachBook;
 
 
@@ -129,9 +129,9 @@ public class BagItem : ScriptableObject
             bagSoreIndex = 6;
         }
 
-        if (BagItemType_ != BagItemType.Ingredients)
+        if (BagItemType_ != BagItemType.taskList)
         {
-            Ingredients = null;
+            taskList = null;
         }
         else
         {

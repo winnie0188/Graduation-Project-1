@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: task1
   m_EditorClassIdentifier: 
-  task_Title: "\u3010\u4EFB\u52D91\u3011"
-  task_Content: "\u4EFB\u52D9\u8AAA\u660E......................................"
+  task_Title: "\u5927\u5927\u5927\u512A\u60E0"
+  task_Content: "\u5927\u5927\u5927\u512A\u60E0\uFF0C\u8C93\u54AA\u5927\u6230\u722D\u516D\u5468\u5E74\uFF0C\u5927\u5927\u5927\u5927\u512A\u60E0\uFF0C\u6709\u597D\u591A\u597D\u6771\u897F\u7D66\u4F60\u54E6\uFF0C\u8C93\u54AA\u5927\u6230\u722D"
+  task_need: "\u526F\u672C\u6311\u6230(0/4)"
+  task_get: "400\u8C93\u54AA\u7F50\u982D+500\u91D1\u5E63"
   TaskType_: 0
   task_Walk:
     taskPos: {x: 0, y: 0, z: 0}

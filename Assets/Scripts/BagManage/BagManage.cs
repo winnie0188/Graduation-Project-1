@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
 public class BagManage : UIinit
@@ -20,7 +21,9 @@ public class BagManage : UIinit
 
     // 分類
     [SerializeField] Transform category;
-
+    [SerializeField] Image CategoryTitle;
+    [SerializeField] Sprite[] Title;
+    // 
 
     #endregion
 
@@ -44,10 +47,9 @@ public class BagManage : UIinit
     ScrollRect scrollRect;
 
     //當前背包索引:切分頁需要
-    int bagSoreIndex;
+    int bagSoreIndex = 9;
 
-    //每頁已經置頂過了
-    bool[] isUpperReady;
+
     // 背包索引:快捷鍵需要
     int BagIndex;
 
@@ -62,9 +64,9 @@ public class BagManage : UIinit
 
     private void Awake()
     {
+
         bagManage = this;
 
-        isUpperReady = new bool[slotContentParent.childCount];
         scrollRect = slotContentParent.GetComponent<ScrollRect>();
 
 
@@ -90,7 +92,15 @@ public class BagManage : UIinit
         //slot初始化
         for (int i = 0; i < slotContentParent.childCount; i++)
         {
-            initSlot(slotCount, slotPrefab, slotContentParent.GetChild(i), 50, -1);
+            if (i != slotContentParent.childCount - 3 && i < slotContentParent.childCount - 1)
+            {
+                initSlot(slotCount, slotPrefab, slotContentParent.GetChild(i), 1, -1);
+            }
+            else if (i == slotContentParent.childCount - 1)
+            {
+                initSlot(slotCount * 7, slotPrefab, slotContentParent.GetChild(i), 1, -1);
+            }
+
         }
 
         // category初始化
@@ -121,7 +131,6 @@ public class BagManage : UIinit
 
 
 
-
     //切換分類
     // ***********************************************************記得層級要child符合
     #region switch category
@@ -134,18 +143,40 @@ public class BagManage : UIinit
         {
             if (i == id)
             {
-                scrollRect.content = slotContentParent.GetChild(i).GetComponent<RectTransform>();
-                // 打開當前分類
-                slotContentParent.GetChild(i).gameObject.SetActive(true);
-                if (isUpperReady[i] == false)
+                // 更改標題
+                CategoryTitle.sprite = Title[i];
+
+                Transform target = slotContentParent.GetChild(i);
+
+                if (target.name == "任務")
                 {
-                    isUpperReady[i] = true;
-                    // 延遲置頂
-                    StartCoroutine(ContentcomeBack(i));
+                    scrollRect.content = target.GetChild(0).GetComponent<RectTransform>();
+                    if (taskSystem.isReset == false)
+                    {
+                        StartCoroutine(taskSystem.taskSystem_.Reset_Panel());
+                    }
+                    else
+                    {
+                        // 打開當前分類
+                        slotContentParent.GetChild(i).gameObject.SetActive(true);
+                    }
                 }
+                else
+                {
+                    scrollRect.content = target.GetComponent<RectTransform>();
+                    // 打開當前分類
+                    slotContentParent.GetChild(i).gameObject.SetActive(true);
+                }
+
+
+
+                // 標籤動畫
+                category.GetChild(i).GetChild(0).DOMove(new Vector3(10, 0, 0) + category.GetChild(i).position, 0.5f);
             }
             else
             {
+                // 標籤動畫
+                category.GetChild(i).GetChild(0).DOMove(new Vector3(0, 0, 0) + category.GetChild(i).position, 0.5f);
                 //關閉當前分類
                 slotContentParent.GetChild(i).gameObject.SetActive(false);
             }
@@ -156,13 +187,7 @@ public class BagManage : UIinit
         bagSoreIndex = id;
     }
 
-    //內容置頂
-    IEnumerator ContentcomeBack(int i)
-    {
-        yield return null;
-        // 這樣才能拖拉
-        slotContentParent.GetChild(i).position -= new Vector3(0, 250, 0);
-    }
+
     #endregion
 
     #region add/delete new obj in Bag
@@ -534,7 +559,7 @@ public class BagManage : UIinit
             }
         }
 
-        while (Allcategory.GetChild(index).GetChild(0).GetComponent<Image>().sprite != null)
+        while (Allcategory.GetChild(index).GetChild(0).GetComponent<Image>().sprite != talkSystem.talkSystem_.peopleIcon.Icon[0])
         {
             defaultSlot(slotContentParent.childCount - 1, index);
             index++;
@@ -596,7 +621,7 @@ public class BagManage : UIinit
     void defaultSlot(int bagIndex, int index)
     {
         //道具圖片//改變SLOT裡的icon
-        slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = null;
+        slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = talkSystem.talkSystem_.peopleIcon.Icon[0];
         //道具名字
         slotContentParent.GetChild(bagIndex).GetChild(index).GetChild(1).GetComponent<Text>().text = "道具名";
         //道具數量

@@ -54,7 +54,7 @@ public class merchantShop : UIinit
         merchantShop_ = this;
 
         // init slot
-        initSlot(slotCount, slotPrefab, slotContent, 100.0f, -1);
+        initSlot(slotCount, slotPrefab, slotContent, 1, -1);
 
         // 初始化商人
         setmerchants();
@@ -187,9 +187,7 @@ public class merchantShop : UIinit
                 }
 
             }
-
             nativemerchants.Dispose();
-
         }
     }
 
@@ -259,7 +257,6 @@ public class merchantShop : UIinit
     //更換索引購買
     public override void slot_event(int index)
     {
-
         var AllItem_index = AllItem[tempIndex[index]];
 
         BUYui.gameObject.SetActive(true);

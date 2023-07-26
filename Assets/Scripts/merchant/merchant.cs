@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum merchantState
 {
     live,//此模式不能進行互動

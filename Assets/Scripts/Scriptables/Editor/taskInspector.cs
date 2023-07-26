@@ -1,6 +1,6 @@
 using UnityEditor;
 
-[CustomEditor(typeof(task))]
+[CustomEditor(typeof(taskItem))]
 public class taskInspector : Editor
 {
     public override void OnInspectorGUI()
@@ -9,7 +9,8 @@ public class taskInspector : Editor
 
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_Title"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_Content"));
-
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_need"));
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_get"));
 
         var TaskType_ = this.serializedObject.FindProperty("TaskType_");
         EditorGUILayout.PropertyField(TaskType_);

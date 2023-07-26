@@ -6,6 +6,14 @@ using UnityEngine.UI;
 public class talkSystem : MonoBehaviour
 {
     // Start is called before the first frame update
+    #region  people
+    // 是否觸發對話
+    public bool isToch;
+    // 觸發物件
+    public Transform TriggerObj;
+    #endregion
+
+
     [Header("對話時顯示人名")]
     [SerializeField] Text peopleName;
     [Header("對話時會產生的文字")]

@@ -9,7 +9,12 @@ public class PanelManage : MonoBehaviour
     public static PanelManage panelManage;
 
     public talkContent currentTextDataList;
+
     [SerializeField] BagItem bagItem;
+
+    [SerializeField] Camera[] Cameras;
+
+
 
     private void Awake()
     {
@@ -29,8 +34,14 @@ public class PanelManage : MonoBehaviour
             {
                 merchantShop.merchantShop_.keydownOpenShopPanel();
             }
-
         }
+        // if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenShop))
+        // {
+        //     if (talkSystem.talkSystem_.isToch)
+        //     {
+        //         talkSystem.talkSystem_.openTalk(talkSystem.talkSystem_.TriggerObj.GetComponent<people>().currentTextDataList.TextDataList);
+        //     }
+        // }
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenBag))
         {
@@ -52,7 +63,6 @@ public class PanelManage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-
             talkSystem.talkSystem_.openTalk(currentTextDataList.TextDataList);
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -79,12 +89,19 @@ public class PanelManage : MonoBehaviour
     {
         if (panels.BagPanel.gameObject.activeSelf)
         {
+            Cameras[1].gameObject.SetActive(false);
+
             panels.BagPanel.gameObject.SetActive(false);
             BagManage.bagManage.hiddenBagInfo();
         }
         // 如果全部的panel都沒被打開
         else if (!AllPanelStatus())
         {
+            //Cameras[1].transform.position = Cameras[0].transform.position;
+            //Cameras[1].transform.rotation = Cameras[0].transform.rotation;
+
+            Cameras[1].gameObject.SetActive(true);
+
             panels.BagPanel.gameObject.SetActive(true);
         }
     }
