@@ -49,16 +49,120 @@ public class BagItem : ScriptableObject
     [Header("物品類型")]
     public BagItemType BagItemType_;//物品類型
 
-    public potion potion;
+    [SerializeField] potion potion;
     [SerializeField] other other;
-    public clothe clothe;
+    [SerializeField] clothe clothe;
     [SerializeField] material material;
     [SerializeField] food food;
-    public tool tool;
+    [SerializeField] tool tool;
     [SerializeField] block block;
 
     [SerializeField] taskList taskList;
     [SerializeField] teachBook teachBook;
+
+
+
+    public block GetBlock()
+    {
+        return block;
+    }
+
+    public void Create()
+    {
+        if (bagSoreIndex == 0)
+        {
+            potion.Create();
+        }
+        else if (bagSoreIndex == 1)
+        {
+            other.Create();
+        }
+        else if (bagSoreIndex == 2)
+        {
+            clothe.Create();
+        }
+        else if (bagSoreIndex == 3)
+        {
+            material.Create();
+        }
+        else if (bagSoreIndex == 4)
+        {
+            food.Create();
+        }
+        else if (bagSoreIndex == 5)
+        {
+            tool.Create();
+        }
+        else if (bagSoreIndex == 6)
+        {
+            block.Create();
+        }
+    }
+
+    public void UseIng()
+    {
+        if (bagSoreIndex == 0)
+        {
+            potion.UseIng();
+        }
+        else if (bagSoreIndex == 1)
+        {
+            other.UseIng();
+        }
+        else if (bagSoreIndex == 2)
+        {
+            clothe.UseIng();
+        }
+        else if (bagSoreIndex == 3)
+        {
+            material.UseIng();
+        }
+        else if (bagSoreIndex == 4)
+        {
+            food.UseIng();
+        }
+        else if (bagSoreIndex == 5)
+        {
+            tool.UseIng();
+        }
+        else if (bagSoreIndex == 6)
+        {
+            block.UseIng();
+        }
+    }
+
+
+    public void Release()
+    {
+        if (bagSoreIndex == 0)
+        {
+            potion.Relese();
+        }
+        else if (bagSoreIndex == 1)
+        {
+            other.Relese();
+        }
+        else if (bagSoreIndex == 2)
+        {
+            clothe.Relese();
+        }
+        else if (bagSoreIndex == 3)
+        {
+            material.Relese();
+        }
+        else if (bagSoreIndex == 4)
+        {
+            food.Relese();
+        }
+        else if (bagSoreIndex == 5)
+        {
+            tool.Relese();
+        }
+        else if (bagSoreIndex == 6)
+        {
+            block.Relese();
+        }
+    }
 
 
     public void reset_(int i)
@@ -126,6 +230,7 @@ public class BagItem : ScriptableObject
         }
         else
         {
+            block.setId(id);
             bagSoreIndex = 6;
         }
 

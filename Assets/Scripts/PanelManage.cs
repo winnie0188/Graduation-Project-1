@@ -14,6 +14,21 @@ public class PanelManage : MonoBehaviour
 
     [SerializeField] Camera[] Cameras;
 
+    // 是否開發者模式
+    [SerializeField] bool isCreateMode;
+
+
+    #region 切換模式
+    public void setIsCreateMode(bool Mode)
+    {
+        isCreateMode = Mode;
+    }
+    public bool getIsCreateMode()
+    {
+        return isCreateMode;
+    }
+    #endregion
+
 
 
     private void Awake()
@@ -68,7 +83,7 @@ public class PanelManage : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
 
-            BagManage.bagManage.checkItem(bagItem, -10, false);
+            BagManage.bagManage.checkItem(bagItem, -10, false, true);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {

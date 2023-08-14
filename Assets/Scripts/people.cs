@@ -210,20 +210,20 @@ public class people : MonoBehaviour
 
     void n_move()
     {
-        Debug.Log("move");
+        // Debug.Log("move");
     }
     void n_idle()
     {
         ani_idle();
-        Debug.Log("idle");
+        //Debug.Log("idle");
     }
     void n_light()
     {
-        Debug.Log("light");
+        //Debug.Log("light");
     }
     void n_shift()
     {
-        Debug.Log("shift");
+        // Debug.Log("shift");
 
     }
 }

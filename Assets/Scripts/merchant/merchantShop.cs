@@ -283,7 +283,12 @@ public class merchantShop : UIinit
             //扣錢
             Playerprice -= tempprice;
 
-            BagManage.bagManage.checkItem(All_index_merchantItem_BagIem, 1, false);
+            BagManage.bagManage.checkItem(
+                All_index_merchantItem_BagIem,
+                 1000,
+                  false,
+                  true
+                  );
 
             text.text = "購買成功";
 

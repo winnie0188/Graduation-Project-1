@@ -49,9 +49,9 @@ public class BagItemInspector : Editor
         {
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("block"));
         }
-        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "Ingredients")
+        if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "taskList")
         {
-            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Ingredients"));
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("taskList"));
         }
         if (BagItemType_.enumNames[BagItemType_.enumValueIndex] == "teachBook")
         {

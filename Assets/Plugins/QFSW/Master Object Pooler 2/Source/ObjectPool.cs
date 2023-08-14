@@ -21,7 +21,7 @@ namespace QFSW.MOP2
         [SerializeField] private string _name = string.Empty;
 
         [Tooltip("The template object to center the pool on. All objects in the pool will be a copy of this object.")]
-        [SerializeField] private GameObject _template = null;
+        [SerializeField] public GameObject _template = null;
 
         [Tooltip("The default number of objects to create in this pool when initializing it.")]
         [SerializeField] private int _defaultSize;
@@ -85,7 +85,7 @@ namespace QFSW.MOP2
         #endregion
 
         #region Initialization/Creation
-        private ObjectPool() {  }
+        private ObjectPool() { }
 
         /// <summary>
         /// Creates an ObjectPool.
@@ -181,7 +181,7 @@ namespace QFSW.MOP2
             }
         }
 
-        internal void AutoFillName()
+        public void AutoFillName()
         {
             if (string.IsNullOrWhiteSpace(_name))
             {
@@ -507,6 +507,6 @@ namespace QFSW.MOP2
             }
         }
 #endif
-#endregion
+        #endregion
     }
 }
