@@ -134,9 +134,13 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Debug.DrawLine(this.transform.GetChild(0).position, this.transform.GetChild(0).position + new Vector3(0, -1.5f, 0), Color.red);
+
+
         if (isJump)
         {
-            if (rigi.velocity.y == 0)
+            var hits = Physics.RaycastAll(this.transform.GetChild(0).position, Vector3.down, 2f);
+            if (hits.Length > 1)
             {
                 rigi.AddForce(Vector3.up * Jumpspeed, ForceMode.Impulse);
             }
@@ -146,7 +150,7 @@ public class playerController : MonoBehaviour
 
         Vector3 localMovement = new Vector3(moveItem[0], 0, moveItem[1]);
         Vector3 worldMovement = transform.TransformDirection(localMovement);
-        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 3.0f : 1.0f), rigi.velocity.y, worldMovement.z * speed * (isRunning ? 3.0f : 1.0f));
+        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 2f : 1.0f), rigi.velocity.y, worldMovement.z * speed * (isRunning ? 2f : 1.0f));
 
     }
 
@@ -375,9 +379,9 @@ public class playerController : MonoBehaviour
             {
                 BagManage.bagManage.bagSore[Bag].BagItems[item].UseIng();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                print("失敗");
+                print(e);
             }
         }
         else
@@ -439,7 +443,7 @@ public class playerController : MonoBehaviour
                 float scrollSpeed = 10f;
 
                 // 计算新的道具索引
-                int newPropIndex = arm + (int)(scrollWheel * scrollSpeed);
+                int newPropIndex = arm - (int)(scrollWheel * scrollSpeed);
 
                 // 使用取余运算确保道具索引在 0 到 totalProps - 1 之间循环
                 SetBag_Item((newPropIndex + 8) % 8);

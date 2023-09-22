@@ -230,7 +230,7 @@ public class BagItem : ScriptableObject
         }
         else
         {
-            block.setId(id);
+            block.Id = id;
             bagSoreIndex = 6;
         }
 

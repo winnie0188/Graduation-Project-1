@@ -27,7 +27,7 @@ public class StoreSetting : MonoBehaviour
         bagItemStore.setbagStoreIndex_();
     }
 
-    [ContextMenu("設置預置物件")]
+
     public void setPrefab()
     {
         int index = 0;
@@ -85,3 +85,4 @@ public class StoreSetting : MonoBehaviour
     }
     #endregion
 }
+//realtime indirect bounce shadowing is not supported for spot and point lights

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3719146851238921857}
   - component: {fileID: 3066463235009927593}
   - component: {fileID: 5288715723644954329}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u76C6\u683D"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,8 +109,7 @@ GameObject:
   - component: {fileID: 3120288460353530489}
   - component: {fileID: 5262748398894783736}
   - component: {fileID: 6521864868862735360}
-  - component: {fileID: 4354898641223940244}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u76C6\u683D (Clone)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,20 +181,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4354898641223940244
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926390227336335271}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7300010352984786249, guid: 2f42af0073b2bff48989b8775d5a5cba, type: 3}
 --- !u!1 &3853005049526131933
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +192,7 @@ GameObject:
   - component: {fileID: 6207601080317224464}
   - component: {fileID: 7086368103025705693}
   - component: {fileID: 6953164246454842163}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u5E73\u9762.002"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,13 +273,13 @@ GameObject:
   - component: {fileID: 6114239434300370713}
   - component: {fileID: 6894928189682919989}
   - component: {fileID: 6673645818365976942}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u5E73\u9762.002"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6114239434300370713
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +354,7 @@ GameObject:
   - component: {fileID: 6159533925929113327}
   - component: {fileID: 2900741447551198307}
   - component: {fileID: 4829936901426944804}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u5E73\u9762.001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,13 +436,13 @@ GameObject:
   - component: {fileID: 6324111684970327846}
   - component: {fileID: 3418199804445091264}
   - component: {fileID: 5969793884457764362}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: "\u5E73\u9762.001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6324111684970327846
 Transform:
   m_ObjectHideFlags: 0

@@ -34,21 +34,27 @@ public class BagItemObj
             }
 
 
-            GameObject Block = BuildSystem.buildSystem.GetMouseTochGameobject().transform.parent.gameObject;
-
-            if (checkBlockData())
+            GameObject Block = BuildSystem.buildSystem.GetMouseTochGameobject();
+            if (Block == null)
             {
                 return;
             }
 
-            if (Block.transform.parent != null)
-            {
-                Block = Block.transform.parent.gameObject;
+            RecursiveCheckBlock();
+            RecursiveCheckBlock();
 
-                if (checkBlockData())
+            void RecursiveCheckBlock()
+            {
+                if (Block.transform.parent != null)
                 {
-                    return;
+                    Block = Block.transform.parent.gameObject;
+
+                    if (checkBlockData())
+                    {
+                        return;
+                    }
                 }
+                return;
             }
 
 

@@ -199,7 +199,7 @@ public class BuildSystem : MonoBehaviour
 
         // 先獲取第幾個child
         //第0 -ROW
-        if (Pos <= chunkSize && Pos > -chunkSize)
+        if (Pos <= chunkSize / 2.0f && Pos > -chunkSize / 2.0f)
         {
             return 0;
         }

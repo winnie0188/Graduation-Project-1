@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class block : BagItemObj
 {
     [Header("對應物件池")]
-    public ObjectPool BlockPool;
+    [SerializeField] ObjectPool blockPool;
 
     GameObject currentGameObject = null;
 
@@ -15,13 +15,26 @@ public class block : BagItemObj
     int id;
 
 
-    #region 設置id
-
-    public void setId(int id)
+    #region 封裝屬性
+    // Id
+    public int Id
     {
-        this.id = id;
+        get => id;
+        set => id = value;
+    }
+    // 當前綠色物件
+    public GameObject CurrentGameObject
+    {
+        get => currentGameObject;
+        set => currentGameObject = value;
+    }
+    public ObjectPool BlockPool
+    {
+        get => blockPool;
+        set => blockPool = value;
     }
     #endregion
+
 
     #region 主function
 
@@ -45,9 +58,9 @@ public class block : BagItemObj
 
     public override void Relese()
     {
-        if (currentGameObject != null)
+        if (CurrentGameObject != null)
         {
-            BlockPool.Release(currentGameObject);
+            BlockPool.Release(CurrentGameObject);
         }
     }
 
@@ -61,13 +74,11 @@ public class block : BagItemObj
         //如果按左鍵
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.UseProps))
         {
-
-
             //如果滑鼠有碰到block
             Vector3 MousePos = BuildSystem.buildSystem.GetMouseWoldPosition(-1);
             if (MousePos != new Vector3(0, -1000, 0))
             {
-                createNewBlock(currentGameObject.transform.position, true, currentGameObject.transform.rotation.eulerAngles.y);
+                createNewBlock(CurrentGameObject.transform.position, true, CurrentGameObject.transform.rotation.eulerAngles.y);
             }
             else
             {
@@ -76,7 +87,7 @@ public class block : BagItemObj
         }
         else if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.RotateBlock))
         {
-            BuildSystem.buildSystem.rotate(currentGameObject.transform);
+            BuildSystem.buildSystem.rotate(CurrentGameObject.transform);
         }
     }
 
@@ -111,7 +122,7 @@ public class block : BagItemObj
                 true
             );
         }
-        BuildSystem.buildSystem.setBuildData(Block.transform, id);
+        BuildSystem.buildSystem.setBuildData(Block.transform, Id);
     }
 
     public void destoryOldBlock(GameObject gameObject, BagItem bagItem)
@@ -135,12 +146,12 @@ public class block : BagItemObj
     // 初始化手持顯示的綠色可視物
     void InitializeWithObject()
     {
-        currentGameObject = BlockPool.GetObject();
-        BuildSystem.buildSystem.combine(currentGameObject.transform);
-        currentGameObject.transform.rotation = Quaternion.Euler(
-            currentGameObject.transform.rotation.x,
+        CurrentGameObject = BlockPool.GetObject();
+        BuildSystem.buildSystem.combine(CurrentGameObject.transform);
+        CurrentGameObject.transform.rotation = Quaternion.Euler(
+            CurrentGameObject.transform.rotation.x,
              0,
-              currentGameObject.transform.rotation.z
+              CurrentGameObject.transform.rotation.z
             );
     }
     //透明方塊移動
@@ -148,20 +159,20 @@ public class block : BagItemObj
     {
         if (Input.GetKey(playerController.playerController_.playerKeyCodes.AltBlock))
         {
-            currentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(0);
+            CurrentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(0);
         }
         else if (Input.GetKey(playerController.playerController_.playerKeyCodes.ShiftBlock))
         {
-            currentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(1);
+            CurrentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(1);
         }
         else if (Input.GetKey(playerController.playerController_.playerKeyCodes.CtrlBlock))
         {
-            currentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(2);
+            CurrentGameObject.transform.position = BuildSystem.buildSystem.GetMouseWoldPosition(2);
         }
         else
         {
             Vector3 position = BuildSystem.buildSystem.GetMouseWoldPosition(-1);
-            currentGameObject.transform.position = BuildSystem.buildSystem.SnapCoordinateToGrid(position);
+            CurrentGameObject.transform.position = BuildSystem.buildSystem.SnapCoordinateToGrid(position);
         }
 
 

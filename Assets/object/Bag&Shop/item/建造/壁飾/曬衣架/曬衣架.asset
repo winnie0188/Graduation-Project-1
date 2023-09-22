@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf81934c2d4386c47adfb08533ab6301, type: 3}
+  m_Name: "\u66EC\u8863\u67B6"
+  m_EditorClassIdentifier: 
+  BagItem_name: "\u66EC\u8863\u67B6"
+  BagItem_icon: {fileID: 21300000, guid: dd167ed4fc136f146975ce3bf0a0530e, type: 3}
+  BagItem_info: 
+  sellPrice: 0
+  bagSoreIndex: 0
+  keySoreIndex: 0
+  id: 6
+  BagItemType_: 6
+  block:
+    blockPool: {fileID: 11400000, guid: 918312eb17b9c8c4aa6bab5b0cc265da, type: 2}

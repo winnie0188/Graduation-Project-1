@@ -28,8 +28,8 @@ public class MouseLook
         YSensitivity = 1;
 
 
-        MaximumX = 45F;
-        MinimumX = -10F;
+        MaximumX = 80F;
+        MinimumX = -30F;
     }
 
 

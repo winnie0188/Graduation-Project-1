@@ -215,6 +215,7 @@ public class SaveMange : MonoBehaviour
         PlayerPrefs.SetString("SaveData", JsonUtility.ToJson(saveData));
         PlayerPrefs.Save();
 
+
         showSave();
     }
 
@@ -231,41 +232,47 @@ public class SaveMange : MonoBehaviour
         playerController.BlackeningUpdate(gameData.playerSave.playerReduceBlackening);
         // ---------------------------------提取player資料---------------------------------------------------
 
-
-        // ---------------------------------提取背包資料---------------------------------------------------
-        for (int i = 0; i < gameData.bagSave.itemCount.Length; i++)
+        if (PanelManage.panelManage.getIsCreateMode() == false)
         {
-            BagManage.bagManage.checkItem(
-                StoreSetting.storeSetting.GetBagItemStore().BagItems[gameData.bagSave.itemID[i]],
-                 gameData.bagSave.itemCount[i],
-                  gameData.bagSave.iswear[i],
-                  false
-            );
-        }
-        BagManage.bagManage.Update_AllBag();
-        // ---------------------------------提取背包資料---------------------------------------------------
+            // ---------------------------------提取背包資料---------------------------------------------------
 
-
-        // ---------------------------------提取快捷鍵資料---------------------------------------------------
-        var hotKeyStore = BagManage.bagManage.hotKeyStore;
-        int index = 0;
-        index = getKetData(hotKeyStore.HotKeys, index);
-        index = getKetData(hotKeyStore.HotKeys_potion, index);
-        index = getKetData(hotKeyStore.HotKeys_Clothe, index);
-        index = getKetData(hotKeyStore.HotKeys_equip, index);
-
-
-        int getKetData(HotKey[] hotKeys, int index)
-        {
-            for (int i = 0; i < hotKeys.Length; i++)
+            for (int i = 0; i < gameData.bagSave.itemCount.Length; i++)
             {
-                hotKeys[i].HotKey_Bag = gameData.hotKeySave.keyBag[index];
-                hotKeys[i].HotKey_item = gameData.hotKeySave.keyItem[index];
-                index++;
+                BagManage.bagManage.checkItem(
+                    StoreSetting.storeSetting.GetBagItemStore().BagItems[gameData.bagSave.itemID[i]],
+                     gameData.bagSave.itemCount[i],
+                      gameData.bagSave.iswear[i],
+                      false
+                );
             }
-            return index;
+            BagManage.bagManage.Update_AllBag();
+
+
+
+            // ---------------------------------提取背包資料---------------------------------------------------
+
+
+            // ---------------------------------提取快捷鍵資料---------------------------------------------------
+            var hotKeyStore = BagManage.bagManage.hotKeyStore;
+            int index = 0;
+            index = getKetData(hotKeyStore.HotKeys, index);
+            index = getKetData(hotKeyStore.HotKeys_potion, index);
+            index = getKetData(hotKeyStore.HotKeys_Clothe, index);
+            index = getKetData(hotKeyStore.HotKeys_equip, index);
+
+
+            int getKetData(HotKey[] hotKeys, int index)
+            {
+                for (int i = 0; i < hotKeys.Length; i++)
+                {
+                    hotKeys[i].HotKey_Bag = gameData.hotKeySave.keyBag[index];
+                    hotKeys[i].HotKey_item = gameData.hotKeySave.keyItem[index];
+                    index++;
+                }
+                return index;
+            }
+            BagManage.bagManage.Refresh_HotKey();
         }
-        BagManage.bagManage.Refresh_HotKey();
 
         // ---------------------------------提取快捷鍵資料---------------------------------------------------
 
