@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb8d1b8b56576540b7f80564f70558e, type: 3}
+  m_Name: "\u7B2C\u4E09\u7AE00"
+  m_EditorClassIdentifier: 
+  TextFile: {fileID: 4900000, guid: e9ad081ea89ae6a4eb9cfba40a59c0f0, type: 3}
+  TextDataList:
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: 7620f9d3c4cf8214782f54e2cbfbb6f6, type: 3}
+    PeopleName: 
+    Text: "\u5169\u4EBA\u6E4A\u5728\u9080\u8ACB\u51FD\u7684\u524D\u9762\uFF0C\u4ED4\u7D30\u770B\u8457\u4E0A\u9762\u7684\u8A0A\u606F\u3002\u9813\u6642\u5927\u773C\u77AA\u5C0F\u773C\u7684\uFF0C\u70BA\u4E86\u6253\u7834\u5C37\u5C2C......"
+    sendMess:
+    - Img_white(0)
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 0519caddccece2a479e02d9128e4ade1, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u7CBE\u9748\uFF0C\u525B\u525B\u90A3\u50A2\u4F19\u53EB\u6211\u8981\u5148\u53BB\u4F69\u4F0D\u7F85\u5FB7\u8857\u53E3\u6B38\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: d15d5249219429f4fafa092a75a07df4, type: 3}
+    - {fileID: 21300000, guid: 124c1f038134c12498db831f95ef2049, type: 3}
+    PeopleName: "\u7CBE\u97481"
+    Text: "\u5C31...\u53BB\u554A\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: 7620f9d3c4cf8214782f54e2cbfbb6f6, type: 3}
+    PeopleName: 
+    Text: "\u7CBE\u9748\u8868\u793A\u4E0D\u61C2\u65B0\u8056\u5973\u7684\u8166\u8FF4\u8DEF\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 7620f9d3c4cf8214782f54e2cbfbb6f6, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u90A3\u540C\u4E8B\u600E\u9EBC\u8FA6\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: 0519caddccece2a479e02d9128e4ade1, type: 3}
+    PeopleName: "\u7CBE\u97481"
+    Text: "\u6069...\u6211\u60F3\u90A3\u50A2\u4F19\u6703\u5E36\u4F60\u53BB\u7684\u3002"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
+    - {fileID: 21300000, guid: 7620f9d3c4cf8214782f54e2cbfbb6f6, type: 3}
+    PeopleName: 
+    Text: "\u7CBE\u9748\u6536\u6582\u4E86\u4EE5\u5F80\u7684\u9AD8\u6602\u60C5\u7DD2\uFF0C\u773C\u7738\u77A5\u5411\u4E00\u65C1\uFF0C\u82E5\u6709\u6240\u601D\u7684\u9053\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  peopleHeights: []

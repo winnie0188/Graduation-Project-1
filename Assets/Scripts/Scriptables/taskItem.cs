@@ -5,14 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "task", menuName = "Scriptables/task", order = 4)]
 public class taskItem : ScriptableObject
 {
-    public enum TaskType
-    {
-        // 走到特定位置
-        walk,
-        // 收集特定道具
-        collect
 
-    }
 
     [Header("基礎屬性")]
     public string task_Title;//任務標題
@@ -23,10 +16,9 @@ public class taskItem : ScriptableObject
     [TextArea] public string task_get;//任務獎勵
 
 
-#pragma warning disable CS0414
 
     [Header("物品類型")]
-    public TaskType TaskType_;//物品類型
+    public TaskType TaskType;//物品類型
 
     // 要到達的地方
     [SerializeField] task_Walk task_Walk;
@@ -35,16 +27,12 @@ public class taskItem : ScriptableObject
     [SerializeField] task_Collect task_Collect;
 
 
-    private void OnValidate()
+    [Header("任務完成觸發")]
+    //觸發對話
+    public FinshTask finshTask;
+
+    public task_Walk gettask_Walk()
     {
-        if (TaskType_ != TaskType.walk)
-        {
-            task_Walk = null;
-        }
-        if (TaskType_ != TaskType.collect)
-        {
-            task_Collect = null;
-        }
+        return task_Walk;
     }
-#pragma warning restore CS0414
 }

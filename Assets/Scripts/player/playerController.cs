@@ -6,6 +6,7 @@ using DG.Tweening;
 public class playerController : MonoBehaviour
 {
     #region Player Basic
+    playerDirection playerDirection = playerDirection.LEFT;
     [Header("會變動的屬性")]
     // 血量
     public float maxHp;//最大血量
@@ -33,12 +34,27 @@ public class playerController : MonoBehaviour
     [Header("移動速度")]
     [SerializeField] float speed;//移動速度
     float[] moveItem = { 0, 0 };//移動數值
+    bool isWalk;
 
     [Header("跳躍")]
     bool isJump;//是否跳躍
-    Rigidbody rigi;
+    public Rigidbody rigi;
+    public Collider collider;
     [SerializeField] float Jumpspeed;//跳躍速度
+    //是否懸空
+    bool ishits;
+    //是否播放動畫
+    playerJumpState jumpState = playerJumpState.NONE;
+    [SerializeField] Animator ani;
+    float jumpTime = 0.0f;
 
+    string aniStr;
+
+    #endregion
+
+    #region 是否坐著
+    public playerSitState sitState = playerSitState.NONE;
+    public Vector3 sitPos;
     #endregion
 
     #region RunVar
@@ -60,7 +76,6 @@ public class playerController : MonoBehaviour
     bool isCanRotate = true;
 
     #endregion
-
 
 
     #region  手持
@@ -92,9 +107,12 @@ public class playerController : MonoBehaviour
 
         m_MouseLook.Init(transform, m_Camera.transform);
 
+
         StartCoroutine(JumpState());
         // 執行arm相關的update
         StartCoroutine(armUpdate());
+
+
     }
 
     void initKecode()
@@ -134,32 +152,139 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Debug.DrawLine(this.transform.GetChild(0).position, this.transform.GetChild(0).position + new Vector3(0, -1.5f, 0), Color.red);
 
+        //如果坐著，不執行
+        if (sitState != playerSitState.NONE)
+        {
+            this.transform.position = sitPos;
+            return;
+        }
+
+
+        Vector3 playerEye = this.transform.GetChild(0).position;
+        bool tempIshits = false;
+
+        if (Physics.RaycastAll(playerEye, Vector3.down, 2f).Length > 1)
+        {
+            tempIshits = true;
+        }
 
         if (isJump)
         {
-            var hits = Physics.RaycastAll(this.transform.GetChild(0).position, Vector3.down, 2f);
-            if (hits.Length > 1)
+            //跳躍時
+            if (tempIshits)
             {
                 rigi.AddForce(Vector3.up * Jumpspeed, ForceMode.Impulse);
+                jumpState = playerJumpState.JUMPUP;
             }
 
             isJump = false;
         }
 
+        float maxJumpSpeed = 0;
+
+        if (jumpState != playerJumpState.JUMPUP)
+        {
+            if (tempIshits != ishits)
+            {
+                ishits = tempIshits;
+                if (ishits)
+                {
+                    jumpState = playerJumpState.JUMPDOWN;
+                    StartCoroutine(jumpDown());
+                }
+            }
+        }
+        else
+        {
+            maxJumpSpeed = 6;
+            if ((jumpTime += Time.deltaTime) >= 0.7f)
+            {
+                jumpTime = 0;
+                jumpState = playerJumpState.JUMPING;
+
+            }
+        }
+
+
         Vector3 localMovement = new Vector3(moveItem[0], 0, moveItem[1]);
         Vector3 worldMovement = transform.TransformDirection(localMovement);
-        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 2f : 1.0f), rigi.velocity.y, worldMovement.z * speed * (isRunning ? 2f : 1.0f));
-
+        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 2f : 1.0f), rigi.velocity.y > maxJumpSpeed + 0.1f ? maxJumpSpeed : rigi.velocity.y, worldMovement.z * speed * (isRunning ? 2f : 1.0f));
     }
 
     private void Update()
     {
+        updateAni();
         CameraLook();
-
         Move();
+
     }
+
+    #region 更新動畫
+    IEnumerator jumpDown()
+    {
+        yield return new WaitForSeconds(0.7f);
+        if (jumpState == playerJumpState.JUMPDOWN)
+        {
+            jumpState = playerJumpState.NONE;
+        }
+    }
+
+    void updateAni()
+    {
+        string tempStr = "IDLE";
+        if (sitState == playerSitState.SITUP)
+        {
+            tempStr = "SITUP";
+        }
+        else if (sitState == playerSitState.SITDOWN)
+        {
+            tempStr = "SIT";
+            if (playerDirection == playerDirection.LEFT)
+            {
+                ani.transform.parent.localPosition = new Vector3(-0.4f, 0, 0);
+            }
+            else
+            {
+                ani.transform.parent.localPosition = new Vector3(0.4f, 0, 0);
+            }
+        }
+        else
+        {
+            if (isRunning || isWalk)
+            {
+                if (isRunning)
+                {
+                    tempStr = "RUN";
+                }
+                else if (isWalk)
+                {
+                    tempStr = "WALK";
+                }
+            }
+            else if (jumpState == playerJumpState.JUMPUP)
+            {
+                tempStr = "JUMP";
+            }
+            else if (jumpState == playerJumpState.JUMPDOWN)
+            {
+                tempStr = "JUMPDOWN";
+            }
+            else if (jumpState == playerJumpState.JUMPING)
+            {
+                tempStr = "JUMPING";
+            }
+
+        }
+
+        if (aniStr != tempStr)
+        {
+            aniStr = tempStr;
+            ani.SetTrigger(aniStr);
+        }
+    }
+
+    #endregion
 
     #region 基礎數值變動
 
@@ -277,10 +402,21 @@ public class playerController : MonoBehaviour
         if (Input.GetKey(playerKeyCodes.leftMove))
         {
             moveItem[0] = -1;
+            if (sitState == playerSitState.NONE)
+            {
+                playerDirection = playerDirection.LEFT;
+                ani.transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            }
         }
         else if (Input.GetKey(playerKeyCodes.rightMove))
         {
             moveItem[0] = 1;
+
+            if (sitState == playerSitState.NONE)
+            {
+                playerDirection = playerDirection.RIGHT;
+                ani.transform.parent.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            }
         }
         else
         {
@@ -304,7 +440,7 @@ public class playerController : MonoBehaviour
             isRunY = false;
         }
 
-        Run(isRunx || isRunY);
+        Run(isWalk = isRunx || isRunY);
 
         if (isRunx && isRunY)
         {
@@ -324,7 +460,7 @@ public class playerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(playerKeyCodes.rightMove))
         {
-            nowKecode = playerKeyCodes.leftMove;
+            nowKecode = playerKeyCodes.rightMove;
         }
         else if (Input.GetKeyDown(playerKeyCodes.frontMove))
         {

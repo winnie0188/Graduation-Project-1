@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using QFSW.MOP2;
+using System.Collections.Generic;
 
 public class taskSystem : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class taskSystem : MonoBehaviour
     [SerializeField] ObjectPool TaskPool = null;
 
     // 任務列表
-    [SerializeField] taskItem[] currentTaskArray;
+    public List<taskItem> currentTaskArray = new List<taskItem>();
 
     #region slot
     [SerializeField] Transform taskContentPanel;
@@ -22,8 +23,7 @@ public class taskSystem : MonoBehaviour
 
     #endregion
 
-    // 遊玩時顯示在右上角的panel
-    [SerializeField] Transform BasicUiTaskPanel;
+
 
     // 是否只有左邊
     bool isLeft;
@@ -34,11 +34,32 @@ public class taskSystem : MonoBehaviour
     // 判斷是否要畫面重載，確保任務不會跑版
     public static bool isReset = false;
 
+
+    #region 主畫面預覽
+    // 遊玩時顯示在右上角的panel
+    [SerializeField] Transform BasicUiTaskPanel;
+    #endregion
+
+
     // 唯一性
     public static taskSystem taskSystem_;
 
+    #region  主畫面預覽
+    public void BaiscUIstate()
+    {
+        BasicUiTaskPanel.gameObject.SetActive(!BasicUiTaskPanel.gameObject.activeSelf);
+    }
+    public void updateBasicUI()
+    {
+        if (currentTaskArray.Count <= 0)
+        {
+            return;
+        }
+        BasicUiTaskPanel.transform.GetChild(0).GetComponent<Text>().text = currentTaskArray[0].task_Title;
+        BasicUiTaskPanel.transform.GetChild(1).GetComponent<Text>().text = currentTaskArray[0].task_Content;
+    }
 
-
+    #endregion
 
     public void switchCurrentTaskArray(int i)
     {
@@ -55,14 +76,14 @@ public class taskSystem : MonoBehaviour
     {
         taskSystem_ = this;
 
-        if (currentTaskArray.Length % 2 == 1)
+        if (currentTaskArray.Count % 2 == 1)
         {
-            slotCount = currentTaskArray.Length / 2 + 1;
+            slotCount = currentTaskArray.Count / 2 + 1;
             isLeft = true;
         }
         else
         {
-            slotCount = currentTaskArray.Length / 2;
+            slotCount = currentTaskArray.Count / 2;
             isLeft = false;
         }
     }
@@ -155,7 +176,6 @@ public class taskSystem : MonoBehaviour
     #region 更新UI
     void UpdateTaskUI()
     {
-
         int index = -1;
 
         for (int i = 0; i < taskContentPanel.GetChild(0).childCount; i++)
@@ -169,7 +189,7 @@ public class taskSystem : MonoBehaviour
                 index = Right;
 
 
-                if (Right < currentTaskArray.Length - 1)
+                if (Right < currentTaskArray.Count - 1)
                 {
                     taskItemsAddTask(currentTaskArray[left], currentTaskArray[Right], left, Right);
                 }
@@ -199,6 +219,7 @@ public class taskSystem : MonoBehaviour
                 }
             }
         }
+        updateBasicUI();
     }
     void setTask(GameObject taskList, taskItem[] taskItems, int[] ids)
     {

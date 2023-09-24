@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,7 @@ public class talkSystem : MonoBehaviour
     [Header("存所有的大頭照")]
     public peopleIcon peopleIcon;
 
-    List<TextDataFile> currentTextDataList;
+    talkContent currentTalkContent;
 
     // 判斷是否結束
     bool TextFinsh;
@@ -39,19 +40,75 @@ public class talkSystem : MonoBehaviour
     float speed;
 
 
+    // 用來回復eventNum變數
+
+    #region new
+    [SerializeField] Transform selectTransform;
+    [SerializeField] Transform nextPanel;
+
+    #endregion
+
+
     public static talkSystem talkSystem_;
     private void Awake()
     {
         talkSystem_ = this;
     }
 
+    //響應式頭像
+    public void setImage(Sprite img, Image peopleIcon, float height)
+    {
+        // 原本寬度
+        float originalWidth = img.rect.width;
+        // 原本高度
+        float originalHeight = img.rect.height;
+
+
+
+        Sprite scaledSprite;
+
+        if (height > 0.5f)
+        {
+            float scaleFactor = 925.86f * height / originalHeight;
+            float scaledWidth = originalWidth * scaleFactor;
+
+            // 创建新的Sprite，按比例缩放
+            scaledSprite = Sprite.Create(img.texture, img.rect, new Vector2(0.5f, 0.5f), scaleFactor);
+
+            peopleIcon.sprite = scaledSprite;
+            peopleIcon.rectTransform.sizeDelta = new Vector2(scaledWidth, 925.86f * height);
+            peopleIcon.rectTransform.anchoredPosition = new Vector3(0.0002441406f, 925.86f * height - 925.86f, 0);
+
+        }
+        else
+        {
+            // 計算
+            float scaleFactor = 500f / originalWidth;
+            float scaledHeight = originalHeight * scaleFactor;
+            // 创建新的Sprite，按比例缩放
+            scaledSprite = Sprite.Create(img.texture, img.rect, new Vector2(0.5f, 0.5f), scaleFactor);
+
+            peopleIcon.sprite = scaledSprite;
+            peopleIcon.rectTransform.sizeDelta = new Vector2(500f, scaledHeight);
+            peopleIcon.rectTransform.anchoredPosition = new Vector3(0.0002441406f, 0, 0);
+        }
+    }
+    public void print_(string a)
+    {
+        print(a);
+    }
 
     public Sprite setPeopleIcon(string substring2)
     {
         return peopleIcon.Icon[peopleIcon.Icon_[substring2]];
     }
 
-    public void openTalk(List<TextDataFile> currentTextDataList)
+    public talkContent setTalkContent(string substring2)
+    {
+        return peopleIcon.TextFile[peopleIcon.TextFile_[substring2]];
+    }
+
+    public void openTalk(talkContent currentTalkContent)
     {
         if (PanelManage.panelManage.panels.talkPanel.gameObject.activeSelf)
         {
@@ -59,8 +116,8 @@ public class talkSystem : MonoBehaviour
         }
         PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(true);
 
-        if (currentTextDataList != null)
-            this.currentTextDataList = currentTextDataList;
+        if (currentTalkContent != null)
+            this.currentTalkContent = currentTalkContent;
 
         index = 0;
 
@@ -72,9 +129,13 @@ public class talkSystem : MonoBehaviour
     // 基礎按鈕功能-------------------------------------------------------------
     public void next()
     {
-        if (currentTextDataList.Count <= index)
+        if (currentTalkContent.TextDataList.Count <= index)
         {
             PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(false);
+
+            #region  new
+            closeSelect();
+            #endregion
             return;
         }
 
@@ -88,6 +149,15 @@ public class talkSystem : MonoBehaviour
         }
     }
 
+    #region new
+    void StopAll()
+    {
+        StopAllCoroutines();
+        PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(false);
+        closeSelect();
+    }
+    #endregion
+
     // 增加打字速度
     public void addSpeed()
     {
@@ -97,14 +167,13 @@ public class talkSystem : MonoBehaviour
     // 結束對話
     public void EndChat()
     {
-        StopAllCoroutines();
-        PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(false);
+        StopAll();
     }
 
     // 回顧劇情
     public void feedbackChat()
     {
-        EndChat();
+        StopAll();
         openTalk(null);
     }
 
@@ -113,16 +182,32 @@ public class talkSystem : MonoBehaviour
 
     IEnumerator TextIndex()
     {
+        List<TextDataFile> currentTextDataList = new List<TextDataFile>();
+        currentTextDataList = currentTalkContent.TextDataList;
         TextFinsh = false;
         UItext.text = "";
 
         peopleName.text = "";
 
-
+        #region 設定圖片
+        float height = 1;
         for (int i = 0; i < 2; i++)
         {
-            TalkIcon[i].sprite = currentTextDataList[index].PeopleIcon[i];
+            string imageName = Path.GetFileNameWithoutExtension(currentTextDataList[index].PeopleIcon[i].name);
+            for (int j = 0; j < peopleIcon.PeopleHeights.Count; j++)
+            {
+                if (imageName.Contains(peopleIcon.PeopleHeights[j].name))
+                {
+                    height = peopleIcon.PeopleHeights[j].person;
+                }
+            }
+
+            //設置圖
+            setImage(currentTextDataList[index].PeopleIcon[i], TalkIcon[i], height);
+            //TalkIcon[i].sprite = currentTextDataList[index].PeopleIcon[i];
+            height = 1;
         }
+        #endregion
 
         if (currentTextDataList[index].PeopleName == "")
         {
@@ -159,6 +244,34 @@ public class talkSystem : MonoBehaviour
             }
         }
 
+        #region new
+
+        if (index == currentTextDataList.Count - 1)
+        {
+            var branch = currentTextDataList[index].branch;
+
+            for (int i = 0; i < branch.Count; i++)
+            {
+
+                if (i == 3)
+                {
+                    break;
+                }
+
+                var endIndex = branch[i];
+
+                var selectItemBtn = selectTransform.GetChild(i).GetChild(1).GetComponent<Button>();
+                selectItemBtn.onClick.RemoveAllListeners();
+                selectItemBtn.onClick.AddListener(() => branchEvent(endIndex.Triggevent, endIndex.eventSelect));
+                selectTransform.GetChild(i).gameObject.SetActive(true);
+
+                selectTransform.GetChild(i).GetChild(0).GetComponent<Text>().text = endIndex.content;
+                opneSelectPanel();
+
+            }
+        }
+        #endregion
+
 
         int letter = 0;
         var Text = currentTextDataList[index].Text;
@@ -173,6 +286,9 @@ public class talkSystem : MonoBehaviour
         }
 
         UItext.text = Text;
+
+        // print(Text);
+        // print(index);
 
 
         index++;
@@ -217,7 +333,7 @@ public class talkSystem : MonoBehaviour
         var RGB = 1.0f;
         if (isDark)
         {
-            RGB = 0.8f;
+            RGB = 0.5f;
         }
 
         a.color = new Color(RGB, RGB, RGB, 1);
@@ -265,5 +381,43 @@ public class talkSystem : MonoBehaviour
         TalkIcon[index].transform.localPosition = originalPosition;
     }
     // 抖動-----------------------------------------------------------
+    #endregion
+
+    #region 選項處理
+    void opneSelectPanel()
+    {
+        selectTransform.gameObject.SetActive(true);
+        nextPanel.gameObject.SetActive(false);
+    }
+
+    public void branchEvent(int Triggevent, talkContent talkContent)
+    {
+        closeSelect();
+        switch (Triggevent)
+        {
+            case 0:
+                // 繼續
+                next();
+                break;
+            case 1:
+                // 進入新的對話
+                StopAll();
+                openTalk(talkContent);
+                break;
+        }
+
+
+    }
+
+    public void closeSelect()
+    {
+        selectTransform.gameObject.SetActive(false);
+        nextPanel.gameObject.SetActive(true);
+        for (int i = 0; i < 3; i++)
+        {
+            selectTransform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
     #endregion
 }

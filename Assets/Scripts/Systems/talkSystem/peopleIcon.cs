@@ -11,12 +11,27 @@ public class peopleIcon : ScriptableObject
 
     public Sprite[] Icon;
 
+    public Dictionary<string, int> TextFile_ = new Dictionary<string, int>();
 
-    [ContextMenu("點我設定")]
-    private void set()
+    public talkContent[] TextFile;
+    public List<PeopleHeight> PeopleHeights = new List<PeopleHeight>();
+
+    public void setPeopleHeights(List<PeopleHeight> datas)
+    {
+        for (int i = 0; i < datas.Count; i++)
+        {
+            if (!PeopleHeights.Exists(x => x.name == datas[i].name))
+            {
+                PeopleHeights.Add(datas[i]);
+            }
+        }
+    }
+
+    public void set()
     {
         // 清空字典
         Icon_.Clear();
+        TextFile_.Clear();
 
         // 將圖片存入字典
         for (int i = 0; i < Icon.Length; i++)
@@ -28,6 +43,14 @@ public class peopleIcon : ScriptableObject
             }
         }
 
-
+        // 將劇本存入字典
+        for (int i = 0; i < TextFile.Length; i++)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(TextFile[i].name);
+            if (!TextFile_.ContainsKey(fileName))
+            {
+                TextFile_.Add(fileName, i);
+            }
+        }
     }
 }

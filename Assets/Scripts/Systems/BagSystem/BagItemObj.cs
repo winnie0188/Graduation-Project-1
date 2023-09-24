@@ -89,11 +89,7 @@ public class other : BagItemObj
 }
 
 
-[System.Serializable]
-public class clothe : BagItemObj
-{
 
-}
 
 [System.Serializable]
 public class material : BagItemObj

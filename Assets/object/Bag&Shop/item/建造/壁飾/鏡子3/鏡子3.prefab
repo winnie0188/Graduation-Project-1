@@ -152,7 +152,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 7
+  far clip plane: 20
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -331,6 +331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backitem: {fileID: 11400000, guid: 8d4806761bdc0d14f8d3edd28959dfec, type: 2}
+  blockType: 0
+  position: {fileID: 0}
 --- !u!1 &8107726881544337406
 GameObject:
   m_ObjectHideFlags: 0

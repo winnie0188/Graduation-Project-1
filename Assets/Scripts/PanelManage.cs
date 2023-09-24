@@ -8,9 +8,12 @@ public class PanelManage : MonoBehaviour
 
     public static PanelManage panelManage;
 
-    public talkContent currentTextDataList;
 
+
+    //之後要刪
     [SerializeField] BagItem bagItem;
+    public talkContent currentTextDataList;
+    //
 
     [SerializeField] Camera[] Cameras;
 
@@ -76,24 +79,24 @@ public class PanelManage : MonoBehaviour
 
         // --------------------------------------要刪
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            talkSystem.talkSystem_.openTalk(currentTextDataList.TextDataList);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
+        // if (Input.GetKeyDown(KeyCode.Z))
+        // {
+        //     talkSystem.talkSystem_.openTalk(currentTextDataList);
+        // }
+        // if (Input.GetKeyDown(KeyCode.X))
+        // {
 
-            BagManage.bagManage.checkItem(bagItem, -10, false, true);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
+        //     BagManage.bagManage.checkItem(bagItem, -10, false, true);
+        // }
+        // if (Input.GetKeyDown(KeyCode.C))
+        // {
 
-            LightingManager.lightingManager.addTime(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            LightingManager.lightingManager.addTime(1);
-        }
+        //     LightingManager.lightingManager.addTime(0);
+        // }
+        // else if (Input.GetKeyDown(KeyCode.V))
+        // {
+        //     LightingManager.lightingManager.addTime(1);
+        // }
 
 
 
@@ -124,14 +127,10 @@ public class PanelManage : MonoBehaviour
     // 開啟任務清單
     public void OpenTaskPanel()
     {
-        if (panels.TaskPanel.gameObject.activeSelf)
+        if (!AllPanelStatus())
         {
-            panels.TaskPanel.gameObject.SetActive(false);
-        }
-        // 如果全部的panel都沒被打開
-        else if (!AllPanelStatus())
-        {
-            panels.TaskPanel.gameObject.SetActive(true);
+            panels.BagPanel.gameObject.SetActive(true);
+            BagManage.bagManage.switch_category(7);
         }
     }
 
@@ -184,8 +183,8 @@ public class PanelManage : MonoBehaviour
     public bool AllPanelStatus()
     {
         return
-        panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf ||
-        panels.TaskPanel.gameObject.activeSelf || panels.BigMapPanel.gameObject.activeSelf ||
+        panels.shopPanel.gameObject.activeSelf || panels.BagPanel.gameObject.activeSelf
+         || panels.BigMapPanel.gameObject.activeSelf ||
         panels.talkPanel.gameObject.activeSelf || panels.ESCpanel.gameObject.activeSelf
         ;
     }
@@ -202,8 +201,7 @@ public class Panels
     // 背包
     public Transform BagPanel;
     public Transform HotKeyPanel;
-    // 任務
-    public Transform TaskPanel;
+
 
     #region 大地圖
     // 大地圖

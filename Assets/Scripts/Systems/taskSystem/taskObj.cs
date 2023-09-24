@@ -10,6 +10,7 @@ public class task_Walk
 {
     [Header("目標位置")]
     public Vector3 taskPos;
+    public float distance;
 }
 
 

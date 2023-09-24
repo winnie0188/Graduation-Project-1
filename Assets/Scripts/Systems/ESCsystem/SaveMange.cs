@@ -25,8 +25,6 @@ public class SaveMange : MonoBehaviour
     int slotID;
 
 
-
-
     [SerializeField] bool dontSelect;
     [Header("禁用圖片")]
     [SerializeField] Image dontSelectImg;
@@ -219,7 +217,7 @@ public class SaveMange : MonoBehaviour
         showSave();
     }
 
-    public void GetGameData()
+    void GetGameData()
     {
         // ---------------------------------提取player資料---------------------------------------------------
         playerController playerController = playerController.playerController_;
@@ -309,6 +307,7 @@ public class SaveMange : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<Gameprocess>().init();
             load = false;
         }
     }
@@ -326,26 +325,26 @@ public class SaveMange : MonoBehaviour
     }
 
 
-    #region 自動存檔
-    public void autoSave()
-    {
-        if (dontSelect)
-        {
-            return;
-        }
+    // #region 自動存檔
+    // public void autoSave()
+    // {
+    //     if (dontSelect)
+    //     {
+    //         return;
+    //     }
 
-        for (int i = 0; i < saveData.SaveState.Length; i++)
-        {
-            if (saveData.SaveState[i] == 0 || saveData.SaveState[i] == 1)
-            {
-                saveData.SaveState[i] = 1;
-                saveData.DateTime[i] = System.DateTime.Now.ToString();
-                setGameData(i);
-                break;
-            }
-        }
-    }
-    #endregion
+    //     for (int i = 0; i < saveData.SaveState.Length; i++)
+    //     {
+    //         if (saveData.SaveState[i] == 0 || saveData.SaveState[i] == 1)
+    //         {
+    //             saveData.SaveState[i] = 1;
+    //             saveData.DateTime[i] = System.DateTime.Now.ToString();
+    //             setGameData(i);
+    //             break;
+    //         }
+    //     }
+    // }
+    // #endregion
 
 
     #region 手動存檔

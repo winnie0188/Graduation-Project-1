@@ -18,13 +18,7 @@ MonoBehaviour:
   sellPrice: 1111
   bagSoreIndex: 2
   keySoreIndex: 1
+  id: 0
   BagItemType_: 2
-  potion:
-    bloodHP: 0
-  food:
-    bloodHungry: 0
-    ArmSprite: {fileID: 0}
-  tool:
-    ArmSprite: {fileID: 0}
   block:
-    ArmSprite: {fileID: 0}
+    blockPool: {fileID: 0}

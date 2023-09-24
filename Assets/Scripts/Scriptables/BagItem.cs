@@ -66,6 +66,10 @@ public class BagItem : ScriptableObject
     {
         return block;
     }
+    public clothe GetClothe()
+    {
+        return clothe;
+    }
 
     public void Create()
     {
