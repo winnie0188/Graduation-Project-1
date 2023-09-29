@@ -6,34 +6,31 @@ using System.Collections.Generic;
 
 public class taskSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    [SerializeField] ObjectPool TaskPool = null;
-
+    #region "任務"
     // 任務列表
     public List<taskItem> currentTaskArray = new List<taskItem>();
-
-    #region slot
-    [SerializeField] Transform taskContentPanel;
-    [SerializeField] int slotCount;
-
-
-    [SerializeField] GameObject contentList;
-
-
+    //目的地物件
+    public GameObject LightCircle;
+    public SignPanel[] signPanels;
     #endregion
 
-
+    #region slot
+    public Transform taskContentPanel;
+    [SerializeField] int slotCount;
+    [SerializeField] GameObject contentList;
+    [SerializeField] GameObject taskList;
+    //存lightcircle
+    public List<GameObject> noUseLightCircle = new List<GameObject>();
+    public Dictionary<taskItem, GameObject> UseLightCircle = new Dictionary<taskItem, GameObject>();
 
     // 是否只有左邊
     bool isLeft;
-
     [SerializeField] Sprite[] TopIcons;
-
 
     // 判斷是否要畫面重載，確保任務不會跑版
     public static bool isReset = false;
 
+    #endregion
 
     #region 主畫面預覽
     // 遊玩時顯示在右上角的panel
@@ -51,12 +48,15 @@ public class taskSystem : MonoBehaviour
     }
     public void updateBasicUI()
     {
-        if (currentTaskArray.Count <= 0)
+        var title = "";
+        var content = "";
+        if (currentTaskArray.Count > 0)
         {
-            return;
+            title = currentTaskArray[0].task_Title;
+            content = currentTaskArray[0].task_Content;
         }
-        BasicUiTaskPanel.transform.GetChild(0).GetComponent<Text>().text = currentTaskArray[0].task_Title;
-        BasicUiTaskPanel.transform.GetChild(1).GetComponent<Text>().text = currentTaskArray[0].task_Content;
+        BasicUiTaskPanel.transform.GetChild(0).GetComponent<Text>().text = title;
+        BasicUiTaskPanel.transform.GetChild(1).GetComponent<Text>().text = content;
     }
 
     #endregion
@@ -68,14 +68,27 @@ public class taskSystem : MonoBehaviour
         currentTaskArray[i] = temp;
 
         // 更新ui
-        UpdateTaskUI();
+        StartCoroutine(UpdateTaskUI());
+
     }
 
+
     // 設置並獲取slotCount
-    void setSlotCount()
+
+
+
+    void Awake()
     {
         taskSystem_ = this;
+        SetTaskPool();
 
+        setSlotCount();
+        initTaskList();
+    }
+
+
+    void setSlotCount()
+    {
         if (currentTaskArray.Count % 2 == 1)
         {
             slotCount = currentTaskArray.Count / 2 + 1;
@@ -86,40 +99,35 @@ public class taskSystem : MonoBehaviour
             slotCount = currentTaskArray.Count / 2;
             isLeft = false;
         }
-    }
 
-
-    void Awake()
-    {
-        TaskPool.Initialize();
-        TaskPool.ObjectParent.parent = taskContentPanel;
-
-
-        SetTaskPool();
-
-        setSlotCount();
-
-        initTaskList();
     }
 
     public void initTaskList()
     {
         for (int i = 0; i < slotCount; i++)
         {
-            TaskPool.GetObject(transform.position);
+            if (i >= taskContentPanel.GetChild(0).childCount)
+            {
+                Vector3 temp = taskContentPanel.transform.position;
+                Instantiate(taskList, temp, Quaternion.identity, taskContentPanel.GetChild(0));
+            }
         }
 
-
-        UpdateTaskUI();
+        StartCoroutine(UpdateTaskUI());
     }
 
     public IEnumerator Reset_Panel()
     {
-        taskContentPanel.gameObject.SetActive(true);
-        yield return null;
-        taskContentPanel.gameObject.SetActive(false);
-        yield return null;
-        taskContentPanel.gameObject.SetActive(true);
+        taskContentPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        for (int i = 0; i < 5; i++)
+        {
+            taskContentPanel.gameObject.SetActive(false);
+            yield return null;
+            taskContentPanel.gameObject.SetActive(true);
+            yield return null;
+        }
+        taskContentPanel.GetComponent<Image>().color = new Color(1, 1, 1, 0.3921569f);
+
         isReset = true;
     }
 
@@ -164,33 +172,51 @@ public class taskSystem : MonoBehaviour
     }
 
     #region 任務add/delete
-
-
-    void deleteTask()
+    public void addTask(taskItem taskItem)
     {
+        currentTaskArray.Add(taskItem);
 
+        setSlotCount();
+        initTaskList();
+
+        initTask(taskItem);
+    }
+
+    public void removeTask(taskItem taskItem)
+    {
+        currentTaskArray.Remove(taskItem);
+
+        setSlotCount();
+        initTaskList();
+
+        finshTask(taskItem);
     }
 
     #endregion
 
     #region 更新UI
-    void UpdateTaskUI()
+    IEnumerator UpdateTaskUI()
     {
+
+        Transform parent = taskContentPanel.GetChild(0);
+
         int index = -1;
 
-        for (int i = 0; i < taskContentPanel.GetChild(0).childCount; i++)
+        for (int i = 0; i < parent.childCount; i++)
         {
-            if (taskContentPanel.GetChild(0).GetChild(i).gameObject.activeSelf)
+            if (i < slotCount)
             {
-
                 int left = index + 1;
                 int Right = index + 2;
 
                 index = Right;
 
 
+                //print(left + "/" + Right);
+
                 if (Right < currentTaskArray.Count - 1)
                 {
+
                     taskItemsAddTask(currentTaskArray[left], currentTaskArray[Right], left, Right);
                 }
                 else
@@ -207,6 +233,7 @@ public class taskSystem : MonoBehaviour
 
                 void taskItemsAddTask(taskItem taskItem1, taskItem taskItem2, int id1, int id2)
                 {
+
                     taskItem[] taskItems = new taskItem[2];
                     taskItems[0] = taskItem1;
                     taskItems[1] = taskItem2;
@@ -215,10 +242,30 @@ public class taskSystem : MonoBehaviour
                     ids[0] = id1;
                     ids[1] = id2;
 
-                    setTask(taskContentPanel.GetChild(0).GetChild(i).gameObject, taskItems, ids);
+                    setTask(parent.GetChild(i).gameObject, taskItems, ids);
                 }
+                parent.GetChild(i).gameObject.SetActive(true);
             }
+            else
+            {
+                parent.GetChild(i).gameObject.SetActive(false);
+            }
+
         }
+
+        yield return null;
+
+        if (BagManage.bagManage.scrollRect.content == taskContentPanel.GetChild(0) && PanelManage.panelManage.panels.BagPanel.gameObject.activeSelf)
+        {
+            StartCoroutine(Reset_Panel());
+        }
+        else
+        {
+            isReset = false;
+        }
+
+
+
         updateBasicUI();
     }
     void setTask(GameObject taskList, taskItem[] taskItems, int[] ids)
@@ -265,4 +312,164 @@ public class taskSystem : MonoBehaviour
 
 
     #endregion
+
+
+    #region 任務初始化
+    void initTask(taskItem taskItem)
+    {
+        if (taskItem.TaskType == TaskType.walk)
+        {
+            var taskPos = taskItem.gettask_Walk().taskPos;
+            if (noUseLightCircle.Count <= 0)
+            {
+                UseLightCircle.Add(taskItem, Instantiate(LightCircle, taskPos, Quaternion.identity, transform));
+
+            }
+            else
+            {
+                noUseLightCircle[0].SetActive(true);
+                noUseLightCircle[0].transform.position = taskPos;
+
+                UseLightCircle.Add(taskItem, noUseLightCircle[0]);
+                noUseLightCircle.RemoveAt(0);
+            }
+        }
+
+        if (taskItem.TaskType == TaskType.follow)
+        {
+            var follow = taskItem.gettask_Follow();
+            //要記得改名
+            follow.npc = NpcFactory.npcFactory.factorys[follow.npcName];
+
+            follow.npc.GetComponent<NPC>().Init(NPCstate.TASK);
+        }
+
+        if (taskItem.TaskType == TaskType.guide)
+        {
+            var guide = taskItem.gettask_Guide();
+            Guide.guide.maskPanel.gameObject.SetActive(true);
+
+            Guide.guide.setTarget(Guide.guide.guideList[guide.guide], 0, null);
+            //長度初始化
+            guide.ListLength = Guide.guide.guideList[guide.guide].guideData.Count;
+        }
+
+        if (taskItem.TaskType == TaskType.sign)
+        {
+            var sign = taskItem.gettask_Sign();
+            signPanels[sign.panelId].panel.gameObject.SetActive(true);
+        }
+    }
+    #endregion
+
+    #region 任務達成
+    void finshTask(taskItem taskItem)
+    {
+        if (taskItem.TaskType == TaskType.walk)
+        {
+            removeCircle(taskItem);
+        }
+
+        if (taskItem.TaskType == TaskType.follow)
+        {
+            var follow = taskItem.gettask_Follow();
+            follow.npc.GetComponent<NPC>().Init(NPCstate.WAIT);
+            removeCircle(taskItem);
+        }
+
+        if (taskItem.TaskType == TaskType.guide)
+        {
+            var guide = taskItem.gettask_Guide();
+            Guide.guide.maskPanel.gameObject.SetActive(false);
+            Guide.guide.guideList[guide.guide].currentIndex = 0;
+
+        }
+
+
+
+        finshTask(taskItem.finshTask, taskItem.finshTask.openFinshUi);
+    }
+
+    public void finshTask(FinshTask finshTask, bool openFinshUi)
+    {
+        if (openFinshUi)
+        {
+            List<Sprite> sprites = new List<Sprite>();
+
+            for (int i = 0; i < finshTask.bagItem.Length; i++)
+            {
+                sprites.Add(finshTask.bagItem[i].BagItem_icon);
+            }
+
+            FinshUi.finshUi.openCanvas(sprites, null, finshTask);
+        }
+        else
+        {
+            if (finshTask.talkContent != null)
+            {
+                talkSystem.talkSystem_.openTalk(finshTask.talkContent);
+            }
+            if (finshTask.taskItem != null)
+            {
+                taskSystem.taskSystem_.addTask(finshTask.taskItem);
+            }
+            if (finshTask.bagItem.Length != 0)
+            {
+                for (int i = 0; i < finshTask.bagItem.Length; i++)
+                {
+                    BagManage.bagManage.checkItem(
+                        finshTask.bagItem[i], 1, false, true
+                    );
+                }
+            }
+        }
+    }
+
+    void removeCircle(taskItem taskItem)
+    {
+        GameObject temp = UseLightCircle[taskItem];
+        if (UseLightCircle[taskItem] != null)
+        {
+            temp.SetActive(false);
+            //資料交換
+            noUseLightCircle.Add(temp);
+            UseLightCircle.Remove(taskItem);
+        }
+    }
+    #endregion
+
+    #region panel
+    public bool isOpen()
+    {
+        for (int i = 0; i < signPanels.Length; i++)
+        {
+            if (signPanels[i].panel.gameObject.activeSelf)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void setSign(Text text)
+    {
+        if (text.text.Length > 0)
+        {
+            setPanels(0);
+            signPanels[0].panel.gameObject.SetActive(false);
+        }
+    }
+
+    public void setPanels(int id)
+    {
+        signPanels[id].isFinsh = true;
+    }
+    #endregion
+}
+
+
+[System.Serializable]
+public class SignPanel
+{
+    public Transform panel;
+    public bool isFinsh;
 }

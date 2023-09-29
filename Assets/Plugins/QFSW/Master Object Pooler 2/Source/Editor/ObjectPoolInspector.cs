@@ -18,7 +18,7 @@ namespace QFSW.MOP2.Editor
         public override void OnInspectorGUI()
         {
             EditorHelpers.DrawBanner(Banner);
-            
+
             if (Application.isPlaying)
             {
                 if (!_objectPool.Initialized)

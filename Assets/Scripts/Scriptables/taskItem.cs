@@ -26,6 +26,18 @@ public class taskItem : ScriptableObject
     // 要收集的道具
     [SerializeField] task_Collect task_Collect;
 
+    //要跟隨特定角色
+    [SerializeField] task_followNpc task_Follow;
+
+    //要完成的引導任務
+    [SerializeField] task_Guide task_Guide;
+
+    //要打開的panel，關閉panel結束任務
+    [SerializeField] task_Sign task_Sign;
+
+    [Header("是否生成引導物件")]
+    public bool InstantiateNewCircle;
+
 
     [Header("任務完成觸發")]
     //觸發對話
@@ -34,5 +46,20 @@ public class taskItem : ScriptableObject
     public task_Walk gettask_Walk()
     {
         return task_Walk;
+    }
+
+    public task_followNpc gettask_Follow()
+    {
+        return task_Follow;
+    }
+
+    public task_Guide gettask_Guide()
+    {
+        return task_Guide;
+    }
+
+    public task_Sign gettask_Sign()
+    {
+        return task_Sign;
     }
 }

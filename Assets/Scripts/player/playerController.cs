@@ -152,6 +152,12 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PanelManage.panelManage.includeAllState())
+        {
+            rigi.velocity = new Vector3(0, rigi.velocity.y, 0);
+            return;
+        }
+
 
         //如果坐著，不執行
         if (sitState != playerSitState.NONE)
@@ -164,7 +170,9 @@ public class playerController : MonoBehaviour
         Vector3 playerEye = this.transform.GetChild(0).position;
         bool tempIshits = false;
 
-        if (Physics.RaycastAll(playerEye, Vector3.down, 2f).Length > 1)
+
+
+        if (Physics.RaycastAll(playerEye, Vector3.down, 2f, LayerMask.GetMask("block")).Length > 0)
         {
             tempIshits = true;
         }
@@ -187,12 +195,19 @@ public class playerController : MonoBehaviour
         {
             if (tempIshits != ishits)
             {
+                print(1);
                 ishits = tempIshits;
                 if (ishits)
                 {
+                    print(2);
                     jumpState = playerJumpState.JUMPDOWN;
                     StartCoroutine(jumpDown());
                 }
+            }
+
+            if (ishits && jumpState == playerJumpState.JUMPING)
+            {
+                jumpState = playerJumpState.NONE;
             }
         }
         else
@@ -202,7 +217,6 @@ public class playerController : MonoBehaviour
             {
                 jumpTime = 0;
                 jumpState = playerJumpState.JUMPING;
-
             }
         }
 
@@ -217,7 +231,6 @@ public class playerController : MonoBehaviour
         updateAni();
         CameraLook();
         Move();
-
     }
 
     #region 更新動畫
@@ -232,50 +245,54 @@ public class playerController : MonoBehaviour
 
     void updateAni()
     {
-        string tempStr = "IDLE";
-        if (sitState == playerSitState.SITUP)
+        string tempStr = playerAniStr.aniArray[0];
+        if (!PanelManage.panelManage.includeAllState())
         {
-            tempStr = "SITUP";
-        }
-        else if (sitState == playerSitState.SITDOWN)
-        {
-            tempStr = "SIT";
-            if (playerDirection == playerDirection.LEFT)
+            if (sitState == playerSitState.SITUP)
             {
-                ani.transform.parent.localPosition = new Vector3(-0.4f, 0, 0);
+                tempStr = playerAniStr.aniArray[1];
+            }
+            else if (sitState == playerSitState.SITDOWN)
+            {
+                tempStr = playerAniStr.aniArray[2];
+                if (playerDirection == playerDirection.LEFT)
+                {
+                    ani.transform.parent.localPosition = new Vector3(-0.4f, 0, 0);
+                }
+                else
+                {
+                    ani.transform.parent.localPosition = new Vector3(0.4f, 0, 0);
+                }
             }
             else
             {
-                ani.transform.parent.localPosition = new Vector3(0.4f, 0, 0);
-            }
-        }
-        else
-        {
-            if (isRunning || isWalk)
-            {
-                if (isRunning)
+                if (isRunning || isWalk)
                 {
-                    tempStr = "RUN";
+                    if (isRunning)
+                    {
+                        tempStr = playerAniStr.aniArray[3];
+                    }
+                    else if (isWalk)
+                    {
+                        tempStr = playerAniStr.aniArray[4];
+                    }
                 }
-                else if (isWalk)
+                else if (jumpState == playerJumpState.JUMPUP)
                 {
-                    tempStr = "WALK";
+                    tempStr = playerAniStr.aniArray[5];
                 }
-            }
-            else if (jumpState == playerJumpState.JUMPUP)
-            {
-                tempStr = "JUMP";
-            }
-            else if (jumpState == playerJumpState.JUMPDOWN)
-            {
-                tempStr = "JUMPDOWN";
-            }
-            else if (jumpState == playerJumpState.JUMPING)
-            {
-                tempStr = "JUMPING";
-            }
+                else if (jumpState == playerJumpState.JUMPDOWN)
+                {
+                    tempStr = playerAniStr.aniArray[6];
+                }
+                else if (jumpState == playerJumpState.JUMPING)
+                {
+                    tempStr = playerAniStr.aniArray[7];
+                }
 
+            }
         }
+
 
         if (aniStr != tempStr)
         {

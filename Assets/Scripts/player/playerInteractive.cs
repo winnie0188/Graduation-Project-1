@@ -18,7 +18,11 @@ public class playerInteractive : MonoBehaviour
     {
         if (playerController.playerController_ != null)
         {
-            playerController = playerController.playerController_;
+            if (playerController == null)
+            {
+                playerController = playerController.playerController_;
+            }
+
             if (playerEyes == null)
             {
                 playerEyes = playerController.playerController_.transform;
@@ -31,9 +35,16 @@ public class playerInteractive : MonoBehaviour
             }
             else if (Input.GetKeyDown(playerController.playerKeyCodes.OpenShop) && interactiveObject)
             {
-                if (!RecursiveCheckBlock(interactiveObject.transform))
+                if (interactiveObject.layer == LayerMask.NameToLayer("NPC"))
                 {
-                    RecursiveCheckBlock(interactiveParent.transform);
+                    interactiveNPC();
+                }
+                else if (interactiveObject.layer == LayerMask.NameToLayer("block"))
+                {
+                    if (!RecursiveCheckBlock(interactiveObject.transform))
+                    {
+                        RecursiveCheckBlock(interactiveParent.transform);
+                    }
                 }
             }
         }
@@ -61,7 +72,7 @@ public class playerInteractive : MonoBehaviour
 
     }
 
-    #region 互動
+    #region 互動BLOCK
 
     bool RecursiveCheckBlock(Transform iobject)
     {
@@ -71,9 +82,7 @@ public class playerInteractive : MonoBehaviour
 
             if (interactiveParent.TryGetComponent<blockData>(out blockData pool))
             {
-
                 checkType(pool);
-
                 return true;
             }
         }
@@ -130,6 +139,15 @@ public class playerInteractive : MonoBehaviour
         playerEyes.position += Vector3.up;
         playerEyes.GetChild(1).localPosition = new Vector3(0, 0, 0);
     }
+    #endregion
 
+    #region 互動NPC
+    public void interactiveNPC()
+    {
+        if (interactiveObject.TryGetComponent<NPC>(out var npc))
+        {
+            npc.openInteractive();
+        }
+    }
     #endregion
 }

@@ -9,7 +9,6 @@ public class PanelManage : MonoBehaviour
     public static PanelManage panelManage;
 
 
-
     //之後要刪
     [SerializeField] BagItem bagItem;
     public talkContent currentTextDataList;
@@ -40,19 +39,23 @@ public class PanelManage : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenShop))
+        if (isDontOpen())
         {
-            if (panels.shopPanel.gameObject.activeSelf)
-            {
-                panels.shopPanel.gameObject.SetActive(false);
-                merchantShop.merchantShop_.Buy_close();
-            }
-            // 如果全部的panel都沒被打開
-            else if (!AllPanelStatus())
-            {
-                merchantShop.merchantShop_.keydownOpenShopPanel();
-            }
+            return;
         }
+        // if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenShop))
+        // {
+        //     if (panels.shopPanel.gameObject.activeSelf)
+        //     {
+        //         panels.shopPanel.gameObject.SetActive(false);
+        //         merchantShop.merchantShop_.Buy_close();
+        //     }
+        //     // 如果全部的panel都沒被打開
+        //     else if (!AllPanelStatus())
+        //     {
+        //         merchantShop.merchantShop_.keydownOpenShopPanel();
+        //     }
+        // }
         // if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenShop))
         // {
         //     if (talkSystem.talkSystem_.isToch)
@@ -68,12 +71,12 @@ public class PanelManage : MonoBehaviour
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenMap))
         {
-            OpenBigMapPanel();
+            OpenESCPanel();
         }
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenESC))
         {
-            OpenESCPanel();
+            OpenBigMapPanel();
         }
 
 
@@ -97,31 +100,14 @@ public class PanelManage : MonoBehaviour
         // {
         //     LightingManager.lightingManager.addTime(1);
         // }
-
-
-
     }
+
+    #region UI開啟
 
     // 開啟背包
     public void OpenBag()
     {
-        if (panels.BagPanel.gameObject.activeSelf)
-        {
-            Cameras[1].gameObject.SetActive(false);
-
-            panels.BagPanel.gameObject.SetActive(false);
-            BagManage.bagManage.hiddenBagInfo();
-        }
-        // 如果全部的panel都沒被打開
-        else if (!AllPanelStatus())
-        {
-            //Cameras[1].transform.position = Cameras[0].transform.position;
-            //Cameras[1].transform.rotation = Cameras[0].transform.rotation;
-
-            Cameras[1].gameObject.SetActive(true);
-
-            panels.BagPanel.gameObject.SetActive(true);
-        }
+        bag(!AllPanelStatus());
     }
 
     // 開啟任務清單
@@ -137,33 +123,13 @@ public class PanelManage : MonoBehaviour
     // 開啟大地圖
     public void OpenBigMapPanel()
     {
-        if (panels.BigMapPanel.gameObject.activeSelf)
-        {
-            panels.BigMapPanel.gameObject.SetActive(false);
-            playerController.playerController_.setCanRotateCamera(true);
-        }
-        // 如果全部的panel都沒被打開
-        else if (!AllPanelStatus())
-        {
-            panels.BigMapPanel.gameObject.SetActive(true);
-            playerController.playerController_.setCanRotateCamera(false);
-            BigMapSystem.bigMapSystem.Update_MapLoad();
-        }
+        bigmap(!AllPanelStatus());
     }
 
     // 開啟選單
     public void OpenESCPanel()
     {
-        if (panels.ESCpanel.gameObject.activeSelf)
-        {
-            panels.ESCpanel.gameObject.SetActive(false);
-            ESCsystem.ESCsystem_.hiddeESCchild();
-        }
-        // 如果全部的panel都沒被打開
-        else if (!AllPanelStatus())
-        {
-            panels.ESCpanel.gameObject.SetActive(true);
-        }
+        esc(!AllPanelStatus());
     }
 
     // show/hide小地圖
@@ -188,8 +154,81 @@ public class PanelManage : MonoBehaviour
         panels.talkPanel.gameObject.activeSelf || panels.ESCpanel.gameObject.activeSelf
         ;
     }
+    #endregion
+
+    #region 按件開啟
+    public bool includeAllState()
+    {
+        return Guide.guide.canvas1.gameObject.activeSelf || FinshUi.finshUi.uiCanvas.gameObject.activeSelf || AllPanelStatus() || taskSystem.taskSystem_.isOpen();
+    }
+
+    //特定ui判斷
+    public bool isDontOpen()
+    {
+        return Guide.guide.canvas1.gameObject.activeSelf || FinshUi.finshUi.uiCanvas.gameObject.activeSelf || taskSystem.taskSystem_.isOpen();
+    }
+
+    #endregion
+
+    #region open
+    void bag(bool open)
+    {
+        if (panels.BagPanel.gameObject.activeSelf)
+        {
+            Cameras[1].gameObject.SetActive(false);
+
+            panels.BagPanel.gameObject.SetActive(false);
+            BagManage.bagManage.hiddenBagInfo();
+        }
+        // 如果全部的panel都沒被打開
+        else if (open)
+        {
+            //Cameras[1].transform.position = Cameras[0].transform.position;
+            //Cameras[1].transform.rotation = Cameras[0].transform.rotation;
+
+            Cameras[1].gameObject.SetActive(true);
+
+            panels.BagPanel.gameObject.SetActive(true);
+
+            if (taskSystem.taskSystem_.taskContentPanel.gameObject.activeSelf && !taskSystem.isReset)
+            {
+                StartCoroutine(taskSystem.taskSystem_.Reset_Panel());
+            }
+        }
+    }
+
+    void esc(bool open)
+    {
+        if (panels.ESCpanel.gameObject.activeSelf)
+        {
+            panels.ESCpanel.gameObject.SetActive(false);
+            ESCsystem.ESCsystem_.hiddeESCchild();
+        }
+        // 如果全部的panel都沒被打開
+        else if (open)
+        {
+            panels.ESCpanel.gameObject.SetActive(true);
+        }
+    }
 
 
+
+    void bigmap(bool open)
+    {
+        if (panels.BigMapPanel.gameObject.activeSelf)
+        {
+            panels.BigMapPanel.gameObject.SetActive(false);
+            playerController.playerController_.setCanRotateCamera(true);
+        }
+        // 如果全部的panel都沒被打開
+        else if (open)
+        {
+            panels.BigMapPanel.gameObject.SetActive(true);
+            playerController.playerController_.setCanRotateCamera(false);
+            BigMapSystem.bigMapSystem.Update_MapLoad();
+        }
+    }
+    #endregion
 }
 
 

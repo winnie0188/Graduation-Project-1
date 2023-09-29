@@ -14,6 +14,9 @@ public class talkContent : ScriptableObject
     public List<TextDataFile> TextDataList = new List<TextDataFile>();
 
     public List<PeopleHeight> peopleHeights = new List<PeopleHeight>();
+    public FinshTalk finshTalk;
+
+
 
     [ContextMenu("push數據")]
     private void pushPeople()

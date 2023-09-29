@@ -114,6 +114,8 @@ public class talkSystem : MonoBehaviour
         {
             return;
         }
+        Img_white("0");
+        Img_white("1");
         PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(true);
 
         if (currentTalkContent != null)
@@ -133,9 +135,9 @@ public class talkSystem : MonoBehaviour
         {
             PanelManage.panelManage.panels.talkPanel.gameObject.SetActive(false);
 
-            #region  new
+
             closeSelect();
-            #endregion
+            finshTalk(currentTalkContent.finshTalk, currentTalkContent.finshTalk.openFinshUi);
             return;
         }
 
@@ -168,6 +170,7 @@ public class talkSystem : MonoBehaviour
     public void EndChat()
     {
         StopAll();
+        finshTalk(currentTalkContent.finshTalk, currentTalkContent.finshTalk.openFinshUi);
     }
 
     // 回顧劇情
@@ -244,8 +247,7 @@ public class talkSystem : MonoBehaviour
             }
         }
 
-        #region new
-
+        //有選項的
         if (index == currentTextDataList.Count - 1)
         {
             var branch = currentTextDataList[index].branch;
@@ -270,7 +272,7 @@ public class talkSystem : MonoBehaviour
 
             }
         }
-        #endregion
+
 
 
         int letter = 0;
@@ -286,10 +288,6 @@ public class talkSystem : MonoBehaviour
         }
 
         UItext.text = Text;
-
-        // print(Text);
-        // print(index);
-
 
         index++;
         cancelTyping = false;
@@ -419,5 +417,46 @@ public class talkSystem : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 對話結束
+    public void finshTalk(FinshTalk finshTalk, bool openFinshUi)
+    {
+        if (openFinshUi)
+        {
+            List<Sprite> sprites = new List<Sprite>();
+
+            for (int i = 0; i < finshTalk.bagItem.Length; i++)
+            {
+                sprites.Add(finshTalk.bagItem[i].BagItem_icon);
+            }
+
+            FinshUi.finshUi.openCanvas(sprites, finshTalk, null);
+        }
+        else
+        {
+            if (finshTalk.newTask != null)
+            {
+                taskSystem.taskSystem_.addTask(finshTalk.newTask);
+            }
+            if (finshTalk.bagItem.Length != 0)
+            {
+                for (int i = 0; i < finshTalk.bagItem.Length; i++)
+                {
+                    BagManage.bagManage.checkItem(
+                        finshTalk.bagItem[i], 1, false, true
+                    );
+                }
+            }
+            if (finshTalk.NPCtask.taskItem != null)
+            {
+                Transform npc = NpcFactory.npcFactory.factorys[finshTalk.NPCtask.npcName];
+                if (npc.TryGetComponent<NPC>(out var n))
+                {
+                    n.setTask(finshTalk.NPCtask.taskItem);
+                }
+            }
+        }
+    }
     #endregion
 }

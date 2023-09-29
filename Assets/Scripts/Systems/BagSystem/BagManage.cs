@@ -29,7 +29,7 @@ public class BagManage : UIinit
 
     #region HotKey
 
-    bool isHotKeyEditor;
+
 
     public HotKeyStore hotKeyStore;
 
@@ -44,7 +44,7 @@ public class BagManage : UIinit
     #region temp
 
     //slotContentParent
-    ScrollRect scrollRect;
+    public ScrollRect scrollRect;
 
     //當前背包索引:切分頁需要
     int bagSoreIndex = 9;
@@ -60,12 +60,15 @@ public class BagManage : UIinit
 
     #region Drag
     public Transform DragItem;
+    KeyDrag keyDrag;
+    public DragState HotKeyState = DragState.WAIT;
     #endregion
 
 
     private void Awake()
     {
         bagManage = this;
+        keyDrag = FindObjectOfType<KeyDrag>();
         InitBag();
     }
 
@@ -186,7 +189,7 @@ public class BagManage : UIinit
     #region switch category
     public void switch_category(int id)
     {
-        print(id);
+
         if (BagInfo.gameObject.activeSelf)
             return;
 
@@ -353,71 +356,87 @@ public class BagManage : UIinit
     #region indexSlot
     public override void slot_event(int i)
     {
-        if (bagSoreIndex >= bagSore.Length)
+        if (HotKeyState == DragState.WAIT)
         {
-
-            var Allcategory = slotContentParent.GetChild(bagSore.Length).GetChild(i);
-
-            if (Allcategory.GetChild(1).GetComponent<Text>().text == "道具名")
+            if (bagSoreIndex >= bagSore.Length)
             {
-                return;
+                var Allcategory = slotContentParent.GetChild(bagSore.Length).GetChild(i);
+
+                if (Allcategory.GetChild(1).GetComponent<Text>().text == "道具名")
+                {
+                    return;
+                }
+                else
+                {
+                    var IJindex = Allcategory.GetChild(2).GetComponent<Text>().text.Split('/');
+
+                    BagIndex = int.Parse(IJindex[0]);
+                    itemIndex = int.Parse(IJindex[1]);
+                }
+                print(1);
+            }
+            // 如果沒溢出則...
+            else if (bagSore[bagSoreIndex].BagItems.Count > i)
+            {
+                BagIndex = bagSoreIndex;
+                //當前item索引 
+                itemIndex = i;
+                print(2);
             }
             else
             {
-                var IJindex = Allcategory.GetChild(2).GetComponent<Text>().text.Split('/');
-
-                BagIndex = int.Parse(IJindex[0]);
-                itemIndex = int.Parse(IJindex[1]);
+                return;
             }
+
+            HotKeyState = DragState.BAGITEMDRAG;
+            keyDrag.itemdrag(
+                DragItem, slotContentParent.GetChild(BagIndex).GetChild(itemIndex)
+            );
+
+
+            //如果需樣wear介面就取消註解*****************************************************************************************
+            // if (!DragItem.gameObject.activeSelf)
+            // {
+            //     var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[itemIndex];
+
+            //     BagInfo.gameObject.SetActive(true);
+
+            //     // icon
+            //     BagInfo.GetChild(0).GetComponent<Image>().sprite = bagSore_BagIndex_BagItems_i.BagItem_icon;
+
+            //     //名稱 
+            //     BagInfo.GetChild(1).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_name;
+
+            //     // 介紹
+            //     BagInfo.GetChild(2).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_info;
+            // }
+            //*********************************************************************************************************
+
+
+            //如果需樣wear介面就刪掉*****************************************************************************************
+            //if (DragItem.gameObject.activeSelf)
+            // wear();
         }
-        // 如果沒溢出則...
-        else if (bagSore[bagSoreIndex].BagItems.Count > i)
+        else if (HotKeyState == DragState.HOTKEYDRAG)
         {
-            BagIndex = bagSoreIndex;
-            //當前item索引 
-            itemIndex = i;
+            keyDrag.hotdragEnd(0);
         }
-        else
+        else if (HotKeyState == DragState.BAGITEMDRAG)
         {
-            return;
+            keyDrag.itemdragEnd();
         }
-
-
-        //如果需樣wear介面就取消註解*****************************************************************************************
-        // if (!DragItem.gameObject.activeSelf)
-        // {
-        //     var bagSore_BagIndex_BagItems_i = bagSore[BagIndex].BagItems[itemIndex];
-
-        //     BagInfo.gameObject.SetActive(true);
-
-        //     // icon
-        //     BagInfo.GetChild(0).GetComponent<Image>().sprite = bagSore_BagIndex_BagItems_i.BagItem_icon;
-
-        //     //名稱 
-        //     BagInfo.GetChild(1).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_name;
-
-        //     // 介紹
-        //     BagInfo.GetChild(2).GetComponent<Text>().text = bagSore_BagIndex_BagItems_i.BagItem_info;
-        // }
-        //*********************************************************************************************************
-
-
-        //如果需樣wear介面就刪掉*****************************************************************************************
-        //if (DragItem.gameObject.activeSelf)
-        wear();
-
         //*********************************************************************************************************
     }
 
 
     // 裝備鍵
-    public void wear()
-    {
-        isHotKeyEditor = true;
+    // public void wear()
+    // {
+    //     HotKeyState = DragState.BAGITEMDRAG;
 
-        // 之後可刪
-        //hiddenBagInfo();
-    }
+    // 之後可刪
+    //hiddenBagInfo();
+    // }
 
     // 關閉BagInfo資訊
     public void hiddenBagInfo()
@@ -450,9 +469,11 @@ public class BagManage : UIinit
     // 選擇快捷鍵(索引)
     public void HotKey(int i, HotKey[] HotKeys, Transform KeyPanel)
     {
+
         // 進入編輯模式
-        if (isHotKeyEditor)
+        if (HotKeyState == DragState.BAGITEMDRAG)
         {
+            keyDrag.itemdragEnd();
             // 判斷可以裝嗎
             int bagSoreIndex = -1;
 
@@ -519,24 +540,36 @@ public class BagManage : UIinit
             HotKeys[i].HotKey_item = itemIndex;
 
 
-            isHotKeyEditor = false;
-
             // 刷新
             Refresh_HotKey();
             playerController.playerController_.SetBag_Item(playerController.playerController_.GetArm());
+
         }
 
         //沒有進入編輯模式，則使用
-        else
+        else if (HotKeyState == DragState.WAIT)
         {
 
+            if (HotKeys[i].HotKey_Bag != -1)
+            {
+                HotKeyState = DragState.HOTKEYDRAG;
+                keyDrag.hotdrag(
+                    DragItem, KeyPanel.GetChild(i), HotKeys[i]
+                );
+            }
         }
+        else if (HotKeyState == DragState.HOTKEYDRAG)
+        {
+
+            keyDrag.switchSlot(
+                 KeyPanel.GetChild(i), HotKeys[i]
+            );
+
+        }
+
     }
 
-    void HotKeyWear()
-    {
 
-    }
 
     #endregion
 
@@ -641,7 +674,6 @@ public class BagManage : UIinit
         var BagSore = bagSore[bagSoreIndex];
         if (isAdd)
         {
-            print(slotContentParent.name);
             //道具圖片//改變SLOT裡的icon
             slotContentParent.GetChild(bagSoreIndex).GetChild(index).GetChild(0).GetComponent<Image>().sprite = BagSore.BagItems[index].BagItem_icon;
             //道具名字
@@ -723,65 +755,65 @@ public class BagManage : UIinit
 
     #endregion
 
-    #region Drag
-    // 
-    public void initDrag(Transform newDrag)
-    {
-        // 初始化Drag物件
-        DragItem.gameObject.SetActive(true);
+    // #region Drag
+    // // 
+    // public void initDrag(Transform newDrag)
+    // {
+    //     // 初始化Drag物件
+    //     DragItem.gameObject.SetActive(true);
 
-        DragItem.GetComponent<Image>().sprite = newDrag.GetChild(0).GetComponent<Image>().sprite;
+    //     DragItem.GetComponent<Image>().sprite = newDrag.GetChild(0).GetComponent<Image>().sprite;
 
-        newDrag.GetChild(0).GetComponent<Image>().color -= new Color(0, 0, 0, 1);
+    //     newDrag.GetChild(0).GetComponent<Image>().color -= new Color(0, 0, 0, 1);
 
-        // 觸發編輯事件
-        newDrag.GetComponent<Button>().onClick.Invoke();
+    //     // 觸發編輯事件
+    //     newDrag.GetComponent<Button>().onClick.Invoke();
 
-        StartCoroutine(DragCheck(newDrag));
-    }
+    //     StartCoroutine(DragCheck(newDrag));
+    // }
 
-    // 檢查drag是否有問題
-    IEnumerator DragCheck(Transform newDrag)
-    {
-        Vector3 prePos = new Vector3(0, 0, 0);
-        Vector3 nowPos = DragItem.position;
-        while (true)
-        {
-            yield return new WaitForSeconds(0.2f);
+    // // 檢查drag是否有問題
+    // IEnumerator DragCheck(Transform newDrag)
+    // {
+    //     Vector3 prePos = new Vector3(0, 0, 0);
+    //     Vector3 nowPos = DragItem.position;
+    //     while (true)
+    //     {
+    //         yield return new WaitForSeconds(0.2f);
 
-            if (prePos != nowPos)
-            {
-                prePos = nowPos;
-                nowPos = DragItem.position;
-            }
-            else
-            {
-                break;
-            }
-        }
+    //         if (prePos != nowPos)
+    //         {
+    //             prePos = nowPos;
+    //             nowPos = DragItem.position;
+    //         }
+    //         else
+    //         {
+    //             break;
+    //         }
+    //     }
 
-        newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
-        newDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        DragItem.gameObject.SetActive(false);
-    }
-
-
-
-    // 放開後會發生的事件(拖曳，碰撞到的)
-    public void DragEnd(Transform newDrag, Transform EditDragSlot, bool isToch)
-    {
-        //Image newDragImg = newDrag.GetComponent<Image>();
-        newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
-
-        if (isToch)
-        {
-            EditDragSlot.GetComponent<Button>().onClick.Invoke();
-        }
-    }
+    //     newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
+    //     newDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+    //     DragItem.gameObject.SetActive(false);
+    // }
 
 
 
-    #endregion
+    // // 放開後會發生的事件(拖曳，碰撞到的)
+    // public void DragEnd(Transform newDrag, Transform EditDragSlot, bool isToch)
+    // {
+    //     //Image newDragImg = newDrag.GetComponent<Image>();
+    //     newDrag.GetChild(0).GetComponent<Image>().color += new Color(0, 0, 0, 1);
+
+    //     if (isToch)
+    //     {
+    //         EditDragSlot.GetComponent<Button>().onClick.Invoke();
+    //     }
+    // }
+
+
+
+    // #endregion
 }
 
 [System.Serializable]

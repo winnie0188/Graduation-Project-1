@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.IO;
 
 public class SaveMange : MonoBehaviour
 {
@@ -209,6 +210,22 @@ public class SaveMange : MonoBehaviour
 
         //----------------------------------存建築資料-----------------------------------------------------
 
+        //----------------------------------存任務進度-----------------------------------------
+        List<TaskSave> taskSaves = new List<TaskSave>();
+
+        for (int i = 0; i < taskSystem.taskSystem_.currentTaskArray.Count; i++)
+        {
+            taskSaves.Add(
+                new TaskSave
+                {
+                    taskFileName =
+                    Path.GetFileNameWithoutExtension(taskSystem.taskSystem_.currentTaskArray[i].name)
+                }
+            );
+        }
+        gameData.taskSaves = taskSaves.ToArray();
+        //----------------------------------存任務進度-----------------------------------------
+
         PlayerPrefs.SetString("GameData" + saveID, JsonUtility.ToJson(gameData));
         PlayerPrefs.SetString("SaveData", JsonUtility.ToJson(saveData));
         PlayerPrefs.Save();
@@ -240,13 +257,11 @@ public class SaveMange : MonoBehaviour
                     StoreSetting.storeSetting.GetBagItemStore().BagItems[gameData.bagSave.itemID[i]],
                      gameData.bagSave.itemCount[i],
                       gameData.bagSave.iswear[i],
-                      false
+                      true
                 );
             }
-            BagManage.bagManage.Update_AllBag();
 
-
-
+            //BagManage.bagManage.Update_AllBag();
             // ---------------------------------提取背包資料---------------------------------------------------
 
 
@@ -285,6 +300,19 @@ public class SaveMange : MonoBehaviour
         }
         //---------------------------------提取建築資料---------------------------------------------------
 
+        //=================================提取任務資料=========================================
+
+        for (int i = 0; i < gameData.taskSaves.Length; i++)
+        {
+
+            var tasknames = gameData.taskSaves[i].taskFileName.Split('-');
+            print("任務/" + tasknames[0] + "/" + gameData.taskSaves[i]);
+            taskSystem.taskSystem_.addTask(
+                Resources.Load<taskItem>("任務/" + tasknames[0] + "/" + gameData.taskSaves[i].taskFileName)
+            );
+        }
+
+        //=================================提取任務資料=========================================
     }
 
 
@@ -412,6 +440,10 @@ public class GameData
 
     [Header("方塊資料")]
     public BuildSave[] buildSaves;
+
+    [Header("任務資料")]
+    public TaskSave[] taskSaves;
+
 }
 
 [System.Serializable]
@@ -463,4 +495,10 @@ public class BuildSave
     public int blockID;
 
     public float blockRotate;
+}
+
+[System.Serializable]
+public class TaskSave
+{
+    public string taskFileName;
 }
