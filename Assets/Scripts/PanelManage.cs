@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PanelManage : MonoBehaviour
 {
@@ -71,12 +72,12 @@ public class PanelManage : MonoBehaviour
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenMap))
         {
-            OpenESCPanel();
+            OpenBigMapPanel();
         }
 
         if (Input.GetKeyDown(playerController.playerController_.playerKeyCodes.OpenESC))
         {
-            OpenBigMapPanel();
+            OpenESCPanel();
         }
 
 
@@ -91,11 +92,10 @@ public class PanelManage : MonoBehaviour
 
         //     BagManage.bagManage.checkItem(bagItem, -10, false, true);
         // }
-        // if (Input.GetKeyDown(KeyCode.C))
-        // {
-
-        //     LightingManager.lightingManager.addTime(0);
-        // }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            LightingManager.lightingManager.addTime();
+        }
         // else if (Input.GetKeyDown(KeyCode.V))
         // {
         //     LightingManager.lightingManager.addTime(1);
@@ -104,11 +104,43 @@ public class PanelManage : MonoBehaviour
 
     #region UI開啟
 
+    #region 背包
+
     // 開啟背包
     public void OpenBag()
     {
         bag(!AllPanelStatus());
     }
+    //信==================================
+    public void letter(Sprite logo, Sprite content, talkContent talk, NPC npc, BagItem bagItem)
+    {
+        panels.letterContent.GetComponent<Button>().onClick.AddListener(() => letterClose(talk, npc, bagItem));
+
+        panels.letterContent.sprite = content;
+        panels.letterLogo.sprite = logo;
+        panels.letterPanel.gameObject.SetActive(true);
+    }
+    public void letterClose(talkContent talk, NPC npc, BagItem bagItem)
+    {
+        OpenBag();
+        panels.letterPanel.gameObject.SetActive(false);
+        panels.letterContent.gameObject.SetActive(false);
+        panels.letterLogo.transform.parent.gameObject.SetActive(true);
+
+
+        //清空對方的任務
+        npc.setTask(null);
+        //新增信的任務
+        talkSystem.talkSystem_.openTalk(talk);
+
+        BagManage.bagManage.checkItem(
+            bagItem, -1, false, true
+        );
+
+        panels.letterContent.GetComponent<Button>().onClick.RemoveAllListeners();
+    }
+    //信==================================
+    #endregion
 
     // 開啟任務清單
     public void OpenTaskPanel()
@@ -197,6 +229,7 @@ public class PanelManage : MonoBehaviour
         }
     }
 
+
     void esc(bool open)
     {
         if (panels.ESCpanel.gameObject.activeSelf)
@@ -237,10 +270,16 @@ public class Panels
 {
     // 商店
     public Transform shopPanel;
-    // 背包
-    public Transform BagPanel;
-    public Transform HotKeyPanel;
 
+    //----------背包------------
+    public Transform BagPanel;
+    //---信---
+    public Transform letterPanel;
+    public Image letterLogo;
+    public Image letterContent;
+    //---信---
+    public Transform HotKeyPanel;
+    //----------背包------------
 
     #region 大地圖
     // 大地圖

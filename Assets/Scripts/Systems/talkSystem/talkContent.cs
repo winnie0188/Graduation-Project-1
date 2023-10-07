@@ -170,6 +170,7 @@ public class BranchTalk
     public int Triggevent;
     public talkContent eventSelect;
     public string content;
+    public taskItem taskItem;
 }
 
 

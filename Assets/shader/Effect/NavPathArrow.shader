@@ -44,7 +44,7 @@ Shader "Custom/NavPathArrow"
 
             fixed4 frag(v2f i):SV_Target{
                 fixed2 uv = i.uv;
-                uv.y += _ScrollYSpeed * _Time;
+                //uv.y += _ScrollYSpeed * _Time;
                 fixed4 col = tex2D(_MainTex,uv);
                 return col;
             }

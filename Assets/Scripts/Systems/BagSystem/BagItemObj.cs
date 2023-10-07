@@ -10,6 +10,7 @@ public class BagItemObj
     {
         //相當於start
     }
+
     // 道具使用中...
     public virtual void UseIng()
     {
@@ -83,15 +84,6 @@ public class potion : BagItemObj
 
 
 [System.Serializable]
-public class other : BagItemObj
-{
-
-}
-
-
-
-
-[System.Serializable]
 public class material : BagItemObj
 {
 
@@ -103,11 +95,7 @@ public class food : BagItemObj
 
 }
 
-[System.Serializable]
-public class tool : BagItemObj
-{
 
-}
 
 
 [System.Serializable]

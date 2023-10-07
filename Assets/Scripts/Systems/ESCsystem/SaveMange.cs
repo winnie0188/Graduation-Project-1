@@ -52,8 +52,6 @@ public class SaveMange : MonoBehaviour
         }
     }
 
-
-
     #region 禁用管理
 
     public void Select()
@@ -339,6 +337,8 @@ public class SaveMange : MonoBehaviour
             load = false;
         }
     }
+
+
     #endregion
 
     public void loadGame(int i)

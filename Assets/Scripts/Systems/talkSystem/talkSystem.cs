@@ -264,7 +264,7 @@ public class talkSystem : MonoBehaviour
 
                 var selectItemBtn = selectTransform.GetChild(i).GetChild(1).GetComponent<Button>();
                 selectItemBtn.onClick.RemoveAllListeners();
-                selectItemBtn.onClick.AddListener(() => branchEvent(endIndex.Triggevent, endIndex.eventSelect));
+                selectItemBtn.onClick.AddListener(() => branchEvent(endIndex, endIndex.Triggevent));
                 selectTransform.GetChild(i).gameObject.SetActive(true);
 
                 selectTransform.GetChild(i).GetChild(0).GetComponent<Text>().text = endIndex.content;
@@ -388,7 +388,7 @@ public class talkSystem : MonoBehaviour
         nextPanel.gameObject.SetActive(false);
     }
 
-    public void branchEvent(int Triggevent, talkContent talkContent)
+    public void branchEvent(BranchTalk branchTalk, int Triggevent)
     {
         closeSelect();
         switch (Triggevent)
@@ -400,7 +400,11 @@ public class talkSystem : MonoBehaviour
             case 1:
                 // 進入新的對話
                 StopAll();
-                openTalk(talkContent);
+                openTalk(branchTalk.eventSelect);
+                break;
+            case 2:
+                StopAll();
+                taskSystem.taskSystem_.addTask(branchTalk.taskItem);
                 break;
         }
 
@@ -431,7 +435,7 @@ public class talkSystem : MonoBehaviour
                 sprites.Add(finshTalk.bagItem[i].BagItem_icon);
             }
 
-            FinshUi.finshUi.openCanvas(sprites, finshTalk, null);
+            FinshUi.finshUi.openCanvas(sprites, finshTalk, null, finshTalk.FinshContent);
         }
         else
         {
@@ -454,6 +458,15 @@ public class talkSystem : MonoBehaviour
                 if (npc.TryGetComponent<NPC>(out var n))
                 {
                     n.setTask(finshTalk.NPCtask.taskItem);
+                }
+            }
+            if (finshTalk.removeBagItem.Length != 0)
+            {
+                for (int i = 0; i < finshTalk.removeBagItem.Length; i++)
+                {
+                    BagManage.bagManage.checkItem(
+                        finshTalk.removeBagItem[i], -1, false, true
+                    );
                 }
             }
         }

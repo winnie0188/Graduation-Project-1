@@ -43,6 +43,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _HaloTex:
+        m_Texture: {fileID: 2800000, guid: 5bb01798e15586346b22797148f6d256, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 652aaa340220e424c92d5c7f8d318503, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -81,8 +85,11 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorChangeSpeed: 1
+    - _ColorLerpSpeed: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DarkenAmount: 1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -90,12 +97,13 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HaloIntensity: 0.2
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScrollYSpeed: 2
+    - _ScrollYSpeed: -7.3
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

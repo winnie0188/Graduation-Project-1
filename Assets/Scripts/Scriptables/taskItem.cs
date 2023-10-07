@@ -37,6 +37,8 @@ public class taskItem : ScriptableObject
 
     [Header("是否生成引導物件")]
     public bool InstantiateNewCircle;
+    [Header("是否生成路線")]
+    public bool isInstantiatePath;
 
 
     [Header("任務完成觸發")]

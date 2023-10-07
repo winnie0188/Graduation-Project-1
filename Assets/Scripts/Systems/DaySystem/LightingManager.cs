@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[ExecuteAlways]
+// [ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Light DirectionalLight;
-    [SerializeField] LightintPreset Preset;
+    // [SerializeField] Light DirectionalLight;
+    // [SerializeField] LightintPreset Preset;
     [SerializeField, Range(0, 24)] float TimeOfDay;
 
     // 指針
@@ -22,18 +22,26 @@ public class LightingManager : MonoBehaviour
     // 更新時鐘需要的時間
     [SerializeField] float updateInterval;
 
+    #region 紀錄日期
+
+
+    [SerializeField] DayData dayData;
+    int preHour;
+    #endregion
+
     public static LightingManager lightingManager;
 
-    public void addTime(int i)
+    public void addTime()
     {
-        if (i == 1)
-        {
-            TimeOfDay = 12;
-        }
-        else
-        {
-            TimeOfDay = 24;
-        }
+        // if (i == 1)
+        // {
+        //     TimeOfDay = 12;
+        // }
+        // else
+        // {
+        //     TimeOfDay = 24;
+        // }
+        TimeOfDay += 1;
     }
 
     private void Awake()
@@ -47,6 +55,9 @@ public class LightingManager : MonoBehaviour
             float z = Mathf.Lerp(90f, -90f, Mathf.InverseLerp(360, 1800, i));
             timeOfDayToZ[i] = z;
         }
+
+        int hour = (int)TimeOfDay;
+        preHour = hour;
     }
 
 
@@ -67,11 +78,11 @@ public class LightingManager : MonoBehaviour
             }
 
 
-            UpdateLighting(TimeOfDay / 24.0f);
+            //UpdateLighting(TimeOfDay / 24.0f);
         }
         else
         {
-            UpdateLighting(TimeOfDay / 24.0f);
+            //UpdateLighting(TimeOfDay / 24.0f);
         }
     }
 
@@ -94,46 +105,140 @@ public class LightingManager : MonoBehaviour
             z = timeOfDayToZ[(hour) * 60 + minute];
             DayPoint.eulerAngles = new Vector3(DayPoint.eulerAngles.x, DayPoint.eulerAngles.y, z);
         }
-    }
-    #endregion
 
-
-    #region 選轉陽光
-    private void UpdateLighting(float timePercent)
-    {
-        RenderSettings.ambientLight = Preset.AmbientColor.Evaluate(timePercent);
-        RenderSettings.fogColor = Preset.Fogcolor.Evaluate(timePercent);
-
-        if (DirectionalLight != null)
+        if (preHour != hour)
         {
-            DirectionalLight.color = Preset.DirectionalColor.Evaluate(timePercent);
+            if (hour == 0)
+            {
+                int year = dayData.year;
+                int day = dayData.day;
+                int month = dayData.month;
 
-            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170, 0));
+                day += 1;
+                if (day == 31)
+                {
+                    day = 1;
+                    month += 1;
+                    if (month == 13)
+                    {
+                        month = 1;
+                        year += 1;
+                    }
+                }
+
+                int week = ((dayData.week + 1) + WeekStr.week.Length) % WeekStr.week.Length;
+
+
+                setDate(month, day);
+                setYear(year);
+                setWeek(week);
+            }
+
+
+            NpcFactory.npcFactory.getDateSign(dayData.day, hour);
         }
+
+        preHour = hour;
     }
+
+
+    public void setYear(int year)
+    {
+        dayData.year = year;
+        dayData.yearPanel.text = "地球歷" + year + "年";
+    }
+
+    public void setDate(int month, int day)
+    {
+        dayData.month = month;
+        dayData.day = day;
+
+        dayData.datePanel.text = month + "月" + day + "日";
+    }
+
+    public int getMonth()
+    {
+        return dayData.month;
+    }
+
+    public void setWeek(int week)
+    {
+        dayData.week = week;
+        dayData.weekPanel.text = WeekStr.week[week];
+    }
+
+
     #endregion
 
-    // private void OnValidate()
-    // {
-    //     if (DirectionalLight != null)
-    //     {
-    //         return;
-    //     }
-    //     if (RenderSettings.sun != null)
-    //     {
-    //         DirectionalLight = RenderSettings.sun;
-    //     }
-    //     else
-    //     {
-    //         Light[] lights = GameObject.FindObjectsOfType<Light>();
-    //         foreach (Light light in lights)
-    //         {
-    //             if (light.type == LightType.Directional)
-    //             {
-    //                 DirectionalLight = light;
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
+
+
 }
+
+[System.Serializable]
+public class DayData
+{
+    //預設517
+    public int year;
+    //1
+    public int month;
+    //1
+    public int day;
+    //2
+    public int week;
+
+    public Text yearPanel;
+    public Text datePanel;
+    public Text weekPanel;
+}
+
+public static class WeekStr
+{
+    public static readonly string[] week ={
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四",
+        "星期五",
+        "星期六",
+        "星期日"
+    };
+}
+
+// #region 選轉陽光
+// private void UpdateLighting(float timePercent)
+// {
+//     RenderSettings.ambientLight = Preset.AmbientColor.Evaluate(timePercent);
+//     RenderSettings.fogColor = Preset.Fogcolor.Evaluate(timePercent);
+
+//     if (DirectionalLight != null)
+//     {
+//         DirectionalLight.color = Preset.DirectionalColor.Evaluate(timePercent);
+
+//         DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170, 0));
+//     }
+// }
+// #endregion
+
+// private void OnValidate()
+// {
+//     if (DirectionalLight != null)
+//     {
+//         return;
+//     }
+//     if (RenderSettings.sun != null)
+//     {
+//         DirectionalLight = RenderSettings.sun;
+//     }
+//     else
+//     {
+//         Light[] lights = GameObject.FindObjectsOfType<Light>();
+//         foreach (Light light in lights)
+//         {
+//             if (light.type == LightType.Directional)
+//             {
+//                 DirectionalLight = light;
+//                 return;
+//             }
+//         }
+//     }
+// }

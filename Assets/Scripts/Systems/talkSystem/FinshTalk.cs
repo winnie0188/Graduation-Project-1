@@ -1,3 +1,5 @@
+using UnityEngine;
+
 [System.Serializable]
 public class FinshTalk
 {
@@ -7,6 +9,10 @@ public class FinshTalk
     public BagItem[] bagItem;
 
     public NPCtask NPCtask;
+    public BagItem[] removeBagItem;
+
+    [Header("搭配finshUI")]
+    public string FinshContent;
 
     public bool openFinshUi;
 

@@ -14,19 +14,41 @@ public class task_followNpc
     //NPC跟玩家離多遠會停止
     [Header("與NPC的距離")]
     public float distance;
+    //------------idle不用理
     [Header("目的地")]
     public Vector3 endPOS;
     [Header("與目標距離")]
     //目的地跟玩家離多遠結束
     public float endDistance;
-    [Header("是否生成引導物件")]
-    public bool InstantiateNewCircle;
+    //------------idle不用理
 
     [Header("NPC說的話")]
-    public string[] NPCsay;
+    public FollowSayType followSayType;
+    [Header("是否靜止，只是適用在LINER，對話完任務完成")]
+    public bool isIdle;
+    [Header("npc對話")]
+    public NPCsay[] nPCsays;
+    public string[] TalkNPCNames;
+    public int currentIndex;
 
+    [Header("是否靠近才說話，默認是離太遠")]
+    public bool isNearSay;
     [Header("之後用程式動態改")]
     public Transform npc = null;
+}
+
+[System.Serializable]
+public class NPCsay
+{
+    public string whoTalk;
+    public string content;
+}
+public enum FollowSayType
+{
+    //隨機
+    RADOM,
+    //線性
+    LINER
 }
 
 [System.Serializable]
@@ -53,6 +75,7 @@ public class task_Sign
     [Header("要開啟的panelID")]
     public int panelId;
 }
+
 
 
 [System.Serializable]

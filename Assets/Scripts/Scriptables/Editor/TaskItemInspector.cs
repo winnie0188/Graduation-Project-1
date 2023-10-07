@@ -14,7 +14,7 @@ public class TaskItemInspector : Editor
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_need"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("task_get"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("InstantiateNewCircle"));
-
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("isInstantiatePath"));
 
         var TaskType = this.serializedObject.FindProperty("TaskType");
         EditorGUILayout.PropertyField(TaskType);

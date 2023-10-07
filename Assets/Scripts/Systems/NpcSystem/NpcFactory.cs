@@ -15,12 +15,48 @@ public class NpcFactory : MonoBehaviour
         {
             factorys.Add(factoryParent.GetChild(i).name, factoryParent.GetChild(i));
         }
+
+        factorys.Add("player", FindObjectOfType<playerInteractive>().transform);
+
+        foreach (var item in factorys)
+        {
+            if (item.Value.TryGetComponent<NPC>(out var npc))
+            {
+                npc.Init();
+            }
+        }
     }
     private void FixedUpdate()
     {
         foreach (var item in factorys)
         {
-            item.Value.GetComponent<NPC>().Runnig();
+            if (item.Value.TryGetComponent<NPC>(out var npc))
+            {
+                npc.Runnig();
+            }
+        }
+    }
+
+    public void getDateSign(int day, int start)
+    {
+        foreach (var item in factorys)
+        {
+            if (item.Value.TryGetComponent<NPC>(out var npc))
+            {
+                npc.receivedSignal(day, start);
+            }
+        }
+    }
+
+
+    public void setAllTask(bool state)
+    {
+        foreach (var item in factorys)
+        {
+            if (item.Value.TryGetComponent<NPC>(out var npc))
+            {
+                npc.isTask = state;
+            }
         }
     }
 
@@ -31,22 +67,64 @@ public class NpcFactory : MonoBehaviour
         npcScript.GetComponent<NPC>().walkFront();
     }
 
+
     public void openTaskTalk(Transform npc, string content)
     {
-        NPC npcScript = npc.GetComponent<NPC>();
-        npcScript.setContent(content);
+        if (npc != factorys["player"])
+        {
+            NPC npcScript = npc.GetComponent<NPC>();
+            npcScript.setContent(content);
+        }
+        else
+        {
+            playerInteractive player = npc.GetComponent<playerInteractive>();
+            player.setContent(content);
+        }
     }
 
     public void closeTaskTalk(Transform npc)
     {
-        NPC npcScript = npc.GetComponent<NPC>();
-        npcScript.closeConetnt();
+        if (npc != factorys["player"])
+        {
+            NPC npcScript = npc.GetComponent<NPC>();
+            npcScript.closeConetnt();
+        }
+        else
+        {
+            playerInteractive player = npc.GetComponent<playerInteractive>();
+            player.closeConetnt();
+        }
+
     }
 
     public bool getNPCtalkFinsh(Transform npc)
     {
-        NPC npcScript = npc.GetComponent<NPC>();
-        return npcScript.isFinshTalk;
+        if (npc != factorys["player"])
+        {
+            NPC npcScript = npc.GetComponent<NPC>();
+            return npcScript.isFinshTalk;
+        }
+        else
+        {
+            playerInteractive player = npc.GetComponent<playerInteractive>();
+            return player.isFinshTalk;
+        }
     }
+
+    //順移
+    public void AIteleport(Transform npc, Vector3 pos)
+    {
+        if (npc != factorys["player"])
+        {
+            npc.position = pos;
+        }
+        else
+        {
+            playerController.playerController_.transform.position = pos;
+        }
+    }
+
+
+
 }
 

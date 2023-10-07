@@ -27,11 +27,19 @@ MonoBehaviour:
     distance: 10
     endPOS: {x: 3, y: 0, z: -10}
     endDistance: 3
-    InstantiateNewCircle: 1
-    NPCsay:
-    - "\u5FEB\u8DDF\u4E0A\u554A\uFF01\u5225\u5728\u90A3\u50BB\u7AD9\u4E86\uFF01\uFF01\uFF01"
-    - "\u5FEB\u9EDE\uFF01\u5FEB\u9EDE\uFF01"
-    - "\u52D5\u9EDE\u529B\u6C23\u554A\uFF01\u8056\u5973\u53EF\u4E0D\u80FD\u5403\u767D\u98EF\u963F\u5582\uFF01"
+    followSayType: 0
+    isIdle: 0
+    nPCsays:
+    - whoTalk: "\u7CBE\u9748"
+      content: "\u5FEB\u8DDF\u4E0A\u554A\uFF01\u5225\u5728\u90A3\u50BB\u7AD9\u4E86\uFF01\uFF01\uFF01"
+    - whoTalk: "\u7CBE\u9748"
+      content: "\u5FEB\u9EDE\uFF01\u5FEB\u9EDE\uFF01"
+    - whoTalk: "\u7CBE\u9748"
+      content: "\u52D5\u9EDE\u529B\u6C23\u554A\uFF01\u8056\u5973\u53EF\u4E0D\u80FD\u5403\u767D\u98EF\u963F\u5582\uFF01"
+    TalkNPCNames:
+    - "\u7CBE\u9748"
+    currentIndex: -1
+    isNearSay: 0
     npc: {fileID: 0}
   task_Guide:
     guide: 0
@@ -39,8 +47,14 @@ MonoBehaviour:
   task_Sign:
     panelId: 0
   InstantiateNewCircle: 1
+  isInstantiatePath: 1
   finshTask:
     talkContent: {fileID: 11400000, guid: 896e5d2a2d635ad4780b321ec75b6417, type: 2}
     taskItem: {fileID: 0}
     bagItem: []
+    removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
     openFinshUi: 0

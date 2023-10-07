@@ -69,7 +69,6 @@ public class taskSystem : MonoBehaviour
 
         // 更新ui
         StartCoroutine(UpdateTaskUI());
-
     }
 
 
@@ -174,12 +173,13 @@ public class taskSystem : MonoBehaviour
     #region 任務add/delete
     public void addTask(taskItem taskItem)
     {
+        initTask(taskItem);
         currentTaskArray.Add(taskItem);
 
         setSlotCount();
         initTaskList();
 
-        initTask(taskItem);
+        switchCurrentTaskArray(currentTaskArray.Count - 1);
     }
 
     public void removeTask(taskItem taskItem)
@@ -338,10 +338,11 @@ public class taskSystem : MonoBehaviour
         if (taskItem.TaskType == TaskType.follow)
         {
             var follow = taskItem.gettask_Follow();
+
+            follow.currentIndex = -1;
             //要記得改名
             follow.npc = NpcFactory.npcFactory.factorys[follow.npcName];
 
-            follow.npc.GetComponent<NPC>().Init(NPCstate.TASK);
         }
 
         if (taskItem.TaskType == TaskType.guide)
@@ -372,8 +373,9 @@ public class taskSystem : MonoBehaviour
 
         if (taskItem.TaskType == TaskType.follow)
         {
-            var follow = taskItem.gettask_Follow();
-            follow.npc.GetComponent<NPC>().Init(NPCstate.WAIT);
+            var npc = taskItem.gettask_Follow().npc.GetComponent<NPC>();
+            NpcFactory.npcFactory.closeTaskTalk(npc.transform);
+            taskItem.gettask_Follow().currentIndex = -1;
             removeCircle(taskItem);
         }
 
@@ -401,10 +403,15 @@ public class taskSystem : MonoBehaviour
                 sprites.Add(finshTask.bagItem[i].BagItem_icon);
             }
 
-            FinshUi.finshUi.openCanvas(sprites, null, finshTask);
+            FinshUi.finshUi.openCanvas(sprites, null, finshTask, finshTask.FinshContent);
         }
         else
         {
+            if (finshTask.openFadePanel == true)
+            {
+                FadePanel.fadePanel.playAni();
+            }
+
             if (finshTask.talkContent != null)
             {
                 talkSystem.talkSystem_.openTalk(finshTask.talkContent);
@@ -422,13 +429,36 @@ public class taskSystem : MonoBehaviour
                     );
                 }
             }
+            if (finshTask.removeBagItem.Length != 0)
+            {
+                for (int i = 0; i < finshTask.removeBagItem.Length; i++)
+                {
+                    BagManage.bagManage.checkItem(
+                        finshTask.removeBagItem[i], -1, false, true
+                    );
+                }
+            }
+            if (finshTask.teleports.Length != 0)
+            {
+                for (int i = 0; i < finshTask.teleports.Length; i++)
+                {
+                    NpcFactory.npcFactory.AIteleport(
+                        NpcFactory.npcFactory.factorys[finshTask.teleports[i].AiName],
+                        finshTask.teleports[i].position
+                    );
+                }
+            }
+
+            if (finshTask.playerRotateY != 0)
+            {
+                playerController.playerController_.transform.rotation = Quaternion.Euler(0, finshTask.playerRotateY, 0);
+            }
         }
     }
 
     void removeCircle(taskItem taskItem)
     {
-        GameObject temp = UseLightCircle[taskItem];
-        if (UseLightCircle[taskItem] != null)
+        if (UseLightCircle.TryGetValue(taskItem, out GameObject temp))
         {
             temp.SetActive(false);
             //資料交換

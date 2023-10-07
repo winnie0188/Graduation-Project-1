@@ -18,9 +18,36 @@ MonoBehaviour:
   task_get: 1
   TaskType: 0
   task_Walk:
-    taskPos: {x: 0, y: 0, z: 10}
+    taskPos: {x: 0, y: 0, z: 8}
     distance: 3
   task_Collect:
     task_Items: []
+  task_Follow:
+    npcName: 
+    distance: 0
+    endPOS: {x: 0, y: 0, z: 0}
+    endDistance: 0
+    followSayType: 0
+    isIdle: 0
+    nPCsays: []
+    TalkNPCNames: []
+    currentIndex: 0
+    isNearSay: 0
+    npc: {fileID: 0}
+  task_Guide:
+    guide: 0
+    ListLength: 0
+  task_Sign:
+    panelId: 0
+  InstantiateNewCircle: 0
+  isInstantiatePath: 1
   finshTask:
     talkContent: {fileID: 11400000, guid: 4ff457e346903144f8d0d81b795bf778, type: 2}
+    taskItem: {fileID: 0}
+    bagItem: []
+    removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
+    openFinshUi: 0

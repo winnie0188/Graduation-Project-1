@@ -33,6 +33,9 @@ public class playerController : MonoBehaviour
 
     [Header("移動速度")]
     [SerializeField] float speed;//移動速度
+    float speedBuff = 1;
+    //如果暈眩歸0
+    float speedDizziness = 1;
     float[] moveItem = { 0, 0 };//移動數值
     bool isWalk;
 
@@ -41,6 +44,7 @@ public class playerController : MonoBehaviour
     public Rigidbody rigi;
     public Collider collider;
     [SerializeField] float Jumpspeed;//跳躍速度
+    bool isKnock = false;
     //是否懸空
     bool ishits;
     //是否播放動畫
@@ -98,7 +102,6 @@ public class playerController : MonoBehaviour
 
     public static playerController playerController_;//唯一性
 
-
     private void Awake()
     {
         playerController_ = this;
@@ -152,7 +155,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (PanelManage.panelManage.includeAllState())
+        if (PanelManage.panelManage.includeAllState() || isKnock)
         {
             rigi.velocity = new Vector3(0, rigi.velocity.y, 0);
             return;
@@ -180,7 +183,7 @@ public class playerController : MonoBehaviour
         if (isJump)
         {
             //跳躍時
-            if (tempIshits)
+            if (tempIshits && speedDizziness == 1)
             {
                 rigi.AddForce(Vector3.up * Jumpspeed, ForceMode.Impulse);
                 jumpState = playerJumpState.JUMPUP;
@@ -195,11 +198,9 @@ public class playerController : MonoBehaviour
         {
             if (tempIshits != ishits)
             {
-                print(1);
                 ishits = tempIshits;
                 if (ishits)
                 {
-                    print(2);
                     jumpState = playerJumpState.JUMPDOWN;
                     StartCoroutine(jumpDown());
                 }
@@ -220,10 +221,9 @@ public class playerController : MonoBehaviour
             }
         }
 
-
         Vector3 localMovement = new Vector3(moveItem[0], 0, moveItem[1]);
         Vector3 worldMovement = transform.TransformDirection(localMovement);
-        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 2f : 1.0f), rigi.velocity.y > maxJumpSpeed + 0.1f ? maxJumpSpeed : rigi.velocity.y, worldMovement.z * speed * (isRunning ? 2f : 1.0f));
+        rigi.velocity = new Vector3(worldMovement.x * speed * (isRunning ? 2f : 1.0f) * speedBuff * speedDizziness, rigi.velocity.y > maxJumpSpeed + 0.1f ? maxJumpSpeed : rigi.velocity.y, worldMovement.z * speed * (isRunning ? 2f : 1.0f) * speedBuff * speedDizziness);
     }
 
     private void Update()
@@ -305,19 +305,41 @@ public class playerController : MonoBehaviour
 
     #region 基礎數值變動
 
+    public void setSpeedBuff(float buff)
+    {
+        speedBuff += buff;
+    }
+
+    public void setSpeedDizziness(float dizziness)
+    {
+        speedDizziness = dizziness;
+    }
+
+    public void setKnock(bool isKnock)
+    {
+        this.isKnock = isKnock;
+    }
+
     //更新血量 
     public void HpUpdate(float hp)
     {
-        if (Hp + hp > maxHp || Hp + hp < 0)
+        if (Hp + hp > maxHp)
         {
-            return;
+            Hp = maxHp;
+        }
+        else if (Hp + hp < 0)
+        {
+            Hp = 0;
+        }
+        else
+        {
+            Hp += hp;
         }
 
-        Hp += hp;
 
         float HpPerson = Hp / maxHp;
 
-        HpTxt.text = (HpPerson * 100) + "%";
+        HpTxt.text = (int)(HpPerson * 100) + "%";
         HpLine.localScale = new Vector3(1 - HpPerson, 1, 1);
     }
 
@@ -372,18 +394,18 @@ public class playerController : MonoBehaviour
 
                 if (isLock)
                 {
-                    merchantShop.merchantShop_.Rotation_merchant();
+                    // merchantShop.merchantShop_.Rotation_merchant();
                 }
                 else
                 {
-                    merchantShop.merchantShop_.SetMisRotation(false);
+                    // merchantShop.merchantShop_.SetMisRotation(false);
                 }
             }
         }
         else
         {
             isLock = false;
-            merchantShop.merchantShop_.SetMisRotation(false);
+            // merchantShop.merchantShop_.SetMisRotation(false);
         }
 
 

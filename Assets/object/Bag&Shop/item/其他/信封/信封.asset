@@ -18,8 +18,14 @@ MonoBehaviour:
   sellPrice: 1
   bagSoreIndex: 1
   keySoreIndex: -1
-  id: 0
+  id: 2
   BagItemType_: 1
+  other:
+    otherType: 1
+    otherLetter:
+      letterPath: "image/\u4FE1/\u6D1B\u6D1B\u9080\u8ACB\u51FD"
+      npc: "\u6D1B\u6D1B"
+      talkContent: {fileID: 11400000, guid: cbca0503db1bda04da60b143ff7e125f, type: 2}
   clothe:
     clotheName: 
   block:

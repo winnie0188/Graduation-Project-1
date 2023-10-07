@@ -71,21 +71,27 @@ public class NavPathArrow : MonoBehaviour
         }
 
         // 限制 end 到最大距离为5的范围内
-        float maxDistance = 10f;
-        float distance = Vector3.Distance(start, end);
-        if (distance > maxDistance)
-        {
-            Vector3 direction = (end - start).normalized;
-            end = start + direction * maxDistance;
-        }
+        // float maxDistance = 2.5f;
+        // float distance = Vector3.Distance(start, end);
+        // if (distance > maxDistance)
+        // {
+        //     Vector3 direction = (end - start).normalized;
+        //     end = start + direction * maxDistance;
+        // }
 
         start.y = start.y - 0.8126594f;
         end.y = start.y;
 
+        Vector3 direction = (end - start).normalized;
+        start = start + direction * 0.5f;
+        end = start + direction * 1.5f;
+
+
+
         var tarn = mr.transform;
         var length = Vector3.Distance(start, end);
 
-        tarn.localScale = new Vector3(xscale, length, 1);
+        tarn.localScale = new Vector3(0.63858f, 0.63858f, 1);
         tarn.position = (start + end) / 2;
         tarn.LookAt(end);
         tarn.Rotate(90, 0, 0);
@@ -111,15 +117,15 @@ public class NavPathArrow : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(20, 40, 80, 20), "顯示路徑"))
-        {
-            drawPath();
-        }
-        if (GUI.Button(new Rect(20, 80, 80, 20), "隱藏路徑"))
-        {
-            hidePath();
-        }
-    }
+    // private void OnGUI()
+    // {
+    //     if (GUI.Button(new Rect(20, 40, 80, 20), "顯示路徑"))
+    //     {
+    //         drawPath();
+    //     }
+    //     if (GUI.Button(new Rect(20, 80, 80, 20), "隱藏路徑"))
+    //     {
+    //         hidePath();
+    //     }
+    // }
 }

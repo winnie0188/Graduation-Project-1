@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 public enum NPCstate
 {
-    TASK,
-    WAIT,
-    WALK
+    //休息
+    NONE,
+    //跟隨
+    FOLLOW,
+    //走路
+    WALK,
+    //彌薩
+    MASS,
+    //工作
+    WORK
 }

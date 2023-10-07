@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
+  m_Name: Task3-1
+  m_EditorClassIdentifier: 
+  task_Title: 3-1
+  task_Content: 3-1
+  task_need: 3-1
+  task_get: 3-1
+  TaskType: 0
+  task_Walk:
+    taskPos: {x: -9.9, y: 0, z: 34.9}
+    distance: 5
+  task_Collect:
+    task_Items: []
+  task_Follow:
+    npcName: 
+    distance: 0
+    endPOS: {x: 0, y: 0, z: 0}
+    endDistance: 0
+    followSayType: 0
+    isIdle: 0
+    nPCsays: []
+    TalkNPCNames: []
+    currentIndex: 0
+    isNearSay: 0
+    npc: {fileID: 0}
+  task_Guide:
+    guide: 0
+    ListLength: 0
+  task_Sign:
+    panelId: 0
+  InstantiateNewCircle: 0
+  isInstantiatePath: 1
+  finshTask:
+    talkContent: {fileID: 0}
+    taskItem: {fileID: 11400000, guid: c71ec4435c080b341bf3413b5a2b4328, type: 2}
+    bagItem: []
+    removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
+    openFinshUi: 0

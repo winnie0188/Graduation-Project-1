@@ -71,6 +71,11 @@ public class BagItem : ScriptableObject
         return clothe;
     }
 
+    public other GetOther()
+    {
+        return other;
+    }
+
     public void Create()
     {
         if (bagSoreIndex == 0)

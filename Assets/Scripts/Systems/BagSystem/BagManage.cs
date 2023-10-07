@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.IO;
 
 
 public class BagManage : UIinit
@@ -322,11 +323,19 @@ public class BagManage : UIinit
                     Update_BagUI(NewBagItem.bagSoreIndex, index, false);
             }
         }
-
-
-
     }
 
+    public int itemCount(BagItem NewBagItem)
+    {
+        var BagSore = bagSore[NewBagItem.bagSoreIndex];
+        int index = findIndex(BagSore, NewBagItem);
+
+        if (index != -1)
+        {
+            return BagSore.ItemCount[index];
+        }
+        return -1;
+    }
     //找尋該道具在哪裡
     public int findIndex(BagSore BagSore, BagItem NewBagItem)
     {
@@ -358,6 +367,7 @@ public class BagManage : UIinit
     {
         if (HotKeyState == DragState.WAIT)
         {
+            //位於全部標籤
             if (bagSoreIndex >= bagSore.Length)
             {
                 var Allcategory = slotContentParent.GetChild(bagSore.Length).GetChild(i);
@@ -373,26 +383,26 @@ public class BagManage : UIinit
                     BagIndex = int.Parse(IJindex[0]);
                     itemIndex = int.Parse(IJindex[1]);
                 }
-                print(1);
+
             }
+            //位於當前標籤
             // 如果沒溢出則...
             else if (bagSore[bagSoreIndex].BagItems.Count > i)
             {
                 BagIndex = bagSoreIndex;
                 //當前item索引 
                 itemIndex = i;
-                print(2);
+
             }
             else
             {
                 return;
             }
 
-            HotKeyState = DragState.BAGITEMDRAG;
-            keyDrag.itemdrag(
-                DragItem, slotContentParent.GetChild(BagIndex).GetChild(itemIndex)
-            );
+            var item = bagSore[BagIndex].BagItems[itemIndex];
 
+
+            clickSlot(item);
 
             //如果需樣wear介面就取消註解*****************************************************************************************
             // if (!DragItem.gameObject.activeSelf)
@@ -426,6 +436,29 @@ public class BagManage : UIinit
             keyDrag.itemdragEnd();
         }
         //*********************************************************************************************************
+    }
+
+    //右側蘭道具點擊觸發事件
+    public void clickSlot(BagItem item)
+    {
+        if (item.BagItemType_ == BagItem.BagItemType.other && item.GetOther().otherType == otherType.LETTER)
+        {
+            var letter = item.GetOther();
+            PanelManage.panelManage.letter(
+                item.BagItem_icon,
+                Resources.Load<Sprite>(letter.otherLetter.letterPath),
+                letter.otherLetter.talkContent,
+                NpcFactory.npcFactory.factorys[letter.otherLetter.npc].GetComponent<NPC>(),
+                item
+            );
+        }
+        else
+        {
+            HotKeyState = DragState.BAGITEMDRAG;
+            keyDrag.itemdrag(
+                DragItem, slotContentParent.GetChild(BagIndex).GetChild(itemIndex)
+            );
+        }
     }
 
 

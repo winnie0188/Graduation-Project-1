@@ -1,0 +1,333 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb8d1b8b56576540b7f80564f70558e, type: 3}
+  m_Name: "\u7B2C\u4E8C\u7AE01"
+  m_EditorClassIdentifier: 
+  TextFile: {fileID: 4900000, guid: 348c927b4cc8c8b4283da93aafa93213, type: 3}
+  TextDataList:
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 032cda308011d1f48aba3789604a2011, type: 3}
+    - {fileID: 21300000, guid: 124c1f038134c12498db831f95ef2049, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u7CBE\u9748......\uFF0C\u4F60\u78BA\u5B9A\u9019\u4EFD\u5951\u7D04\u4E0D\u662F\u5728\u8CE3\u6211\u55CE\uFF1F\uFF1F\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 032cda308011d1f48aba3789604a2011, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: 
+    Text: "\u4F60\u770B\u8457\u90A3\u4E9B\u4E00\u689D\u6BD4\u4E00\u689D\u9084\u8A87\u5F35\u7684\u689D\u4F8B\uFF0C\u5FCD\u4E0B\u60F3\u5410\u69FD\u7684\u885D\u52D5\uFF0C\u786C\u662F\u7D66\u540C\u610F\u4E86\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: d15d5249219429f4fafa092a75a07df4, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: 
+    Text: "\u7562\u7ADF\u8056\u5973\u53EF\u4E0D\u662F\u4E0D\u60F3\u505A\uFF0C\u5C31\u80FD\u4E0D\u505A\u7684\u3002\u80FD\u88AB\u795E\u6B3D\u9EDE\u7684\u8077\u4F4D\uFF0C\u5C31\u7B97\u4E0D\u505A\uFF0C\u4E5F\u5F97\u8981\u795E\u89AA\u81EA\u540C\u610F\u624D\u884C\u3002\u5340\u5340\u7684\u666E\u901A\u4EBA\uFF0C\u53C8\u600E\u80FD\u8086\u610F\u4EFB\u6027\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: 
+    Text: "\u4E0D\u904E\uFF0C\u540C\u610F\u662F\u898F\u540C\u610F......"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u4F60\u9084\u662F\u5FCD\u4E0D\u4F4F\u50F5\u8457\u5FAE\u7B11\u8A62\u554F
+      --"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u9019\u662F\u5426\u5408\u7406\uFF1F\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
+    - {fileID: 21300000, guid: edc2f287bdc1b80418e3bf496f80aca3, type: 3}
+    PeopleName: "\u7CBE\u97481"
+    Text: "\u7576\u7136\u4E0D\u662F\u597D\u55CE\uFF01\u8FEA\u5967\u600E\u9EBC\u53EF\u80FD\u6703\u505A\u9019\u7A2E\u9AAF\u9AD2\u4E8B\u5462\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: 7ae9aa9c517f0da4296ea666dc5988ce, type: 3}
+    PeopleName: 
+    Text: "\u807D\u5230\u6709\u4EBA\u6562\u8CEA\u7591\u81EA\u5DF1\u6240\u559C\u611B\u7684\u795E\uFF0C\u7CBE\u9748\u9813\u6642\u66B4\u6012\u4E86\u8D77\u4F86\uFF01"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: 
+    Text: "\u672A\u5F85\u60C5\u7DD2\u767C\u6D29\uFF0C\u4E00\u9053\u8072\u97F3\u4FBF\u5F9E\u80CC\u5F8C\u50B3\u4F86......"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: ???2
+    Text: "\u9019\u4E0D\u662F\u6211\u5011\u7684\u8056\u5973\u5927\u4EBA\u55CE\uFF1F"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u4F60\u662F......\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
+    - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
+    PeopleName: 
+    Text: "\u4F60\u7DE9\u7DE9\u7684\u63D0\u51FA\u7591\u554F\uFF0C\u5FC3\u88E1\u537B\u6709\u4E00\u7D72\u5947\u602A\u7684\u611F\u89BA\u3002\u660E\u660E\u5C0D\u65B9\u770B\u8D77\u4F86\u6975\u70BA\u773C\u719F\uFF0C\u4F46\u5C31\u662F\u60F3\u4E0D\u8D77\u4F86\u7A76\u7ADF\u662F\u5728\u54EA\u898B\u904E\u4ED6......"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: 6c59826299b242f4e93682f10fe1f172, type: 3}
+    PeopleName: 
+    Text: "\u773C\u898B\u6B63\u7576\u5C0D\u65B9\u60F3\u958B\u53E3\u6642\uFF0C\u8EAB\u65C1\u7684\u7CBE\u9748\u537B\u6436\u5148\u4E00\u6B65\u8AAA\u9053"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
+    PeopleName: "\u7CBE\u97481"
+    Text: "\u662F\u6D1B\u4F0A\u5854\u2027\u963F\u5947\u7F85\uFF0C\u795E\u6BBF\u7684\u5927\u796D\u53F8"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
+    - {fileID: 21300000, guid: c87631ce3f1390a40a4864ec5fa07cc1, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u662F\u963F~\u4F60\u7ADF\u7136\u5FD8\u4E86\u6211\uFF01\u770B\u4F86\u22EF\u22EF\u6211\u5F97\u8981\u7D93\u5E38\u548C\u6211\u5011\u7684\u8056\u5973\u5927\u4EBA\uFF0C\u597D\u597D\u7684\u57F9\u990A\u4E00\u4E0B\u611F\u60C5\u4E86\u5462\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
+    PeopleName: 
+    Text: "\u6D1B\u4F0A\u5854\u507D\u88DD\u6210\u5931\u843D\u6A23\uFF0C\u5728\u4E00\u65C1\u9644\u548C\u9053\u3002\u60F3\u9017\u9017\u65B0\u8056\u5973\u7684\u4ED6\uFF0C\u986F\u7136\u662F\u62FF\u51FA\u5341\u8DB3\u7684\u6F14\u6280\u3002\u4E00\u9813\u5B8C\u7F8E\u6F14\u51FA\u5F8C\uFF0C\u6D1B\u4F0A\u5854\u5077\u5077\u62AC\u8D77\u773C\u7C3E\uFF0C\u60F3\u770B\u770B\u4F60\u7684\u53CD\u61C9\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: f03e4886065ae404db4108d2a04378ad, type: 3}
+    - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
+    PeopleName: 
+    Text: "\u4E0D\u60F3\u6D1B\u4F0A\u5854\u9019\u526F\u6A21\u6A23\u662F\u5982\u6B64\u7121\u8F9C\uFF0C\u4E0D\u7981\u8B93\u4F60\u597D\u7B11\u8D77\u4F86\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
+    - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
+    PeopleName: 
+    Text: "\u96D6\u7136\u81EA\u5DF1\u4E26\u4E0D\u8A8D\u8B58\u773C\u524D\u9019\u540D\u5C11\u5E74\uFF0C\u4F46\u9019\u7A2E\u76F8\u8655\u6A21\u5F0F\u537B\u50CF\u662F\u523B\u5728\u9AA8\u5B50\u88E1\u4E00\u822C\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
+    - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
+    PeopleName: 
+    Text: "\u5341\u5206\u5730\uFF0C\u4EE4\u4EBA\u719F\u6089\u8207\u61F7\u5FF5......"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: aaff409f4259bac44b61d431acdee15a, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u6D1B\u4F0A\u5854\u898B\u72C0\uFF0C\u7D22\u6027\u4E5F\u4E0D\u88DD\u59D4\u5C48\u4E86\u3002\u800C\u662F\u7787\u8D77\u773C\u775B\uFF0C\u5FAE\u7B11\u671D\u8457\u90A3\u88AB\u81EA\u5DF1\u9017\u5230\u773C\u89D2\u90FD\u6D41\u51FA\u6DDA\u6C34\u7684\u4F60\u8D70\u53BB\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
+    - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u6211\u525B\u525B\u5728\u4E00\u65C1\u89C0\u5BDF\u4E86\u8A31\u4E45\uFF0C\u4E0D\u77E5\u662F\u5426\u6709\u5E78\uFF0C\u80FD\u5E6B\u8056\u5973\u5927\u4EBA\u89E3\u9664\u7169\u60F1\u5462\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u8A71\u97F3\u4E00\u843D\uFF0C\u6D1B\u4F0A\u5854\u4FBF\u52FE\u5507\u9837\u9996\uFF0C\u5DE6\u624B\u8986\u65BC\u81EA\u8EAB\u80F8\u524D\uFF0C\u53F3\u624B\u5247\u727D\u8D77\u4F60\u7684\u624B\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u873B\u8713\u9EDE\u6C34\uFF01\n\u5982\u6B64\u5B8C\u7F8E\u7684\u8CB4\u65CF\u79AE\u5100\u963F\uFF01\u50CF\u6975\u4E86\u821E\u6703\u6642\uFF0C\u7537\u65B9\u9080\u8ACB\u5973\u65B9\u5171\u821E\u6642\u7684\u59FF\u52E2\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u4F60\u5FAE\u5FAE\u4E00\u6123\uFF0C\u9813\u6642\u6709\u4E9B\u4E0D\u81EA\u7136\u4E86\u8D77\u4F86\uFF0C\u773C\u795E\u4E2D\u66F4\u593E\u5E36\u4E86\u9583\u8EB2\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u52D5\u4F5C\u4E0D\u904E\u6301\u7E8C\u534A\u79D2\uFF0C\u4F60\u4FBF\u610F\u8B58\u5230\u81EA\u5DF1\u5931\u79AE\u4E86\uFF0C\u6B63\u6253\u7B97\u4E7E\u54B3\u5E7E\u8072\u7DE9\u89E3\u5C37\u5C2C\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
+    - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u8056\u5973\u5927\u4EBA\u662F\u60F3\u554F\u9019\u4EFD\u5951\u7D04\u662F\u5426\u5408\u7406\u55CE\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 06f4ba180f3eaff4b94a58e8f91f9e33, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u6D1B\u4F0A\u5854\u5DE7\u79D2\u7684\u554F\u984C\uFF0C\u5F77\u5F7F\u8B93\u4F60\u5FD8\u537B\u525B\u624D\u7684\u4E8B\u3002\u4F60\u731B\u7136\u770B\u5411\u5C11\u5E74\uFF0C\u773C\u4E2D\u76E1\u662F\u5145\u6EFF\u5D07\u62DC\uFF0C\u5F77\u5F7F\u5728\u8AAA\u8457\u82F1\u96C4\u6240\u898B\u7565\u540C\u822C\uFF0C\u7528\u529B\u9EDE\u982D\u56DE\u61C9\u9053\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u4F60\u6709\u89E3\u6C7A\u8FA6\u6CD5\uFF1F"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u6D1B\u4F0A\u5854\u671B\u8457\u8056\u5973\u6DFA\u6DFA\u4E00\u7B11\uFF0C\u7279\u610F\u653E\u6162\u8A9E\u901F\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
+    - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u7576\u7136\u6709\uFF0C\u4E0D\u904E\u5462\u22EF\u22EF"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u523B\u610F\u62C9\u9577\u7684\u8A9E\u6C23\uFF0C\u5982\u6B64\u5730\u8010\u4EBA\u5C0B\u5473\u3002\u6D1B\u4F0A\u5854\u9732\u51FA\u4E00\u62B9\u58DE\u7B11\uFF0C\u5F4E\u8170\u63A5\u8FD1\u8457\u4F60\uFF0C\u9644\u8033\u4F4E\u8A9E\u9053\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u6211......\u53EF\u662F\u5F88\u8CB4\u7684~"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u4E0D\u7B49\u4F60\u53CD\u61C9\uFF0C\u6D1B\u4F0A\u5854\u4FBF\u56DE\u5230\u4E86\u4E4B\u524D\u7684\u8DDD\u96E2\uFF0C\u63DB\u4E0A\u4E00\u526F\u4EBA\u755C\u7121\u5BB3\u7684\u9766\u8146\u7B11\u5BB9\uFF0C\u7B11\u76C8\u76C8\u7684\u770B\u8457\u4F60"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 032cda308011d1f48aba3789604a2011, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u4F60\u514B\u5236\u4E0D\u4F4F\u8868\u60C5\uFF0C\u9023\u5FD9\u6440\u8457\u90A3\u6CDB\u7D05\u7684\u8033\u6839\u5B50\uFF0C\u5FFF\u5FFF\u5730\u652F\u652F\u543E\u543E\u534A\u5929\uFF0C\u537B\u8AAA\u4E0D\u51FA\u4E00\u53E5\u5B8C\u6574\u7684\u8A71\u4F86\u3002\u53EA\u6709\u90A3\u76F4\u52FE\u52FE\u773C\u795E\uFF0C\u50CF\u662F\u8981\u76EF\u7A7F\u6D1B\u4F0A\u5854\u4E00\u822C\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 125e392dc6a4ab64aad768fa0d101791, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u898B\u6B64\u53CD\u61C9\uFF0C\u6D1B\u4F0A\u5854\u839E\u723E\u8F15\u7B11\u3002\u62AC\u8D77\u7684\u624B\uFF0C\u8F15\u8F15\u5728\u4F60\u7684\u982D\u4E0A\u6572\u4E86\u4E00\u4E0B\uFF0C\u773C\u795E\u8A8D\u771F\u7684\u8AAA\u9053\u3002"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: 125e392dc6a4ab64aad768fa0d101791, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58541"
+    Text: "\u53EA\u8981\u4F60\u6709\u9700\u8981\u6211\u7684\u5730\u65B9\uFF0C\u6211\u90FD\u6703\u5728\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
+    - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
+    PeopleName: 
+    Text: "\u805E\u8A00\uFF0C\u4F60\u4E5F\u4E0D\u77E5\u662F\u8CED\u6C23\uFF0C\u9084\u662F\u88AB\u6FC0\u8D77\u4E86\u9B25\u5FD7\u3002\u64FA\u51FA\u512A\u96C5\u7684\u8209\u6B62\uFF0C\u6109\u6085\n\u3014\u3127\u3120\u02C7\u3127\u311A\u02CA
+      \u3111\u4E00\u311D\u02CB\u3114\u02C7 \u3015\u7684\u8AAA\u9053"
+    sendMess:
+    - Img_white(0)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: b33052da2b4abe7428833d5eee29600c, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: "\u591A\u9E7F\u7C730"
+    Text: "\u90A3\u53EF\u771F\u662F\u592A\u597D\u4E86\u2014\u2014\u4E4B\u5F8C\u80AF\u5B9A\u6703\u6709\u8A31\u591A\u4E8B\u7269\u5462\uFF01\u771F\u3001\u662F\u3001\u9EBB\u3001\u7169\u3001\u4F60\u3001\u5566\uFF01"
+    sendMess: []
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
+    - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
+    PeopleName: 
+    Text: "\u6D1B\u4F0A\u5854\u52FE\u5507\uFF0C\u8F49\u77AC\u4FBF\u5728\u4F60\u548C\u7CBE\u9748\u7684\u773C\u6674\u6D88\u5931\u4E0D\u898B\u3002\n\u53EA\u7559\u4E0B\u7030\u6F2B\u65BC\u7A7A\u4E2D\u7684\u4E00\u53E5\u8A71\n\u3002"
+    sendMess:
+    - Img_white(1)
+    branch: []
+  - PeopleIcon:
+    - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
+    - {fileID: 21300000, guid: 7c3cf4038d6b62c42bf3e3a21ecace93, type: 3}
+    PeopleName: "\u6D1B\u4F0A\u58542"
+    Text: "\u9858\u9019\u6B21\u7684\u8056\u5973\uFF0C\u80FD\u8A18\u5F97\u9644\u7D04
+      \u2014\u2014"
+    sendMess: []
+    branch: []
+  peopleHeights: []
+  finshTalk:
+    newTask: {fileID: 0}
+    bagItem: []
+    NPCtask:
+      npcName: "\u6D1B\u6D1B"
+      taskItem: {fileID: 11400000, guid: dea11dbdf29dcc34f966020ddbff9190, type: 2}
+    removeBagItem: []
+    openFinshUi: 0
