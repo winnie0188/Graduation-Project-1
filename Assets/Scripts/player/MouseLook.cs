@@ -35,7 +35,6 @@ public class MouseLook
 
     public void LookRotation(Transform character, Transform camera)
     {
-
         float yRot = Input.GetAxis("Mouse X") * XSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * YSensitivity;
 
@@ -43,11 +42,7 @@ public class MouseLook
         m_CharacterTargetRot *= Quaternion.Euler(0f, yRot, 0f);
         m_CameraTargetRot *= Quaternion.Euler(-xRot, 0f, 0f);
 
-
         character.localRotation = m_CharacterTargetRot;
-
-
-
 
         m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
         camera.localRotation = m_CameraTargetRot;
@@ -94,6 +89,12 @@ public class MouseLook
     public void closeLock()
     {
         m_cursorIsLocked = false;
+    }
+
+    public void setPos(Transform character, Transform camera)
+    {
+        m_CharacterTargetRot = character.localRotation;
+        m_CameraTargetRot = camera.localRotation;
     }
 
 

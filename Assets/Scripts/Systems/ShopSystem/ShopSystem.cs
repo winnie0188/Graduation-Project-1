@@ -22,10 +22,13 @@ public class ShopSystem : UIinit
     int sellPrice;
     int sellIndex;
     int maxCount;
-    [SerializeField] List<merchantItem> merchants = new List<merchantItem>();
+    [SerializeField] List<merchantItem> buys = new List<merchantItem>();
+    [SerializeField] List<merchantItem> sells = new List<merchantItem>();
     [SerializeField] int Playerprice;//玩家的錢
     [SerializeField] Text PlayerpriceTxt;//玩家的錢渲染
     public static ShopSystem shopSystem;
+
+    public Sprite X { get => x; set => x = value; }
 
     private void Awake()
     {
@@ -34,16 +37,18 @@ public class ShopSystem : UIinit
         // init slot
         initSlot(slotCount, slotPrefab, buyslotContent, 1, -1);
         initSlot2(slotCount, slotPrefab, selllotContent, 1, -1);
-        UI_loading(merchants);
-        UI_loading2(merchants);
+        UI_loading(buys);
+        UI_loading2(sells);
         UpdatePlayerprice();
     }
 
-    public void OpenShopPanel(List<merchantItem> merchantItems)
+    public void OpenShopPanel(List<merchantItem> buy, List<merchantItem> sell)
     {
-        merchants = merchantItems;
-        UI_loading(merchants);
-        UI_loading2(merchants);
+        buys = buy;
+        sells = sell;
+
+        UI_loading(buys);
+        UI_loading2(sells);
         PanelManage.panelManage.panels.shopPanel.gameObject.SetActive(true);
     }
 
@@ -86,7 +91,7 @@ public class ShopSystem : UIinit
 
     void buyInfoRestart()
     {
-        buyInfo.icon.sprite = x;
+        buyInfo.icon.sprite = X;
         buyInfo.price.text = "0";
         buyInfo.count.text = "0";
 
@@ -95,11 +100,11 @@ public class ShopSystem : UIinit
 
     public override void slot_event(int index)
     {
-        if (merchants.Count > index && merchants[index] != null)
+        if (buys.Count > index && buys[index] != null)
         {
             buyCount = 1;
-            buyPrice = merchants[index].price;
-            buyInfo.icon.sprite = merchants[index].merchantItem_BagItem.BagItem_icon;
+            buyPrice = buys[index].price;
+            buyInfo.icon.sprite = buys[index].merchantItem_BagItem.BagItem_icon;
             buyInfo.price.text = buyPrice.ToString();
             buyInfo.count.text = buyCount.ToString();
 
@@ -135,7 +140,7 @@ public class ShopSystem : UIinit
             Playerprice -= totalprice;
 
             BagManage.bagManage.checkItem(
-                merchants[buyIndex].merchantItem_BagItem,
+                buys[buyIndex].merchantItem_BagItem,
                 buyCount,
                 false,
                 true
@@ -187,7 +192,7 @@ public class ShopSystem : UIinit
 
     void sellInfoRestart()
     {
-        sellInfo.icon.sprite = x;
+        sellInfo.icon.sprite = X;
         sellInfo.price.text = "0";
         sellInfo.count.text = "0";
 
@@ -196,16 +201,16 @@ public class ShopSystem : UIinit
 
     public override void slot_event2(int index)
     {
-        if (merchants.Count > index && merchants[index] != null)
+        if (sells.Count > index && sells[index] != null)
         {
             sellCount = 1;
-            sellPrice = merchants[index].merchantItem_BagItem.sellPrice;
-            sellInfo.icon.sprite = merchants[index].merchantItem_BagItem.BagItem_icon;
+            sellPrice = sells[index].merchantItem_BagItem.sellPrice;
+            sellInfo.icon.sprite = sells[index].merchantItem_BagItem.BagItem_icon;
             sellInfo.price.text = sellPrice.ToString();
             sellInfo.count.text = sellCount.ToString();
 
             sellIndex = index;
-            maxCount = BagManage.bagManage.itemCount(merchants[index].merchantItem_BagItem);
+            maxCount = BagManage.bagManage.itemCount(sells[index].merchantItem_BagItem);
         }
     }
 
@@ -247,7 +252,7 @@ public class ShopSystem : UIinit
             if (sellIndex != -1)
             {
                 BagManage.bagManage.checkItem(
-                    merchants[sellIndex].merchantItem_BagItem,
+                    sells[sellIndex].merchantItem_BagItem,
                     sellCount * -1,
                     false,
                     true

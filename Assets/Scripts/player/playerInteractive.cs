@@ -75,24 +75,27 @@ public class playerInteractive : MonoBehaviour
 
     void userInteractive()
     {
-        Vector3 rayDirection = playerEyes.TransformDirection(Vector3.forward);
+        Vector3 rayDirection = playerEyes.TransformDirection(Vector3.forward + Vector3.down * 0.2f);
 
         // 使用Physics.RaycastAll来投射射线
-        Interactives = Physics.RaycastAll(
-            playerEyes.position - new Vector3(0, 0.3f, 0),
-            rayDirection,
-            3.5f);
-        Debug.DrawRay(playerEyes.position - new Vector3(0, 0.35f, 0), rayDirection * 10f, Color.red);
+        // Interactives = Physics.RaycastAll(
+        //     playerEyes.position,
+        //     rayDirection,
+        //     2f);
+        //Debug.DrawRay(playerEyes.position - new Vector3(0, 0.3f, 0), rayDirection * 3.5f, Color.red);
+        RaycastHit hitInfo; // 用于存储碰撞信息的 RaycastHit 对象
 
-        if (Interactives.Length > 0)
+        if (Physics.Raycast(playerEyes.position, rayDirection, out hitInfo, 2f))
         {
-            interactiveObject = Interactives[0].transform.gameObject;
+            // 碰撞到了物体
+            interactiveObject = hitInfo.collider.gameObject;
+
+            // 然后你可以对 hitObject 进行任何你需要的操作
         }
         else
         {
             interactiveObject = null;
         }
-
     }
 
     #region 互動BLOCK
@@ -123,12 +126,34 @@ public class playerInteractive : MonoBehaviour
         {
             plyerDoorAni(pool, blockType.DOOR, 90);
         }
+        if (pool.blockType.Equals(blockType.RIGHTDOOR))
+        {
+            plyerDoorAni(pool, blockType.OPENRIGHTDOOR, 90);
+        }
+        else if (pool.blockType.Equals(blockType.OPENRIGHTDOOR))
+        {
+            plyerDoorAni(pool, blockType.RIGHTDOOR, -90);
+        }
         else if (pool.blockType.Equals(blockType.CHAIR))
         {
             playerController.sitPos = pool.position.position + Vector3.up * 1f;
             playerController.sitState = playerSitState.SITDOWN;
             playerController.collider.enabled = false;
             playerController.rigi.useGravity = false;
+        }
+        else if (pool.blockType.Equals(blockType.WORK))
+        {
+            if (WorkSystem.workSystem.workPanel.gameObject.activeSelf == false)
+            {
+                WorkSystem.workSystem.workPanel.gameObject.SetActive(true);
+            }
+        }
+        else if (pool.blockType.Equals(blockType.COOK))
+        {
+            if (Cooking.cooking.CookPanel.gameObject.activeSelf == false)
+            {
+                Cooking.cooking.CookPanel.gameObject.SetActive(true);
+            }
         }
     }
 

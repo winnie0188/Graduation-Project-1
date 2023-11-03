@@ -469,6 +469,17 @@ public class talkSystem : MonoBehaviour
                     );
                 }
             }
+            if (finshTalk.npcTaskState.Length != 0)
+            {
+                for (int i = 0; i < finshTalk.npcTaskState.Length; i++)
+                {
+                    Transform npc = NpcFactory.npcFactory.factorys[finshTalk.npcTaskState[i].npcName];
+                    NpcFactory.npcFactory.setNpcTask(
+                        npc,
+                        finshTalk.npcTaskState[i].state
+                    );
+                }
+            }
         }
     }
     #endregion

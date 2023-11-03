@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: Task1-1
   m_EditorClassIdentifier: 
-  task_Title: 1
-  task_Content: 1
-  task_need: 1
-  task_get: 1
+  task_Title: "\u958B\u59CB\u5287\u60C5"
+  task_Content: "\u958B\u59CB\u5287\u60C5"
+  task_need: "\u7121"
+  task_get: "\u7121"
   TaskType: 0
   task_Walk:
-    taskPos: {x: 0, y: 0, z: 8}
-    distance: 3
+    taskPos: {x: -138.7654, y: 5, z: -64}
+    distance: 10
   task_Collect:
     task_Items: []
   task_Follow:
     npcName: 
+    npcEnd: 0
     distance: 0
     endPOS: {x: 0, y: 0, z: 0}
     endDistance: 0
@@ -47,7 +48,7 @@ MonoBehaviour:
     bagItem: []
     removeBagItem: []
     teleports: []
-    playerRotateY: 0
+    playerRotateY: 92
     openFadePanel: 0
     FinshContent: 
     openFinshUi: 0

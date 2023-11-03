@@ -60,11 +60,28 @@ public class NpcFactory : MonoBehaviour
         }
     }
 
+    public void setNpcTask(Transform npc, bool state)
+    {
+        NPC npcScript = npc.GetComponent<NPC>();
+
+        if (state == false && npcScript.NPCdata1.NPCType == NPCType.MERCHANT)
+        {
+            npcScript.CenterPos = npcScript.NPCdata1.ShopPos[0];
+        }
+        npcScript.isTask = state;
+    }
+
     public void taskMove(task_followNpc task_FollowNpc, Transform npc)
     {
         NPC npcScript = npc.GetComponent<NPC>();
         npcScript.LookAt(task_FollowNpc.endPOS);
         npcScript.GetComponent<NPC>().walkFront();
+    }
+
+    public void taskStopMove(Transform npc)
+    {
+        NPC npcScript = npc.GetComponent<NPC>();
+        npcScript.GetComponent<NPC>().stopWalk();
     }
 
 

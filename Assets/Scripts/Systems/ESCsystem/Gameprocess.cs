@@ -6,7 +6,8 @@ public class Gameprocess : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] taskItem firstTask;
-    [SerializeField] BagItem firstBag;
+    [SerializeField] BagItem[] firstBag;
+    [SerializeField] Transform TaskPos;
 
     // 如果沒讀取檔案則加載這個
     public void init()
@@ -22,9 +23,19 @@ public class Gameprocess : MonoBehaviour
         //新增任務
         taskSystem.taskSystem_.addTask(firstTask);
 
+        // for (int i = 1; i < firstBag.Length; i++)
+        // {
+        //     BagManage.bagManage.checkItem(
+        //            firstBag[i],
+        //            1,
+        //            false,
+        //            true
+        //         );
+        // }
+
         //新道具
         BagManage.bagManage.checkItem(
-                   firstBag,
+                   firstBag[0],
                    1,
                    false,
                    true
@@ -36,9 +47,9 @@ public class Gameprocess : MonoBehaviour
         //換裝
         var clothe1 = hotKeyStore.HotKeys_Clothe[0];
 
-        clothe1.HotKey_Bag = firstBag.bagSoreIndex;
+        clothe1.HotKey_Bag = firstBag[0].bagSoreIndex;
         clothe1.HotKey_item =
-        BagManage.bagManage.findIndex(BagManage.bagManage.bagSore[clothe1.HotKey_Bag], firstBag);
+        BagManage.bagManage.findIndex(BagManage.bagManage.bagSore[clothe1.HotKey_Bag], firstBag[0]);
 
 
         BagManage.bagManage.Refresh_HotKey();
@@ -48,6 +59,10 @@ public class Gameprocess : MonoBehaviour
         LightingManager.lightingManager.setYear(517);
 
         NpcFactory.npcFactory.setAllTask(true);
+
+
+        SuppliesSystem.suppliesSystem.initAllSupplies();
+        BiologySystem.biologySystem.initBiologys();
     }
 
     private void FixedUpdate()
@@ -62,6 +77,9 @@ public class Gameprocess : MonoBehaviour
 
         var list = taskSystem.taskSystem_.currentTaskArray;
         NavPathArrow.navPathArrow.hidePath();
+
+        TaskPos.gameObject.SetActive(false);
+
         for (int i = 0; i < list.Count; i++)
         {
             switch (list[i].TaskType)
@@ -104,6 +122,9 @@ public class Gameprocess : MonoBehaviour
             points[1] = task_Walk.taskPos;
 
             NavPathArrow.navPathArrow.drawPath(points);
+
+            TaskPos.position = new Vector3(points[1].x, 45, points[1].z);
+            TaskPos.gameObject.SetActive(true);
         }
     }
 
@@ -131,6 +152,9 @@ public class Gameprocess : MonoBehaviour
                 points[1] = npcPos;
 
                 NavPathArrow.navPathArrow.drawPath(points);
+
+                TaskPos.position = new Vector3(points[1].x, 45, points[1].z);
+                TaskPos.gameObject.SetActive(true);
             }
 
 
@@ -143,8 +167,9 @@ public class Gameprocess : MonoBehaviour
             }
             else
             {
-                if ((npcPos - task_FollowNpc.endPOS).magnitude <= 1.5f)
+                if ((npcPos - task_FollowNpc.endPOS).magnitude <= task_FollowNpc.npcEnd)
                 {
+                    NpcFactory.npcFactory.taskStopMove(npc);
                     // var v = task_FollowNpc.endPOS;
                     // v.y = npc.transform.position.y;
                     // npc.transform.position = v;
@@ -187,6 +212,7 @@ public class Gameprocess : MonoBehaviour
                     }
                     else
                     {
+                        NpcFactory.npcFactory.taskStopMove(npc);
                         isOpenTalk = !isOpenTalk;
                     }
                 }

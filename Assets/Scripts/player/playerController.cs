@@ -79,6 +79,8 @@ public class playerController : MonoBehaviour
     // 是否可以旋轉
     bool isCanRotate = true;
 
+    [SerializeField] Transform airCamera;
+
     #endregion
 
 
@@ -155,6 +157,9 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 playerPos = transform.position;
+        airCamera.transform.position = new Vector3(playerPos.x, 100, playerPos.z);
+
         if (PanelManage.panelManage.includeAllState() || isKnock)
         {
             rigi.velocity = new Vector3(0, rigi.velocity.y, 0);
@@ -409,7 +414,6 @@ public class playerController : MonoBehaviour
         }
 
 
-
         if (isLock)
         {
             m_MouseLook.openLock();
@@ -419,6 +423,12 @@ public class playerController : MonoBehaviour
         {
             m_MouseLook.closeLock();
         }
+    }
+
+    public void taskRotate(float y)
+    {
+        transform.rotation = Quaternion.Euler(0, y, 0);
+        m_MouseLook.setPos(transform, m_Camera.transform);
     }
 
     IEnumerator JumpState()

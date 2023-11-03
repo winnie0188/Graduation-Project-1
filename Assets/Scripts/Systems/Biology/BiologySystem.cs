@@ -15,8 +15,11 @@ public class BiologySystem : MonoBehaviour
     Dictionary<string, ParentDiction> eggDictionary = new Dictionary<string, ParentDiction>();
     DictionaryPool eggPool = new DictionaryPool();
 
+    //重生計算
+    List<RebirthData> rebirthDatas = new List<RebirthData>();
 
-    Dictionary<string, GameObject> monsterDictionary = new Dictionary<string, GameObject>();
+
+    Dictionary<string, MonsterDinary> monsterDictionary = new Dictionary<string, MonsterDinary>();
     DictionaryPool monsterPool = new DictionaryPool();
     Dictionary<Transform, string> monsterKey = new Dictionary<Transform, string>();
     public static BiologySystem biologySystem;
@@ -30,7 +33,11 @@ public class BiologySystem : MonoBehaviour
         {
             monsterDictionary.Add(
                 monster[i].key,
-                monster[i].monster
+                new MonsterDinary
+                {
+                    monster = monster[i].monster,
+                    initTime = monster[i].initTime
+                }
             );
         }
 
@@ -126,6 +133,62 @@ public class BiologySystem : MonoBehaviour
         return "";
     }
 
+
+    public void initBiologys()
+    {
+        foreach (var item in monsterDictionary)
+        {
+            for (int i = 0; i < item.Value.initTime[0]; i++)
+            {
+                addBiology(item.Key, Vector3.zero, true);
+            }
+        }
+    }
+
+
+    #region 物件重生
+    public void RebirthFunction(int initRirthTime, int rebirthTime, Transform rebirthTransform)
+    {
+        StartCoroutine(Rebirth(initRirthTime, rebirthTime, rebirthTransform));
+    }
+
+    //重生物件
+    IEnumerator Rebirth(int initRirthTime, int rebirthTime, Transform rebirthTransform)
+    {
+        //存植物重生時間
+        RebirthData rebirthData = new RebirthData
+        {
+            currentTime = initRirthTime,
+            key = getKey(rebirthTransform)
+        };
+
+        //新增到list
+        rebirthDatas.Add(
+            rebirthData
+        );
+
+        //要更新重生的時間
+        for (int i = initRirthTime; i < rebirthTime; i++)
+        {
+            yield return new WaitForSeconds(1);
+            rebirthData.currentTime = i;
+        }
+
+        //新增動物
+        addBiology(
+            rebirthData.key,
+            Vector3.zero,
+            true
+        );
+
+        //移除list
+        rebirthDatas.Remove(
+            rebirthData
+        );
+    }
+    #endregion
+
+
     public void addBiology(string key, Vector3 pos, bool isRandom)
     {
         if (monsterPool.Die.TryGetValue(key, out var dieList))
@@ -142,10 +205,17 @@ public class BiologySystem : MonoBehaviour
                 {
                     Vector3[] GenerateLocation = biology.GetMonster().GenerateLocation;
                     position = GenerateLocation[Random.Range(0, GenerateLocation.Length)];
+                    position.x = Random.Range(position.x - 10, position.x + 10);
+                    position.z = Random.Range(position.z - 10, position.z + 10);
+                }
+
+                if (Physics.Raycast(position + new Vector3(0, 50, 0), Vector3.down, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("block")))
+                {
+                    position = hit.point;
                 }
 
 
-                biology.transform.position = position;
+                biology.transform.position = position + new Vector3(0, 1, 0);
                 biology.init(position);
 
                 dieList.Remove(monster);
@@ -155,9 +225,9 @@ public class BiologySystem : MonoBehaviour
                 monsterKey.Add(biology.transform, key);
             }
         }
-        else if (monsterDictionary.TryGetValue(key, out GameObject prefab))
+        else if (monsterDictionary.TryGetValue(key, out MonsterDinary prefab))
         {
-            if (Instantiate(prefab).TryGetComponent<Biology>(out Biology biology))
+            if (Instantiate(prefab.monster).TryGetComponent<Biology>(out Biology biology))
             {
                 Vector3 position;
                 if (!isRandom)
@@ -168,9 +238,16 @@ public class BiologySystem : MonoBehaviour
                 {
                     Vector3[] GenerateLocation = biology.GetMonster().GenerateLocation;
                     position = GenerateLocation[Random.Range(0, GenerateLocation.Length)];
+                    position.x = Random.Range(position.x - 2, position.x + 2);
+                    position.z = Random.Range(position.z - 2, position.z + 2);
                 }
 
-                biology.transform.position = position;
+                if (Physics.Raycast(position + new Vector3(0, 50, 0), Vector3.down, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("block")))
+                {
+                    position = hit.point;
+                }
+
+                biology.transform.position = position + new Vector3(0, 1, 0);
                 biology.transform.SetParent(monsterParent);
 
                 biology.init(position);
@@ -235,6 +312,9 @@ public class MonsterDinary
 {
     public string key;
     public GameObject monster;
+
+    [Header("初始生成數量")]
+    public int[] initTime;
 }
 
 [System.Serializable]

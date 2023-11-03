@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: Task3-1
   m_EditorClassIdentifier: 
-  task_Title: 3-1
-  task_Content: 3-1
-  task_need: 3-1
-  task_get: 3-1
+  task_Title: "\u9080\u7D04"
+  task_Content: "\u8207\u6D1B\u6D1B\u78B0\u9762"
+  task_need: "\u7121"
+  task_get: "\u7121"
   TaskType: 0
   task_Walk:
-    taskPos: {x: -9.9, y: 0, z: 34.9}
+    taskPos: {x: 72.5, y: 0, z: -44.7}
     distance: 5
   task_Collect:
     task_Items: []
   task_Follow:
     npcName: 
+    npcEnd: 0
     distance: 0
     endPOS: {x: 0, y: 0, z: 0}
     endDistance: 0

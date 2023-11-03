@@ -54,6 +54,12 @@ public class Biology : MonoBehaviour
     float scenterDistance;
     //=============================
 
+    //重生時間
+    [Header("重生時間")]
+    [SerializeField] int rebirthTime;
+    int initRirthTime;
+
+
     private void Awake()
     {
         initCounterAttack = monster.counterAttack;
@@ -101,7 +107,7 @@ public class Biology : MonoBehaviour
         speed = Random.Range(maxspeed - 1.5f, maxspeed + 1.5f);
 
         transform.gameObject.SetActive(true);
-        this.center = center;
+        this.center = center + new Vector3(0, 1, 0);
 
         if (monster.eggParent.Length > 0)
         {
@@ -125,7 +131,7 @@ public class Biology : MonoBehaviour
         ecenterDistance = (playerController.playerController_.transform.position - center).magnitude;
         scenterDistance = (transform.position - center).magnitude;
 
-        if (eselfDistance > 100)
+        if (eselfDistance > 40)
         {
 
         }
@@ -213,13 +219,13 @@ public class Biology : MonoBehaviour
                 }
             }
 
-            print("走路");
+            // print("走路");
         }
         else if ((rest.current += Time.deltaTime) < rest.max)
         {
             //閒置
             transform.Rotate(new Vector3(0, Random.Range(-45, 45), 0), Space.Self);
-            print("閒置");
+            // print("閒置");
         }
         else
         {
@@ -237,7 +243,7 @@ public class Biology : MonoBehaviour
             {
                 //不再追擊
                 attckObject = null;
-                print("清空");
+                //  print("清空");
             }
             else if (eselfDistance > monster.attactRange)
             {
@@ -245,11 +251,11 @@ public class Biology : MonoBehaviour
                 LookAt(attckObject.position);
                 walkFront(speed);
 
-                print("跑向敵人");
+                //  print("跑向敵人");
             }
             else
             {
-                print("攻擊");
+                // print("攻擊");
                 attack();
             }
 
@@ -269,7 +275,7 @@ public class Biology : MonoBehaviour
             }
         }
 
-        print("冷卻中");
+        //print("冷卻中");
     }
 
 
@@ -713,6 +719,9 @@ public class Biology : MonoBehaviour
             BiologySystem.biologySystem.getKey(transform),
             transform
         );
+
+        //生物重生
+        BiologySystem.biologySystem.RebirthFunction(initRirthTime, rebirthTime, transform);
     }
 
 

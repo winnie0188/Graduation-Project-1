@@ -6,6 +6,7 @@ public class blockData : MonoBehaviour
     public BagItem backitem;
     public blockType blockType;
     public Transform position;
+    public bool isDestory;
     public void setBlockType(blockType type)
     {
         blockType = type;

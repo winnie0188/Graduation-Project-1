@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687c9be1a9cca7a43b18d9d02db68680, type: 3}
+  m_Name: "\u6BEC\u7403\u5315\u9996buy"
+  m_EditorClassIdentifier: 
+  price: 2700
+  merchantItem_BagItem: {fileID: 11400000, guid: ff3a8dee4f959684aa4d23ab8f39168a, type: 2}

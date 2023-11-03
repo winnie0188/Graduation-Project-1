@@ -14,6 +14,7 @@ public class Guide : MonoBehaviour
     public Image target;
     [SerializeField] Transform arrow;
     [SerializeField] Text content;
+    [SerializeField] Transform contentLine;
     public Transform maskPanel;
     public guideDataList[] guideList;
 
@@ -104,21 +105,28 @@ public class Guide : MonoBehaviour
             arrow.position = target.transform.position;
             this.content.text = guideDatas[index].content;
             var contentBack = this.content.transform.parent.GetComponent<RectTransform>();
+            var contentLine = this.contentLine.GetComponent<RectTransform>();
+            float lineX = 379;
+            float lineY = -314;
 
 
             if (arrow.GetComponent<RectTransform>().anchoredPosition.x > 0)
             {
+                // contentLine.anchoredPosition = new Vector2(379, -314);
+                // contentLine.rotation = Quaternion.Euler(0, 180, 0);
 
                 Vector3 oldPos = contentBack.anchoredPosition;
-                oldPos.x = -330;
+                oldPos.x = -251;
                 contentBack.anchoredPosition = oldPos;
-
             }
             else if (arrow.GetComponent<RectTransform>().anchoredPosition.x <= 0)
             {
+                lineX = -379;
+                // contentLine.anchoredPosition = new Vector2(-379, -314);
+                // contentLine.rotation = Quaternion.Euler(0, 0, 0);
 
                 Vector3 oldPos = contentBack.anchoredPosition;
-                oldPos.x = 330;
+                oldPos.x = 251;
                 contentBack.anchoredPosition = oldPos;
             }
             if (arrow.GetComponent<RectTransform>().anchoredPosition.y > 0)
@@ -126,6 +134,8 @@ public class Guide : MonoBehaviour
                 Vector3 oldPos = contentBack.anchoredPosition;
                 oldPos.y = -130;
                 contentBack.anchoredPosition = oldPos;
+
+                lineY = 75;
 
 
                 var arrow = this.arrow.GetChild(0).GetComponent<RectTransform>();
@@ -142,6 +152,8 @@ public class Guide : MonoBehaviour
                 oldPos.y = 130;
                 contentBack.anchoredPosition = oldPos;
 
+                lineY = -314;
+
                 var arrow = this.arrow.GetChild(0).GetComponent<RectTransform>();
 
                 oldPos = arrow.anchoredPosition;
@@ -151,6 +163,26 @@ public class Guide : MonoBehaviour
                 arrow.rotation = Quaternion.Euler(0, 0, 0);
                 arrowAni = arrow.GetChild(0).DOLocalMoveY(10, 0.3f).SetLoops(-1, LoopType.Yoyo);
             }
+
+            float flip = 0;
+            if (lineX > 0)
+            {
+                if (lineY > 0 == false)
+                {
+                    flip = 180;
+                }
+            }
+            else
+            {
+                if (lineY > 0 == true)
+                {
+                    flip = 180;
+                }
+            }
+
+
+            contentLine.anchoredPosition = new Vector2(lineX, lineY);
+            contentLine.rotation = Quaternion.Euler(0, flip, 0);
 
             if (guideDataList.guideData.Count >= index)
             {

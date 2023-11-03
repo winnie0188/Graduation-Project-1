@@ -12,33 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: Task1-3
   m_EditorClassIdentifier: 
-  task_Title: 3
-  task_Content: 3
-  task_need: 3
-  task_get: 3
-  TaskType: 2
+  task_Title: "\u904A\u6232\u6307\u5357"
+  task_Content: "\u96E2\u958B\u5C4B\u5B50\u8207\u7CBE\u9748\u6703\u9762\u3002WASD\u9032\u884C\u79FB\u52D5\uFF0CF\u958B\u9580"
+  task_need: "\u7121"
+  task_get: "\u7121"
+  TaskType: 0
   task_Walk:
-    taskPos: {x: 0, y: 0, z: 0}
-    distance: 0
+    taskPos: {x: -92.00751, y: 0, z: -41}
+    distance: 2
   task_Collect:
     task_Items: []
   task_Follow:
-    npcName: "\u7CBE\u9748"
-    distance: 10
-    endPOS: {x: 3, y: 0, z: -10}
-    endDistance: 3
+    npcName: 
+    npcEnd: 0
+    distance: 0
+    endPOS: {x: 0, y: 0, z: 0}
+    endDistance: 0
     followSayType: 0
     isIdle: 0
-    nPCsays:
-    - whoTalk: "\u7CBE\u9748"
-      content: "\u5FEB\u8DDF\u4E0A\u554A\uFF01\u5225\u5728\u90A3\u50BB\u7AD9\u4E86\uFF01\uFF01\uFF01"
-    - whoTalk: "\u7CBE\u9748"
-      content: "\u5FEB\u9EDE\uFF01\u5FEB\u9EDE\uFF01"
-    - whoTalk: "\u7CBE\u9748"
-      content: "\u52D5\u9EDE\u529B\u6C23\u554A\uFF01\u8056\u5973\u53EF\u4E0D\u80FD\u5403\u767D\u98EF\u963F\u5582\uFF01"
-    TalkNPCNames:
-    - "\u7CBE\u9748"
-    currentIndex: -1
+    nPCsays: []
+    TalkNPCNames: []
+    currentIndex: 0
     isNearSay: 0
     npc: {fileID: 0}
   task_Guide:
@@ -46,14 +40,16 @@ MonoBehaviour:
     ListLength: 0
   task_Sign:
     panelId: 0
-  InstantiateNewCircle: 1
+  InstantiateNewCircle: 0
   isInstantiatePath: 1
   finshTask:
-    talkContent: {fileID: 11400000, guid: 896e5d2a2d635ad4780b321ec75b6417, type: 2}
-    taskItem: {fileID: 0}
+    talkContent: {fileID: 0}
+    taskItem: {fileID: 11400000, guid: 992acda2003f9164bac686f45961bf04, type: 2}
     bagItem: []
     removeBagItem: []
-    teleports: []
+    teleports:
+    - AiName: "\u7CBE\u9748"
+      position: {x: -92.00751, y: 3, z: -41}
     playerRotateY: 0
     openFadePanel: 0
     FinshContent: 

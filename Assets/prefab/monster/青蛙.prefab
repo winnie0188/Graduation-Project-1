@@ -53,7 +53,7 @@ MonoBehaviour:
     attactRange: 7
     drops: []
     GenerateLocation:
-    - {x: 0, y: 0, z: 0}
+    - {x: 23, y: 0, z: 201}
     monsterSkills:
     - monsterSkills: {fileID: 11400000, guid: fd4d70601d191c24aa3f53581b0dd968, type: 2}
       coolZero: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   eggGeneratePos: {fileID: 0}
   monthBuffs: []
+  rebirthTime: 30
 --- !u!136 &2708728699805598142
 CapsuleCollider:
   m_ObjectHideFlags: 0

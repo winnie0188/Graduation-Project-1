@@ -79,7 +79,8 @@ public class NavPathArrow : MonoBehaviour
         //     end = start + direction * maxDistance;
         // }
 
-        start.y = start.y - 0.8126594f;
+        // start.y = start.y - 0.8126594f;
+        start.y = start.y - 0.5f;
         end.y = start.y;
 
         Vector3 direction = (end - start).normalized;

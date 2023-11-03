@@ -63,6 +63,8 @@ public class BagManage : UIinit
     public Transform DragItem;
     KeyDrag keyDrag;
     public DragState HotKeyState = DragState.WAIT;
+
+    public int SlotCount { get => slotCount; set => slotCount = value; }
     #endregion
 
 
@@ -162,10 +164,9 @@ public class BagManage : UIinit
                 bagItemStore.BagItems[i],
                 1000,
                 false,
-                false
+                true
             );
         }
-        Update_AllBag();
     }
     #endregion
 
@@ -251,6 +252,7 @@ public class BagManage : UIinit
     // iswear是為了存檔
     public void checkItem(BagItem newBagIem, int amount, bool iswear, bool isUpdateUi)
     {
+
         //判斷道具種類並放到該類型的背包裏面
 
         // 更新背包UI
@@ -296,7 +298,9 @@ public class BagManage : UIinit
 
         //bagSore[bagSoreIndex] = BagSore;
         if (isUpdateUi)
+        {
             Update_BagUI(NewBagItem.bagSoreIndex, index, true);
+        }
     }
 
     //將商品移出背包
@@ -327,6 +331,12 @@ public class BagManage : UIinit
 
     public int itemCount(BagItem NewBagItem)
     {
+        if (NewBagItem == null)
+        {
+            print("空");
+            return -1;
+        }
+
         var BagSore = bagSore[NewBagItem.bagSoreIndex];
         int index = findIndex(BagSore, NewBagItem);
 
@@ -626,7 +636,6 @@ public class BagManage : UIinit
         UpdateHotKeyPanel(EquipHotKeyPanel, hotKeyStore.HotKeys_equip);
 
         FindObjectOfType<dolumi>().UpdateClothe();
-
     }
 
     private void UpdateHotKeyPanel(Transform hotKeyPanel, HotKey[] hotKeys)
@@ -749,7 +758,8 @@ public class BagManage : UIinit
         }
 
         Update_AllBag();
-
+        FindObjectOfType<Cooking>().CookingRight.UpdateRightUI(bagManage);
+        FindObjectOfType<WorkSystem>().WorkRight.UpdateRightUI(bagManage);
     }
 
     // 預設格子

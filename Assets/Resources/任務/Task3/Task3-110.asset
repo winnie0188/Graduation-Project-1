@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
+  m_Name: Task3-110
+  m_EditorClassIdentifier: 
+  task_Title: "\u521D\u8B58\u5546\u5E97\u8857"
+  task_Content: "\u8DDF\u96A8\u6D1B\u6D1B"
+  task_need: "\u7121"
+  task_get: "\u89E3\u9396\u4EA4\u6613\u529F\u80FD"
+  TaskType: 2
+  task_Walk:
+    taskPos: {x: 0, y: 0, z: 0}
+    distance: 0
+  task_Collect:
+    task_Items: []
+  task_Follow:
+    npcName: "\u6D1B\u6D1B"
+    npcEnd: 3
+    distance: 10
+    endPOS: {x: -61.6, y: 0, z: -40.8}
+    endDistance: 3
+    followSayType: 0
+    isIdle: 0
+    nPCsays:
+    - whoTalk: "\u6D1B\u6D1B"
+      content: "\u5FEB\u8DDF\u4E0A\u963F\uFF0C\u5225\u767C\u5446\u4E86\uFF01"
+    - whoTalk: "\u6D1B\u6D1B"
+      content: "\u89AA\u611B\u7684\u8056\u5973\u518D\u4E0D\u8DDF\u4E0A\uFF0C\u6211\u53EF\u8981\u96E3\u904E\u5230\u6B7B\u4E86~"
+    TalkNPCNames:
+    - "\u6D1B\u6D1B"
+    currentIndex: -1
+    isNearSay: 0
+    npc: {fileID: 0}
+  task_Guide:
+    guide: 0
+    ListLength: 0
+  task_Sign:
+    panelId: 0
+  InstantiateNewCircle: 1
+  isInstantiatePath: 1
+  finshTask:
+    talkContent: {fileID: 0}
+    taskItem: {fileID: 11400000, guid: 8d0b6b4b05364f645be0a6220b69d054, type: 2}
+    bagItem: []
+    removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
+    openFinshUi: 0
+    npcTaskState: []

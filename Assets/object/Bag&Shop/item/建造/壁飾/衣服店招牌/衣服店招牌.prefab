@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7188473804503455072
+--- !u!1 &1581185854447253361
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3856216260731178355}
-  - component: {fileID: 8823921924451917318}
-  - component: {fileID: 3273843475447188352}
-  - component: {fileID: 1721555998975920672}
+  - component: {fileID: 8764140599633897121}
+  - component: {fileID: 8910594040781714154}
+  - component: {fileID: 2341917097964676974}
+  - component: {fileID: 6837064908598246772}
   m_Layer: 3
-  m_Name: "\u8863\u670D\u5E97\u62DB\u724C"
+  m_Name: "\u8863\u670D\u5E97\u62DB\u724C.001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &3856216260731178355
+--- !u!4 &8764140599633897121
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7188473804503455072}
+  m_GameObject: {fileID: 1581185854447253361}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0.09700214, y: 0.5, z: -0.47559345}
   m_LocalScale: {x: 100, y: 100, z: 19.369398}
@@ -33,21 +33,21 @@ Transform:
   m_Father: {fileID: 8710448125448881489}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8823921924451917318
+--- !u!33 &8910594040781714154
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7188473804503455072}
-  m_Mesh: {fileID: -9114949838511643554, guid: 3a46e42960aa38142bb5076c4afa4b2e, type: 3}
---- !u!23 &3273843475447188352
+  m_GameObject: {fileID: 1581185854447253361}
+  m_Mesh: {fileID: -7500090738783598345, guid: 42972fd817c89764096ad8448135ed7d, type: 3}
+--- !u!23 &2341917097964676974
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7188473804503455072}
+  m_GameObject: {fileID: 1581185854447253361}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -60,8 +60,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4328277556172523323, guid: 3a46e42960aa38142bb5076c4afa4b2e, type: 3}
-  - {fileID: 4097738025954595201, guid: 3a46e42960aa38142bb5076c4afa4b2e, type: 3}
+  - {fileID: -4328277556172523323, guid: 42972fd817c89764096ad8448135ed7d, type: 3}
+  - {fileID: 4097738025954595201, guid: 42972fd817c89764096ad8448135ed7d, type: 3}
+  - {fileID: 9082075166595522382, guid: 42972fd817c89764096ad8448135ed7d, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,19 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1721555998975920672
+--- !u!65 &6837064908598246772
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7188473804503455072}
+  m_GameObject: {fileID: 1581185854447253361}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.019549146, y: 0.0004588065, z: 0.029472748}
-  m_Center: {x: 0.003949373, y: -2.1827864e-11, z: 0.0029560728}
+  m_Size: {x: 0.019549146, y: 0.0005433828, z: 0.029472748}
+  m_Center: {x: 0.003949373, y: -0.00004228818, z: 0.0029560728}
 --- !u!1 &7536172299456276388
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3856216260731178355}
+  - {fileID: 8764140599633897121}
   - {fileID: 4761781274582828257}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -142,6 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backitem: {fileID: 11400000, guid: dca8f152b78ec3344a4cb16127799079, type: 2}
+  blockType: 0
+  position: {fileID: 0}
 --- !u!1 &8411487053826286584
 GameObject:
   m_ObjectHideFlags: 0

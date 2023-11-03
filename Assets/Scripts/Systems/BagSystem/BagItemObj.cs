@@ -63,9 +63,11 @@ public class BagItemObj
             {
                 if (Block.TryGetComponent<blockData>(out blockData pool))
                 {
-                    pool.backitem.GetBlock().destoryOldBlock(Block, pool.backitem);
-
-                    return true;
+                    if (pool.isDestory == false)
+                    {
+                        pool.backitem.GetBlock().destoryOldBlock(Block, pool.backitem);
+                        return true;
+                    }
                 }
                 return false;
             }

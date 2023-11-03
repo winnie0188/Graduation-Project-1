@@ -12,6 +12,7 @@ public class taskSystem : MonoBehaviour
     //目的地物件
     public GameObject LightCircle;
     public SignPanel[] signPanels;
+    [SerializeField] Text signText;
     #endregion
 
     #region slot
@@ -451,7 +452,18 @@ public class taskSystem : MonoBehaviour
 
             if (finshTask.playerRotateY != 0)
             {
-                playerController.playerController_.transform.rotation = Quaternion.Euler(0, finshTask.playerRotateY, 0);
+                playerController.playerController_.taskRotate(finshTask.playerRotateY);
+            }
+            if (finshTask.npcTaskState.Length != 0)
+            {
+                for (int i = 0; i < finshTask.npcTaskState.Length; i++)
+                {
+                    Transform npc = NpcFactory.npcFactory.factorys[finshTask.npcTaskState[i].npcName];
+                    NpcFactory.npcFactory.setNpcTask(
+                        npc,
+                        finshTask.npcTaskState[i].state
+                    );
+                }
             }
         }
     }
@@ -485,6 +497,7 @@ public class taskSystem : MonoBehaviour
         if (text.text.Length > 0)
         {
             setPanels(0);
+            signText.text = text.text;
             signPanels[0].panel.gameObject.SetActive(false);
         }
     }

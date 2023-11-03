@@ -5,5 +5,9 @@ public enum blockType
     DEFAULT,
     DOOR,
     OPENDOOR,
-    CHAIR
+    CHAIR,
+    RIGHTDOOR,
+    OPENRIGHTDOOR,
+    WORK,
+    COOK
 }

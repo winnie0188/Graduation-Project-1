@@ -6,8 +6,14 @@ public class Supplies : MonoBehaviour
 {
     [SerializeField] Vector3[] generateLocation;
 
+
+
     [SerializeField] SuppliesType suppliesType;
 
+    //重生時間
+    [Header("重生時間")]
+    [SerializeField] int rebirthTime;
+    int initRirthTime;
 
 
     [Header("===物資類===")]
@@ -71,6 +77,8 @@ public class Supplies : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+
     //掉落
     public void fall()
     {
@@ -78,7 +86,7 @@ public class Supplies : MonoBehaviour
         {
             int person = Random.Range(1, 101);
 
-            if (item.person <= person)
+            if (person <= item.person)
             {
                 int count = Random.Range(item.count.current, item.count.max + 1);
 
@@ -107,7 +115,7 @@ public class Supplies : MonoBehaviour
         {
             int person = Random.Range(1, 101);
 
-            if (item.person <= person)
+            if (person <= item.person)
             {
                 int count = Random.Range(item.count.current, item.count.max + 1);
 
@@ -124,6 +132,10 @@ public class Supplies : MonoBehaviour
         }
 
         die();
+
+
+        //植物重生
+        SuppliesSystem.suppliesSystem.RebirthFunction(initRirthTime, rebirthTime, transform);
     }
     #endregion
 

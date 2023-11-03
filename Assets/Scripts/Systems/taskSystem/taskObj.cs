@@ -11,6 +11,8 @@ public class task_followNpc
 {
     [Header("npc名字")]
     public string npcName;
+    [Header("NPC和END距離")]
+    public float npcEnd;
     //NPC跟玩家離多遠會停止
     [Header("與NPC的距離")]
     public float distance;

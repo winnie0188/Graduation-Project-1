@@ -24,11 +24,11 @@ MonoBehaviour:
     - Triggevent: 2
       eventSelect: {fileID: 0}
       content: "\u7E7C\u7E8C\u4EFB\u52D9"
-      taskItem: {fileID: 11400000, guid: 4d55067cd0379f2488bdaae9d3223b19, type: 2}
+      taskItem: {fileID: 11400000, guid: 84139c7d98cf78640b0c69c509bf8615, type: 2}
     - Triggevent: 2
       eventSelect: {fileID: 0}
       content: "\u8DF3\u904E\u4EFB\u52D9"
-      taskItem: {fileID: 11400000, guid: ce4679f02c98daa4e9ac8b68992cfebe, type: 2}
+      taskItem: {fileID: 11400000, guid: 6685086442e8687469f8e0dda6cc0a2e, type: 2}
   peopleHeights: []
   finshTalk:
     newTask: {fileID: 0}
@@ -37,5 +37,6 @@ MonoBehaviour:
       npcName: 
       taskItem: {fileID: 0}
     removeBagItem: []
+    npcTaskState: []
     FinshContent: 
     openFinshUi: 0

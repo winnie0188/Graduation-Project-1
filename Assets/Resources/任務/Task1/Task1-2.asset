@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: Task1-2
   m_EditorClassIdentifier: 
-  task_Title: 2
-  task_Content: 2
-  task_need: 2
-  task_get: 2
+  task_Title: "\u904A\u6232\u6307\u5357"
+  task_Content: "\u8DDF\u8457\u6B65\u9A5F\u7A7F\u6234\u8863\u670D"
+  task_need: "\u7121"
+  task_get: "\u7121"
   TaskType: 3
   task_Walk:
     taskPos: {x: 0, y: 0, z: 0}
@@ -23,14 +23,34 @@ MonoBehaviour:
   task_Collect:
     task_Items: []
   task_Follow:
-    distance: 0
     npcName: 
+    npcEnd: 0
+    distance: 0
     endPOS: {x: 0, y: 0, z: 0}
     endDistance: 0
+    followSayType: 0
+    isIdle: 0
+    nPCsays: []
+    TalkNPCNames: []
+    currentIndex: 0
+    isNearSay: 0
     npc: {fileID: 0}
   task_Guide:
     guide: 0
-    ListLength: 0
+    ListLength: 5
+  task_Sign:
+    panelId: 0
+  InstantiateNewCircle: 0
+  isInstantiatePath: 0
   finshTask:
     talkContent: {fileID: 0}
-    taskItem: {fileID: 11400000, guid: ce9ed83082e1c3440a539260242923b8, type: 2}
+    taskItem: {fileID: 11400000, guid: 90499f5d20bda604ea100b2b31ebefc4, type: 2}
+    bagItem: []
+    removeBagItem: []
+    teleports:
+    - AiName: "\u7CBE\u9748"
+      position: {x: -92.00751, y: 1, z: -41}
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
+    openFinshUi: 0

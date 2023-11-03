@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf81934c2d4386c47adfb08533ab6301, type: 3}
+  m_Name: "\u91D1\u525B\u93AC\u5B50"
+  m_EditorClassIdentifier: 
+  BagItem_name: "\u91D1\u525B\u93AC\u5B50"
+  BagItem_icon: {fileID: 21300000, guid: 8773965a621cff949bd3996fc6141e9c, type: 3}
+  BagItem_info: "\u7531\u7D2B\u6C34\u6676\u548C\u7280\u725B\u89D2\u6240\u7D44\u6210\u7684\u93AC\u5B50\uFF0C\u5805\u786C\u4E14\u96E3\u4EE5\u6467\u6BC0\uFF0C\u975E\u5E38\u9069\u5408\u62FF\u4F86\u6316\u8D85\u5DE8\u578B\u7684\u77F3\u982D\u3002"
+  sellPrice: 0
+  bagSoreIndex: 5
+  keySoreIndex: 0
+  id: 0
+  BagItemType_: 5
+  other:
+    otherType: 0
+    otherLetter:
+      letterPath: 
+      npc: 
+      talkContent: {fileID: 0}
+  clothe:
+    clotheName: 
+  tool:
+    toolType: 0
+    power: 0
+    maxCooltime: 0
+    ArmCooltime: 0
+  block:
+    blockPool: {fileID: 0}

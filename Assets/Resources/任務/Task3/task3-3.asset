@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
   m_Name: task3-3
   m_EditorClassIdentifier: 
-  task_Title: 3-3
-  task_Content: 3-3
-  task_need: 3-3
-  task_get: 3-3
+  task_Title: "\u8D74\u7D04"
+  task_Content: "\u8207\u6D1B\u6D1B\u5C0D\u8AC7"
+  task_need: "\u7121"
+  task_get: "\u7121"
   TaskType: 2
   task_Walk:
     taskPos: {x: 0, y: 0, z: 0}
@@ -24,6 +24,7 @@ MonoBehaviour:
     task_Items: []
   task_Follow:
     npcName: "\u6D1B\u6D1B"
+    npcEnd: 0
     distance: 10
     endPOS: {x: 0, y: 0, z: 0}
     endDistance: 0
@@ -39,7 +40,7 @@ MonoBehaviour:
     TalkNPCNames:
     - "\u6D1B\u6D1B"
     - player
-    currentIndex: 0
+    currentIndex: -1
     isNearSay: 1
     npc: {fileID: 0}
   task_Guide:
@@ -48,9 +49,14 @@ MonoBehaviour:
   task_Sign:
     panelId: 0
   InstantiateNewCircle: 0
+  isInstantiatePath: 0
   finshTask:
     talkContent: {fileID: 11400000, guid: ec7b392fcb3507543ad64ea53064d275, type: 2}
     taskItem: {fileID: 0}
     bagItem: []
     removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
     openFinshUi: 0

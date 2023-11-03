@@ -12,9 +12,11 @@ public class FinshTask
     [Header("旋轉到特定方向，跟teleports搭配使用")]
     public float playerRotateY;
     public bool openFadePanel;
+
     [Header("搭配finshUI")]
     public string FinshContent;
     public bool openFinshUi;
+    public npcTaskState[] npcTaskState;
 }
 
 //順移

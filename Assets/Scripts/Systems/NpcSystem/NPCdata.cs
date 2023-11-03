@@ -30,6 +30,15 @@ public class NPCotherData
     public string[] bullect;
     [Header("墨菲才要")]
     public NPCspecialPlace[] NPCspecialPlace;
+    [Header("商人才要")]
+    public merchantData[] merchantData;
+}
+
+[System.Serializable]
+public class merchantData
+{
+    public List<merchantItem> buys;
+    public List<merchantItem> sells;
 }
 
 

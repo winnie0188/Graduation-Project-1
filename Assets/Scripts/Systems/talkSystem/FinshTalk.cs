@@ -11,6 +11,8 @@ public class FinshTalk
     public NPCtask NPCtask;
     public BagItem[] removeBagItem;
 
+    public npcTaskState[] npcTaskState;
+
     [Header("搭配finshUI")]
     public string FinshContent;
 
@@ -23,4 +25,12 @@ public class NPCtask
 {
     public string npcName;
     public taskItem taskItem;
+}
+
+
+[System.Serializable]
+public class npcTaskState
+{
+    public string npcName;
+    public bool state;
 }

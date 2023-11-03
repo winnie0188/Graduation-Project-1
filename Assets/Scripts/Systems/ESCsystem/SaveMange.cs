@@ -300,15 +300,20 @@ public class SaveMange : MonoBehaviour
 
         //=================================提取任務資料=========================================
 
-        for (int i = 0; i < gameData.taskSaves.Length; i++)
+        if (PanelManage.panelManage.getIsCreateMode() == false)
         {
+            for (int i = 0; i < gameData.taskSaves.Length; i++)
+            {
 
-            var tasknames = gameData.taskSaves[i].taskFileName.Split('-');
-            print("任務/" + tasknames[0] + "/" + gameData.taskSaves[i]);
-            taskSystem.taskSystem_.addTask(
-                Resources.Load<taskItem>("任務/" + tasknames[0] + "/" + gameData.taskSaves[i].taskFileName)
-            );
+                var tasknames = gameData.taskSaves[i].taskFileName.Split('-');
+                print("任務/" + tasknames[0] + "/" + gameData.taskSaves[i]);
+                taskSystem.taskSystem_.addTask(
+                    Resources.Load<taskItem>("任務/" + tasknames[0] + "/" + gameData.taskSaves[i].taskFileName)
+                );
+            }
+
         }
+
 
         //=================================提取任務資料=========================================
     }
