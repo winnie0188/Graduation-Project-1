@@ -12,6 +12,8 @@ public class PlayerKeyCode
     public KeyCode RotateCamera;
     // 道具
     public KeyCode UseProps;
+    public KeyCode useSkill;
+    public KeyCode summon;
     public KeyCode cancel;
     public KeyCode RotateBlock;
     public KeyCode AltBlock;

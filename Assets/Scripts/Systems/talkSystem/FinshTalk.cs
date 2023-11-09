@@ -10,11 +10,14 @@ public class FinshTalk
 
     public NPCtask NPCtask;
     public BagItem[] removeBagItem;
+    [Header("ai順移到某地")]
+    public Teleport[] teleports;
 
     public npcTaskState[] npcTaskState;
 
     [Header("搭配finshUI")]
     public string FinshContent;
+
 
     public bool openFinshUi;
 

@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class playerController : MonoBehaviour
 {
+    [SerializeField] PlayerBullectFactory playerBullectFactory;
+
     #region Player Basic
     playerDirection playerDirection = playerDirection.LEFT;
     [Header("會變動的屬性")]
@@ -51,6 +53,8 @@ public class playerController : MonoBehaviour
     playerJumpState jumpState = playerJumpState.NONE;
     [SerializeField] Animator ani;
     float jumpTime = 0.0f;
+    //如果不為空就播放動畫
+    string aniMateName = "";
 
     string aniStr;
 
@@ -170,7 +174,15 @@ public class playerController : MonoBehaviour
         //如果坐著，不執行
         if (sitState != playerSitState.NONE)
         {
+            rigi.velocity = new Vector3(0, 0, 0);
             this.transform.position = sitPos;
+            return;
+        }
+
+        if (aniMateName != "")
+        {
+            jumpState = playerJumpState.NONE;
+            rigi.velocity = new Vector3(0, rigi.velocity.y, 0);
             return;
         }
 
@@ -206,15 +218,18 @@ public class playerController : MonoBehaviour
                 ishits = tempIshits;
                 if (ishits)
                 {
-                    jumpState = playerJumpState.JUMPDOWN;
-                    StartCoroutine(jumpDown());
+                    if (jumpState != playerJumpState.JUMPDOWN)
+                    {
+                        jumpState = playerJumpState.JUMPDOWN;
+                        StartCoroutine(jumpDown());
+                    }
                 }
             }
 
-            if (ishits && jumpState == playerJumpState.JUMPING)
-            {
-                jumpState = playerJumpState.NONE;
-            }
+            // if (ishits && jumpState == playerJumpState.JUMPING)
+            // {
+            //     jumpState = playerJumpState.NONE;
+            // }
         }
         else
         {
@@ -246,6 +261,45 @@ public class playerController : MonoBehaviour
         {
             jumpState = playerJumpState.NONE;
         }
+    }
+
+    public void setAniFunction(string aniMateName, float generationTime, float second, string bullectKey, Transform parent, Vector3 end, Transform targe, int index, int time)
+    {
+        if (this.aniMateName == "")
+        {
+            StartCoroutine(SetAni(aniMateName, second));
+
+            StartCoroutine(delePlayAni(generationTime, bullectKey, parent, end, targe, index, time));
+        }
+    }
+
+    IEnumerator delePlayAni(float second, string bullectKey, Transform parent, Vector3 end, Transform targe, int index, int time)
+    {
+        yield return new WaitForSeconds(second);
+
+        if (bullectKey != "")
+        {
+            for (int i = 0; i < time; i++)
+            {
+
+                BullectSystem.bullectSystem.fire(
+                    bullectKey,
+                    parent,
+                    end,
+                    targe,
+                    "monster",
+                    playerBullectFactory.factorys[index].position
+                );
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
+    IEnumerator SetAni(string aniMateName, float second)
+    {
+        this.aniMateName = aniMateName;
+        yield return new WaitForSeconds(second);
+        this.aniMateName = "";
     }
 
     void updateAni()
@@ -299,6 +353,11 @@ public class playerController : MonoBehaviour
         }
 
 
+        if (aniMateName != "")
+        {
+            tempStr = aniMateName;
+        }
+
         if (aniStr != tempStr)
         {
             aniStr = tempStr;
@@ -328,6 +387,11 @@ public class playerController : MonoBehaviour
     //更新血量 
     public void HpUpdate(float hp)
     {
+        if (hp < 0)
+        {
+            BloodSystem.bloodSystem.addBlood(transform.position);
+        }
+
         if (Hp + hp > maxHp)
         {
             Hp = maxHp;
@@ -454,7 +518,7 @@ public class playerController : MonoBehaviour
             if (sitState == playerSitState.NONE)
             {
                 playerDirection = playerDirection.LEFT;
-                ani.transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                ani.transform.parent.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }
         else if (Input.GetKey(playerKeyCodes.rightMove))
@@ -464,7 +528,7 @@ public class playerController : MonoBehaviour
             if (sitState == playerSitState.NONE)
             {
                 playerDirection = playerDirection.RIGHT;
-                ani.transform.parent.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                ani.transform.parent.parent.localRotation = Quaternion.Euler(0f, 180f, 0f);
             }
         }
         else
@@ -546,8 +610,6 @@ public class playerController : MonoBehaviour
 
             tempCode = nowKecode;
         }
-
-
     }
 
 

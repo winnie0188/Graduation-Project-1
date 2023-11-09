@@ -78,11 +78,7 @@ public class BagItemObj
 }
 
 
-[System.Serializable]
-public class potion : BagItemObj
-{
 
-}
 
 
 [System.Serializable]

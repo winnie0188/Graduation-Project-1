@@ -5,10 +5,17 @@ using System.IO;
 
 public class Biology : MonoBehaviour
 {
+    [Header("掉落金幣")]
+    [SerializeField] int gold;
     [SerializeField] Monster monster;
     [Space(50)]
 
     [SerializeField] Transform attckObject;
+
+    public void setAttckObject(Transform attackObject)
+    {
+        attckObject = attackObject;
+    }
 
     float maxspeed;
     [SerializeField] float speed;
@@ -25,6 +32,11 @@ public class Biology : MonoBehaviour
     floatData walk;
 
     Rigidbody rigi;
+
+    Animator animator;
+
+    //是否懸空
+    bool isKnock = false;
     Collider collider;
     Transform image;
 
@@ -59,6 +71,10 @@ public class Biology : MonoBehaviour
     [SerializeField] int rebirthTime;
     int initRirthTime;
 
+    [Header("攻擊生成位置")]
+    [SerializeField] Transform attackPos;
+
+    public Rigidbody Rigi { get => rigi; set => rigi = value; }
 
     private void Awake()
     {
@@ -79,10 +95,24 @@ public class Biology : MonoBehaviour
         maxspeed = speed;
 
         image = transform.GetChild(0);
-        rigi = GetComponent<Rigidbody>();
-        useGravity = rigi.useGravity;
+        Rigi = GetComponent<Rigidbody>();
+        useGravity = Rigi.useGravity;
         collider = GetComponent<Collider>();
+
+        if (transform.GetChild(0).GetChild(0).childCount > 0)
+        {
+            if (transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).TryGetComponent<Animator>(out var animator))
+            {
+                this.animator = animator;
+            }
+        }
     }
+
+    public void setKnock(bool isKnock)
+    {
+        this.isKnock = isKnock;
+    }
+
 
     public void setEgg(Transform egg)
     {
@@ -105,9 +135,10 @@ public class Biology : MonoBehaviour
     {
 
         speed = Random.Range(maxspeed - 1.5f, maxspeed + 1.5f);
+        monster.Hp = monster.maxHp;
 
         transform.gameObject.SetActive(true);
-        this.center = center + new Vector3(0, 1, 0);
+        this.center = center + new Vector3(0, 0.5f, 0);
 
         if (monster.eggParent.Length > 0)
         {
@@ -142,6 +173,10 @@ public class Biology : MonoBehaviour
         else if (!isSkillFinsh)
         {
 
+        }
+        else if (PanelManage.panelManage.includeAllState() || isKnock)
+        {
+            Rigi.velocity = new Vector3(0, Rigi.velocity.y, 0);
         }
         else
         {
@@ -270,7 +305,8 @@ public class Biology : MonoBehaviour
         {
             if (isSkillFinsh && monster.monsterSkills[i].coolZero < monster.monsterSkills[i].monsterSkills.CoolingTime)
             {
-                StartCoroutine(Skill(monster.monsterSkills[i], monster.monsterSkills[i].monsterSkills, attckObject));
+
+                StartCoroutine(Skill(monster.monsterSkills[i], monster.monsterSkills[i].monsterSkills, attckObject, i + 1));
                 return;
             }
         }
@@ -279,7 +315,7 @@ public class Biology : MonoBehaviour
     }
 
 
-    IEnumerator Skill(SkillData skillData, MonsterSkill monsterSkill, Transform enemy)
+    IEnumerator Skill(SkillData skillData, MonsterSkill monsterSkill, Transform enemy, int AttackAni)
     {
         isSkillFinsh = false;
         skillData.coolZero = monsterSkill.CoolingTime;
@@ -288,15 +324,27 @@ public class Biology : MonoBehaviour
         {
             attFinsh = false;
             StartCoroutine(SkillUpdate(monsterSkill, enemy));
+
+            if (animator != null)
+            {
+                animator.SetBool("ATTACK" + AttackAni, true);
+            }
+
             for (int j = 0; j < monsterSkill.continued; j++)
             {
                 if (attFinsh == true)
                 {
+                    yield return new WaitForSeconds(1);
                     break;
                 }
                 yield return new WaitForSeconds(1);
             }
             attFinsh = true;
+
+            if (animator != null)
+            {
+                animator.SetBool("ATTACK" + AttackAni, false);
+            }
             yield return new WaitForSeconds(monsterSkill.STILL);
         }
 
@@ -333,7 +381,8 @@ public class Biology : MonoBehaviour
                 enemy.position,
                 monsterSkill.power,
                 monsterSkill.continued,
-                enemy
+                enemy,
+                attackPos.position
             );
         }
         else if (monsterSkill.skillType == SkillType.ROLL)
@@ -356,13 +405,13 @@ public class Biology : MonoBehaviour
         {
             if (monsterSkill.SKILL_FIRE[0].isDive == true)
             {
-                rigi.useGravity = false;
+                Rigi.useGravity = false;
                 collider.enabled = false;
             }
             else if (monsterSkill.SKILL_FIRE[0].bounce == true)
             {
                 //往上跳
-                rigi.AddForce(new Vector3(0, 10f, 0), ForceMode.Impulse);
+                Rigi.AddForce(new Vector3(0, 10f, 0), ForceMode.Impulse);
             }
             else
             {
@@ -371,19 +420,19 @@ public class Biology : MonoBehaviour
         }
         else if (monsterSkill.skillType == SkillType.RUNAWAY)
         {
-            rigi.useGravity = false;
+            Rigi.useGravity = false;
         }
         else if (monsterSkill.skillType == SkillType.HOVER)
         {
-            rigi.useGravity = false;
+            Rigi.useGravity = false;
         }
         else if (monsterSkill.skillType == SkillType.FROMTO)
         {
-            rigi.useGravity = false;
+            Rigi.useGravity = false;
         }
         else if (monsterSkill.skillType == SkillType.DEFENSE)
         {
-            rigi.useGravity = false;
+            Rigi.useGravity = false;
             collider.enabled = false;
         }
 
@@ -582,7 +631,7 @@ public class Biology : MonoBehaviour
 
         if (monsterSkill.skillType == SkillType.COLLISION)
         {
-            rigi.velocity = Vector3.zero;
+            Rigi.velocity = Vector3.zero;
         }
         else if (monsterSkill.skillType == SkillType.FIRE)
         {
@@ -590,26 +639,26 @@ public class Biology : MonoBehaviour
             {
                 fire(monsterSkill.SKILL_FIRE[0].bullect, enemy.transform.position, enemy);
                 collider.enabled = true;
-                rigi.useGravity = useGravity;
+                Rigi.useGravity = useGravity;
             }
         }
         else if (monsterSkill.skillType == SkillType.RUNAWAY)
         {
-            rigi.useGravity = useGravity;
+            Rigi.useGravity = useGravity;
         }
         else if (monsterSkill.skillType == SkillType.HOVER)
         {
-            rigi.useGravity = useGravity;
+            Rigi.useGravity = useGravity;
         }
         else if (monsterSkill.skillType == SkillType.FROMTO)
         {
-            rigi.useGravity = useGravity;
+            Rigi.useGravity = useGravity;
             enemy.GetComponent<Rigidbody>().useGravity = true;
             unrestoredWight = null;
         }
         else if (monsterSkill.skillType == SkillType.DEFENSE)
         {
-            rigi.useGravity = useGravity;
+            Rigi.useGravity = useGravity;
             collider.enabled = true;
         }
         else if (monsterSkill.skillType == SkillType.SUMMON)
@@ -638,7 +687,9 @@ public class Biology : MonoBehaviour
                         bullectK,
                         transform,
                         transform.position + positions[i],
-                        enemy
+                        enemy,
+                        "",
+                        Vector3.zero
                     );
                 }
             }
@@ -654,7 +705,9 @@ public class Biology : MonoBehaviour
             key,
             transform,
             look,
-            enemy
+            enemy,
+            "",
+            Vector3.zero
         );
     }
 
@@ -684,11 +737,85 @@ public class Biology : MonoBehaviour
         }
     }
 
+    public void injuried(float hp, Transform targe)
+    {
+        if (hp < 0)
+        {
+            BloodSystem.bloodSystem.addBlood(transform.position);
+        }
 
+
+        if ((monster.Hp += hp) < 0)
+        {
+            monster.Hp = 0;
+        }
+        else if ((monster.Hp += hp) > monster.maxHp)
+        {
+            monster.Hp = monster.maxHp;
+        }
+
+
+        if (attckObject == null)
+        {
+            if (targe.TryGetComponent<playerController>(out var player))
+            {
+                setAttckObject(targe);
+            }
+            else if (targe.TryGetComponent<NPC>(out var NPC))
+            {
+                setAttckObject(targe);
+            }
+        }
+        else
+        {
+            if (targe.TryGetComponent<NPC>(out var NPC))
+            {
+                setAttckObject(targe);
+            }
+        }
+
+
+        if (BiologySystem.biologySystem.Lolo.attTarge.Contains(transform) == false)
+        {
+            BiologySystem.biologySystem.Lolo.attTarge.Add(transform);
+        }
+
+
+
+    }
 
     void die()
     {
+        ShopSystem.shopSystem.addPrice(gold);
+        fall();
         recycle();
+    }
+
+    //掉落
+    public void fall()
+    {
+        foreach (var item in monster.drops)
+        {
+            int person = Random.Range(1, 101);
+
+            if (person <= item.person)
+            {
+                int count = Random.Range(item.count.current, item.count.max + 1);
+
+                if (count > 0)
+                {
+                    FallSystem.fallSystem.fall(
+                        item.bagItems,
+                        count,
+                        transform.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1))
+                    );
+                }
+                else
+                {
+                    print(0);
+                }
+            }
+        }
     }
 
     void recycle()
@@ -702,8 +829,10 @@ public class Biology : MonoBehaviour
 
         isInitFinsh = false;
         isSkillFinsh = true;
-        rigi.useGravity = useGravity;
+        Rigi.useGravity = useGravity;
         collider.enabled = true;
+
+        attckObject = null;
 
         foreach (var item in monster.monsterSkills)
         {
@@ -719,6 +848,7 @@ public class Biology : MonoBehaviour
             BiologySystem.biologySystem.getKey(transform),
             transform
         );
+
 
         //生物重生
         BiologySystem.biologySystem.RebirthFunction(initRirthTime, rebirthTime, transform);
@@ -754,15 +884,15 @@ public class Biology : MonoBehaviour
 
     public void walkFront(float speed)
     {
-        Vector3 v = rigi.velocity;
+        Vector3 v = Rigi.velocity;
         v.x = 0;
         v.z = 0;
 
-        rigi.velocity = v;
+        Rigi.velocity = v;
 
         Vector3 localMovement = new Vector3(0, 0, 1);
         Vector3 worldMovement = transform.TransformDirection(localMovement);
-        rigi.velocity = new Vector3(worldMovement.x * speed, rigi.velocity.y, worldMovement.z * speed);
+        Rigi.velocity = new Vector3(worldMovement.x * speed, Rigi.velocity.y, worldMovement.z * speed);
 
         Flip();
     }

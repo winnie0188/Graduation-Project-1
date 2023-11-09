@@ -23,15 +23,15 @@ public class Gameprocess : MonoBehaviour
         //新增任務
         taskSystem.taskSystem_.addTask(firstTask);
 
-        // for (int i = 1; i < firstBag.Length; i++)
-        // {
-        //     BagManage.bagManage.checkItem(
-        //            firstBag[i],
-        //            1,
-        //            false,
-        //            true
-        //         );
-        // }
+        for (int i = 1; i < firstBag.Length; i++)
+        {
+            BagManage.bagManage.checkItem(
+                   firstBag[i],
+                   10,
+                   false,
+                   true
+                );
+        }
 
         //新道具
         BagManage.bagManage.checkItem(

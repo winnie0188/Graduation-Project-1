@@ -21,6 +21,7 @@ MonoBehaviour:
     Text: "\u7CBE\u9748......\uFF0C\u4F60\u78BA\u5B9A\u9019\u4EFD\u5951\u7D04\u4E0D\u662F\u5728\u8CE3\u6211\u55CE\uFF1F\uFF1F\uFF1F"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 032cda308011d1f48aba3789604a2011, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -29,6 +30,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: d15d5249219429f4fafa092a75a07df4, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -37,6 +39,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -45,6 +48,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -53,6 +57,7 @@ MonoBehaviour:
       --"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -60,6 +65,7 @@ MonoBehaviour:
     Text: "\u9019\u662F\u5426\u5408\u7406\uFF1F\uFF01"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
     - {fileID: 21300000, guid: edc2f287bdc1b80418e3bf496f80aca3, type: 3}
@@ -67,6 +73,7 @@ MonoBehaviour:
     Text: "\u7576\u7136\u4E0D\u662F\u597D\u55CE\uFF01\u8FEA\u5967\u600E\u9EBC\u53EF\u80FD\u6703\u505A\u9019\u7A2E\u9AAF\u9AD2\u4E8B\u5462\uFF01"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
     - {fileID: 21300000, guid: 7ae9aa9c517f0da4296ea666dc5988ce, type: 3}
@@ -75,6 +82,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -83,6 +91,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -91,6 +100,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -98,6 +108,7 @@ MonoBehaviour:
     Text: "\u4F60\u662F......\uFF1F"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
     - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
@@ -106,6 +117,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
     - {fileID: 21300000, guid: 6c59826299b242f4e93682f10fe1f172, type: 3}
@@ -114,6 +126,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
     - {fileID: 21300000, guid: 47d9da7d650885f4f95893799525fdfd, type: 3}
@@ -121,6 +134,7 @@ MonoBehaviour:
     Text: "\u662F\u6D1B\u4F0A\u5854\u2027\u963F\u5947\u7F85\uFF0C\u795E\u6BBF\u7684\u5927\u796D\u53F8"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
     - {fileID: 21300000, guid: c87631ce3f1390a40a4864ec5fa07cc1, type: 3}
@@ -128,6 +142,7 @@ MonoBehaviour:
     Text: "\u662F\u963F~\u4F60\u7ADF\u7136\u5FD8\u4E86\u6211\uFF01\u770B\u4F86\u22EF\u22EF\u6211\u5F97\u8981\u7D93\u5E38\u548C\u6211\u5011\u7684\u8056\u5973\u5927\u4EBA\uFF0C\u597D\u597D\u7684\u57F9\u990A\u4E00\u4E0B\u611F\u60C5\u4E86\u5462\uFF01"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
     - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
@@ -136,6 +151,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: f03e4886065ae404db4108d2a04378ad, type: 3}
     - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
@@ -144,6 +160,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
     - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
@@ -152,6 +169,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
     - {fileID: 21300000, guid: 23c172a341e4792418ba785fa2b5845a, type: 3}
@@ -160,6 +178,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: aaff409f4259bac44b61d431acdee15a, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -168,6 +187,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
     - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
@@ -175,6 +195,7 @@ MonoBehaviour:
     Text: "\u6211\u525B\u525B\u5728\u4E00\u65C1\u89C0\u5BDF\u4E86\u8A31\u4E45\uFF0C\u4E0D\u77E5\u662F\u5426\u6709\u5E78\uFF0C\u80FD\u5E6B\u8056\u5973\u5927\u4EBA\u89E3\u9664\u7169\u60F1\u5462\uFF1F"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -183,6 +204,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -191,6 +213,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -199,6 +222,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -207,6 +231,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 630b73f9156ac0e44a9dec6b4773fd3b, type: 3}
     - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
@@ -214,6 +239,7 @@ MonoBehaviour:
     Text: "\u8056\u5973\u5927\u4EBA\u662F\u60F3\u554F\u9019\u4EFD\u5951\u7D04\u662F\u5426\u5408\u7406\u55CE\uFF1F"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 06f4ba180f3eaff4b94a58e8f91f9e33, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -222,6 +248,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -229,6 +256,7 @@ MonoBehaviour:
     Text: "\u4F60\u6709\u89E3\u6C7A\u8FA6\u6CD5\uFF1F"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -237,6 +265,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: e71f459be2c94824e878f059d83219c9, type: 3}
     - {fileID: 21300000, guid: 8c754b7ecd3466243997e9431d0897a0, type: 3}
@@ -244,6 +273,7 @@ MonoBehaviour:
     Text: "\u7576\u7136\u6709\uFF0C\u4E0D\u904E\u5462\u22EF\u22EF"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 1470f37d9f6316d41b7d81f81d3c49df, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -252,6 +282,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 11eedd5dbd459684093f4ca2b0129b5c, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -259,6 +290,7 @@ MonoBehaviour:
     Text: "\u6211......\u53EF\u662F\u5F88\u8CB4\u7684~"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -267,6 +299,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 032cda308011d1f48aba3789604a2011, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -275,6 +308,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 125e392dc6a4ab64aad768fa0d101791, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -283,6 +317,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: 125e392dc6a4ab64aad768fa0d101791, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -290,6 +325,7 @@ MonoBehaviour:
     Text: "\u53EA\u8981\u4F60\u6709\u9700\u8981\u6211\u7684\u5730\u65B9\uFF0C\u6211\u90FD\u6703\u5728\uFF01"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: f3acaeae51b43524a90b74159414c647, type: 3}
     - {fileID: 21300000, guid: d67882071ed0e414da4a17cc6bd9b44f, type: 3}
@@ -299,6 +335,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(0)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: b33052da2b4abe7428833d5eee29600c, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -306,6 +343,7 @@ MonoBehaviour:
     Text: "\u90A3\u53EF\u771F\u662F\u592A\u597D\u4E86\u2014\u2014\u4E4B\u5F8C\u80AF\u5B9A\u6703\u6709\u8A31\u591A\u4E8B\u7269\u5462\uFF01\u771F\u3001\u662F\u3001\u9EBB\u3001\u7169\u3001\u4F60\u3001\u5566\uFF01"
     sendMess: []
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c8cde18923551664289759c2433f623d, type: 3}
     - {fileID: 21300000, guid: 37e8dd5a43742c04cad1370e37a61ac9, type: 3}
@@ -314,6 +352,7 @@ MonoBehaviour:
     sendMess:
     - Img_white(1)
     branch: []
+    teleports: []
   - PeopleIcon:
     - {fileID: 21300000, guid: c5006ade7278007419ce68a6e37d5ac9, type: 3}
     - {fileID: 21300000, guid: 7c3cf4038d6b62c42bf3e3a21ecace93, type: 3}
@@ -322,6 +361,7 @@ MonoBehaviour:
       \u2014\u2014"
     sendMess: []
     branch: []
+    teleports: []
   peopleHeights: []
   finshTalk:
     newTask: {fileID: 0}
@@ -330,8 +370,7 @@ MonoBehaviour:
       npcName: "\u6D1B\u6D1B"
       taskItem: {fileID: 11400000, guid: dea11dbdf29dcc34f966020ddbff9190, type: 2}
     removeBagItem: []
-    npcTaskState:
-    - npcName: "\u7CBE\u9748"
-      state: 0
+    teleports: []
+    npcTaskState: []
     FinshContent: 
     openFinshUi: 0

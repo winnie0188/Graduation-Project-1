@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf7c34a0dc4e6348bea04faa70406ee, type: 3}
+  m_Name: teenager_girl
+  m_EditorClassIdentifier: 
+  m_Labels:
+  - m_Name: head
+    m_Hash: -1477183844
+    m_CategoryList:
+    - m_Name: red
+      m_Hash: -94281841
+      m_Sprite: {fileID: -6017308357399831863, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: gold
+      m_Hash: 1202265425
+      m_Sprite: {fileID: -305524566153997612, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: -181799306692753263, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: back
+    m_Hash: 1842266423
+    m_CategoryList:
+    - m_Name: red
+      m_Hash: -94281841
+      m_Sprite: {fileID: -4286982963741386535, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: gold
+      m_Hash: 1202265425
+      m_Sprite: {fileID: -2738530199483659939, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: 5544424127002812251, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: body
+    m_Hash: -609743950
+    m_CategoryList:
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: -6564338589665200708, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: black
+      m_Hash: -1987724760
+      m_Sprite: {fileID: 7153362098502170207, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: leg_r
+    m_Hash: 1487464014
+    m_CategoryList:
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: 495866649119151391, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: black
+      m_Hash: -1987724760
+      m_Sprite: {fileID: -9212827335531467838, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: leg_l
+    m_Hash: -1566057683
+    m_CategoryList:
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: -2803608527378196745, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: black
+      m_Hash: -1987724760
+      m_Sprite: {fileID: 4196561562571440978, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: hand_l
+    m_Hash: 473431373
+    m_CategoryList:
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: -167491546972298171, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: black
+      m_Hash: -1987724760
+      m_Sprite: {fileID: -5052524228800899898, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: white_broom
+      m_Hash: 839608647
+      m_Sprite: {fileID: -3243487461475626843, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+  - m_Name: hand_r
+    m_Hash: -432488402
+    m_CategoryList:
+    - m_Name: white
+      m_Hash: 1120914852
+      m_Sprite: {fileID: 6238631187807549097, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: black
+      m_Hash: -1987724760
+      m_Sprite: {fileID: -7267243155903722285, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}
+    - m_Name: white_broom
+      m_Hash: 839608647
+      m_Sprite: {fileID: -184061077797480519, guid: cf5df482b7b973f46b6d50509f34587c, type: 3}

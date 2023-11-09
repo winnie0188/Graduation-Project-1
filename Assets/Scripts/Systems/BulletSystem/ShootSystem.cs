@@ -23,9 +23,19 @@ public class ShootSystem : MonoBehaviour
     }
 
 
-    public void shoot(string key, Transform parent, Vector3 end, int power, float continued, Transform enemyTransform)
+    public void shoot(string key, Transform parent, Vector3 end, int power, float continued, Transform enemyTransform, Vector3 Start)
     {
-        Vector3 start = parent.position;
+        Vector3 start;
+
+        if (Start != Vector3.zero)
+        {
+            start = Start;
+        }
+        else
+        {
+            start = parent.position;
+        }
+
         Vector3 direction = (end - start).normalized;
         start = start + direction * 0.5f;
         end = start + direction * 1.5f;

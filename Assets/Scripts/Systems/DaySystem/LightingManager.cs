@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class LightingManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    // [SerializeField] Light DirectionalLight;
-    // [SerializeField] LightintPreset Preset;
+    [SerializeField] Camera DirectionalLight;
+    [SerializeField] LightintPreset Preset;
     [SerializeField, Range(0, 24)] float TimeOfDay;
 
     // 指針
@@ -58,6 +58,7 @@ public class LightingManager : MonoBehaviour
 
         int hour = (int)TimeOfDay;
         preHour = hour;
+        UpdateLighting(TimeOfDay / 24.0f);
     }
 
 
@@ -78,13 +79,27 @@ public class LightingManager : MonoBehaviour
             }
 
 
-            //UpdateLighting(TimeOfDay / 24.0f);
+            // UpdateLighting(TimeOfDay / 24.0f);
         }
-        else
+        // else
+        // {
+        //     UpdateLighting(TimeOfDay / 24.0f);
+        // }
+    }
+
+    #region 選轉陽光
+    private void UpdateLighting(float timePercent)
+    {
+        // RenderSettings.ambientLight = Preset.AmbientColor.Evaluate(timePercent);
+        // RenderSettings.fogColor = Preset.Fogcolor.Evaluate(timePercent);
+
+        if (DirectionalLight != null)
         {
-            //UpdateLighting(TimeOfDay / 24.0f);
+            DirectionalLight.backgroundColor = Preset.DirectionalColor.Evaluate(timePercent);
+            //DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170, 0));
         }
     }
+    #endregion
 
     #region 轉動指針以及更新時間
     void rotationPoint()
@@ -136,6 +151,7 @@ public class LightingManager : MonoBehaviour
 
 
             NpcFactory.npcFactory.getDateSign(dayData.day, hour);
+            UpdateLighting(TimeOfDay / 24.0f);
         }
 
         preHour = hour;

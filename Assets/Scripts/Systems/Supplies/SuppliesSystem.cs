@@ -42,6 +42,22 @@ public class SuppliesSystem : MonoBehaviour
 
     }
 
+    public void FixedUpdate()
+    {
+        Dictionary<string, List<Transform>> Live = suppliePool.Live;
+
+        foreach (var item in Live)
+        {
+            foreach (var supplies in item.Value)
+            {
+                if (supplies.TryGetComponent<Supplies>(out Supplies s))
+                {
+                    s.running();
+                }
+            }
+        }
+    }
+
 
     public void initAllSupplies()
     {

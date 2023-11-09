@@ -17,9 +17,18 @@ MonoBehaviour:
   BagItem_info: 1
   sellPrice: 1
   bagSoreIndex: 3
-  keySoreIndex: 0
-  id: 0
+  keySoreIndex: -1
+  id: 50
   BagItemType_: 3
+  potion:
+    potionType: 0
+    attackPotion:
+      bullectKey: 
+      aniName: 
+      second: 0
+      generationTime: 0
+      generationIndex: 0
+      time: 0
   other:
     otherType: 0
     otherLetter:

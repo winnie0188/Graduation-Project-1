@@ -25,10 +25,24 @@ MonoBehaviour:
       eventSelect: {fileID: 0}
       content: "\u7E7C\u7E8C\u4EFB\u52D9"
       taskItem: {fileID: 11400000, guid: 84139c7d98cf78640b0c69c509bf8615, type: 2}
+      NPCtasks: []
     - Triggevent: 2
       eventSelect: {fileID: 0}
       content: "\u8DF3\u904E\u4EFB\u52D9"
       taskItem: {fileID: 11400000, guid: 6685086442e8687469f8e0dda6cc0a2e, type: 2}
+      NPCtasks:
+      - npcName: "\u7C73\u845B\u8389\u5C0F\u59D0"
+        taskItem: {fileID: 11400000, guid: 8e85374f9ee16c447934912680f2c36d, type: 2}
+      - npcName: "\u666E\u53F8\u7279\u5148\u751F"
+        taskItem: {fileID: 11400000, guid: 8d02c45456e077b42bcc312e15881f94, type: 2}
+      - npcName: "\u5D50\u6851\u74E6\u5361\u5C0F\u59D0"
+        taskItem: {fileID: 11400000, guid: d783f1737eaa8b74ea5cf2a9086aea6d, type: 2}
+      - npcName: "\u5409\u672C\u723A\u723A"
+        taskItem: {fileID: 11400000, guid: 644f2f2534366f2489aaba6dea90f3fb, type: 2}
+      - npcName: "\u5EAB\u53F8\u529B\u5927\u53D4"
+        taskItem: {fileID: 11400000, guid: 2d60734897ce33c4ebe26d16c0bb902c, type: 2}
+      - npcName: "\u963F\u5409\u746A\u592A\u592A"
+        taskItem: {fileID: 11400000, guid: dedda21edece0564e9002ab59fcaf7c2, type: 2}
   peopleHeights: []
   finshTalk:
     newTask: {fileID: 0}

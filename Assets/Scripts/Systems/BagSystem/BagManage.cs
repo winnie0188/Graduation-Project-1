@@ -636,6 +636,8 @@ public class BagManage : UIinit
         UpdateHotKeyPanel(EquipHotKeyPanel, hotKeyStore.HotKeys_equip);
 
         FindObjectOfType<dolumi>().UpdateClothe();
+        FindObjectOfType<PlayerSkill>().init(hotKeyStore.HotKeys_potion);
+        FindObjectOfType<PlayerEquipment>().wear(hotKeyStore.HotKeys_equip);
     }
 
     private void UpdateHotKeyPanel(Transform hotKeyPanel, HotKey[] hotKeys)

@@ -20,6 +20,12 @@ MonoBehaviour:
   keySoreIndex: 3
   id: 21
   BagItemType_: 2
+  potion:
+    potionType: 0
+    attackPotion:
+      bullectKey: 
+      aniName: 
+      second: 0
   other:
     otherType: 0
     otherLetter:
@@ -27,7 +33,7 @@ MonoBehaviour:
       npc: 
       talkContent: {fileID: 0}
   clothe:
-    clotheName: god
+    clotheName: canonicals
   tool:
     toolType: 0
     power: 0

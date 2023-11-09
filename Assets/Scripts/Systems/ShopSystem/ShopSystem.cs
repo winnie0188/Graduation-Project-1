@@ -6,6 +6,9 @@ using TMPro;
 
 public class ShopSystem : UIinit
 {
+    [SerializeField] Transform messagePanel;
+    [SerializeField] Text message;
+
     [Header("叉叉")]
     [SerializeField] Sprite x;
     [SerializeField] int slotCount;
@@ -89,6 +92,17 @@ public class ShopSystem : UIinit
 
     }
 
+    void opMessage(string s)
+    {
+        message.text = s;
+        messagePanel.gameObject.SetActive(true);
+    }
+
+    public void closeMessage()
+    {
+        messagePanel.gameObject.SetActive(false);
+    }
+
     void buyInfoRestart()
     {
         buyInfo.icon.sprite = X;
@@ -149,9 +163,13 @@ public class ShopSystem : UIinit
             UpdatePlayerprice();
 
             buyInfoRestart();
+
+
+            opMessage("購買成功");
         }
         else
         {
+            opMessage("餘額不足");
             print("餘額不足");
         }
     }
@@ -221,9 +239,12 @@ public class ShopSystem : UIinit
             sellCount++;
             sellInfo.price.text = (sellPrice * sellCount).ToString();
             sellInfo.count.text = sellCount.ToString();
+
+            opMessage("出售成功");
         }
         else
         {
+            opMessage("已超過上限");
             print("已超過上限");
         }
     }
@@ -237,6 +258,7 @@ public class ShopSystem : UIinit
         }
         else
         {
+            opMessage("已超過下限");
             print("已超過下限");
         }
 
@@ -260,14 +282,22 @@ public class ShopSystem : UIinit
             }
             UpdatePlayerprice();
             sellInfoRestart();
+            opMessage("出售成功");
         }
         else
         {
+            opMessage("背包沒有相應的道具");
             print("背包沒有相應的道具");
         }
 
     }
     #endregion
+
+    public void addPrice(int gold)
+    {
+        Playerprice += gold;
+        UpdatePlayerprice();
+    }
 
 }
 [System.Serializable]

@@ -13,14 +13,34 @@ MonoBehaviour:
   m_Name: "\u7761\u8863"
   m_EditorClassIdentifier: 
   BagItem_name: "\u7761\u8863"
-  BagItem_icon: {fileID: 21300000, guid: 6b69b7d330b52444c9889dcd1c6e96fd, type: 3}
+  BagItem_icon: {fileID: 21300000, guid: 6a79d30bae7723940a553cc490eb4b42, type: 3}
   BagItem_info: "\u9019\u662F\u7761\u8863"
   sellPrice: 10
   bagSoreIndex: 2
   keySoreIndex: 3
   id: 0
   BagItemType_: 2
+  potion:
+    potionType: 0
+    attackPotion:
+      bullectKey: 
+      aniName: 
+      second: 0
+      generationTime: 0
+      generationIndex: 0
+      time: 0
+  other:
+    otherType: 0
+    otherLetter:
+      letterPath: 
+      npc: 
+      talkContent: {fileID: 0}
   clothe:
     clotheName: sleep
+  tool:
+    toolType: 0
+    power: 0
+    maxCooltime: 0
+    ArmCooltime: 0
   block:
     blockPool: {fileID: 0}

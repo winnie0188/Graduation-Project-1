@@ -465,6 +465,19 @@ public class taskSystem : MonoBehaviour
                     );
                 }
             }
+
+            if (finshTask.AnimaData.Length != 0)
+            {
+                for (int i = 0; i < finshTask.AnimaData.Length; i++)
+                {
+                    Transform npc = NpcFactory.npcFactory.factorys[finshTask.AnimaData[i].NPC];
+                    NpcFactory.npcFactory.setAni(
+                        npc,
+                        finshTask.AnimaData[i].ani,
+                        finshTask.AnimaData[i].state
+                    );
+                }
+            }
         }
     }
 

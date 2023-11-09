@@ -372,12 +372,15 @@ MonoBehaviour:
     branch: []
   peopleHeights: []
   finshTalk:
-    newTask: {fileID: 0}
+    newTask: {fileID: 11400000, guid: 2b4116177c01e2741a9406c143cfc4ed, type: 2}
     bagItem: []
     NPCtask:
       npcName: 
       taskItem: {fileID: 0}
     removeBagItem: []
+    teleports:
+    - AiName: "\u6D1B\u6D1B"
+      position: {x: -37, y: 1, z: -40}
     npcTaskState:
     - npcName: "\u677E\u9F20"
       state: 0

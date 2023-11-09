@@ -7,6 +7,14 @@ using TMPro;
 
 public class NPC : MonoBehaviour
 {
+    //是否正在攻擊
+    [SerializeField] bool isAttIng;
+    [Header("肥啾")]
+    public Collider[] 碰撞體;
+    [Header("肥啾")]
+    public Transform[] 變身;
+    Transform 變身Parent;
+
     Transform image;
 
     public float speed;
@@ -54,14 +62,15 @@ public class NPC : MonoBehaviour
     public int currentLive;
 
 
-    [Header("測試用")]
-    [SerializeField] int attState;
 
     floatData rest;
     floatData walk;
 
     public NPCdata NPCdata1 { get => NPCdata; set => NPCdata = value; }
     public Vector3 CenterPos { get => centerPos; set => centerPos = value; }
+    public NPCstate NPCstate1 { get => NPCstate; set => NPCstate = value; }
+    public Animator Ani1 { get => ani; set => ani = value; }
+    public bool IsAttIng { get => isAttIng; set => isAttIng = value; }
 
     private void Awake()
     {
@@ -80,11 +89,39 @@ public class NPC : MonoBehaviour
         image = transform.GetChild(0);
         rigi = GetComponent<Rigidbody>();
         ani = image.GetChild(0).GetChild(0).GetChild(0).GetComponent<Animator>();
-        setCenter(CenterPos, true);
+        setCenter(CenterPos, true, 3);
 
         StartCoroutine(Ani());
+
+        if (變身.Length > 0)
+        {
+            變身Parent = 變身[0].parent;
+        }
     }
 
+    //肥啾變身
+    public void fatdoveTranslate(int i)
+    {
+        int j = (i == 0) ? 1 : 0;
+
+        碰撞體[i].enabled = true;
+        碰撞體[j].enabled = false;
+
+        變身[j].SetParent(null);
+        變身[j].gameObject.SetActive(false);
+        變身[i].SetParent(變身Parent);
+        變身[i].gameObject.SetActive(true);
+
+        if (i == 0)
+        {
+            NPCstate = NPCstate.FOLLOW;
+        }
+        else
+        {
+            setCenter(NPCdata1.ShopPos[0], true, 3);
+            NPCstate1 = NPCstate.WORK;
+        }
+    }
 
 
     //給DatSystem用的
@@ -95,17 +132,49 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        if (NPCdata1.dictionary.TryGetValue(start, out int index))
+        //如果是肥啾
+        if (NPCdata1.NPCType == NPCType.FATDOVE)
+        {
+            if (NPCdata1.npcOtherData.FollowTransform.TryGetComponent<NPC>(out NPC nPC))
+            {
+                if (nPC.NPCstate1 == NPCstate.NONE || nPC.NPCstate1 == NPCstate.WALK)
+                {
+                    int person = Random.Range(1, 101);
+                    if (person <= 60)
+                    {
+                        fatdoveTranslate(1);
+                    }
+                    else
+                    {
+                        fatdoveTranslate(0);
+                    }
+                }
+                else
+                {
+                    int person = Random.Range(1, 101);
+                    if (person <= 80)
+                    {
+                        fatdoveTranslate(0);
+                    }
+                    else
+                    {
+                        fatdoveTranslate(1);
+                    }
+                }
+            }
+
+        }
+        else if (NPCdata1.dictionary.TryGetValue(start, out int index))
         {
             //DIO
             if (NPCdata1.NPCType == NPCType.DIO)
             {
-                var activePos = NPCdata1.npcOtherData.activePos[Random.Range(0, NPCdata1.npcOtherData.activePos.Length)];
-
-                setCenter(activePos.pos, false);
+                //var activePos = NPCdata1.npcOtherData.activePos[Random.Range(0, NPCdata1.npcOtherData.activePos.Length)];
+                ActivePos activePos = NPCdata1.hauntingPlace[Random.Range(0, NPCdata1.hauntingPlace.Length)];
+                setCenter(activePos.pos, false, activePos.range);
                 range = activePos.range;
 
-                NPCstate = NPCstate.WALK;
+                NPCstate1 = NPCstate.WALK;
             }
             else
             {
@@ -172,41 +241,41 @@ public class NPC : MonoBehaviour
                     {
                         if (lives[i].life == NpcLifeType.HOME)
                         {
-                            setCenter(NPCdata1.homePs, true);
-                            NPCstate = NPCstate.NONE;
+                            setCenter(NPCdata1.homePs, true, 3);
+                            NPCstate1 = NPCstate.NONE;
                         }
                         else if (lives[i].life == NpcLifeType.WORK)
                         {
-                            setCenter(NPCdata1.ShopPos[0], true);
-                            NPCstate = NPCstate.WORK;
+                            setCenter(NPCdata1.ShopPos[0], true, 3);
+                            NPCstate1 = NPCstate.WORK;
                         }
                         else if (lives[i].life == NpcLifeType.OTHER)
                         {
                             var length = NPCdata1.hauntingPlace.Length;
                             ActivePos activePos = NPCdata1.hauntingPlace[Random.Range(0, length)];
 
-                            setCenter(activePos.pos, false);
-                            range = activePos.range;
-                            NPCstate = NPCstate.WALK;
+                            setCenter(activePos.pos, false, activePos.range);
+                            NPCstate1 = NPCstate.WALK;
                         }
 
                         //洛洛
                         else if (lives[i].life == NpcLifeType.MASS)
                         {
-                            setCenter(NPCdata1.ShopPos[1], false);
-                            NPCstate = NPCstate.MASS;
+                            setCenter(NPCdata1.ShopPos[1], false, 3);
+                            NPCstate1 = NPCstate.MASS;
                         }
 
                         //墨菲
                         else if (lives[i].life == NpcLifeType.LOUNGE)
                         {
-                            setCenter(NPCdata1.npcOtherData.NPCspecialPlace[0].loungePlace[0], true);
-                            NPCstate = NPCstate.NONE;
+                            setCenter(NPCdata1.npcOtherData.NPCspecialPlace[0].loungePlace[0], true, 3);
+                            NPCstate1 = NPCstate.NONE;
                         }
                         else if (lives[i].life == NpcLifeType.FREE)
                         {
-                            setCenter(NPCdata1.npcOtherData.NPCspecialPlace[0].freePlace[0].pos, true);
-                            NPCstate = NPCstate.WALK;
+                            ActivePos activePos = NPCdata1.npcOtherData.NPCspecialPlace[0].freePlace[0];
+                            setCenter(activePos.pos, true, activePos.range);
+                            NPCstate1 = NPCstate.WALK;
                         }
                         else if (lives[i].life == NpcLifeType.UNCHANGED)
                         {
@@ -220,7 +289,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void setCenter(Vector3 center, bool isHome)
+    public void setCenter(Vector3 center, bool isHome, int range)
     {
         // 0.8126594/
         if (isHome)
@@ -233,12 +302,14 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            center.y += 1000;
-            if (Physics.Raycast(center, Vector3.down, out RaycastHit hitInfo, 1200))
+            center.y += 60;
+            if (Physics.Raycast(center, Vector3.down, out RaycastHit hitInfo, Mathf.Infinity, LayerMask.GetMask("block")))
             {
                 this.CenterPos = hitInfo.point + new Vector3(0, 1, 0);
             }
         }
+
+        this.range = range;
     }
 
     //相當於start
@@ -313,11 +384,11 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        if (NPCstate == NPCstate.FOLLOW)
+        if (NPCstate1 == NPCstate.FOLLOW)
         {
-            Vector3 playerPos = NPCdata1.npcOtherData.FolowTransform.position;
+            Vector3 playerPos = NPCdata1.npcOtherData.FollowTransform.position;
 
-            float distance = (NPCdata1.npcOtherData.FolowTransform.position - transform.position).magnitude;
+            float distance = (NPCdata1.npcOtherData.FollowTransform.position - transform.position).magnitude;
 
             if (distance > 20)
             {
@@ -333,7 +404,7 @@ public class NPC : MonoBehaviour
                 stopWalk();
             }
         }
-        else if (NPCstate == NPCstate.WALK)
+        else if (NPCstate1 == NPCstate.WALK)
         {
             //如果沒被召喚則維持
             if (!summonCompanion())
@@ -341,7 +412,7 @@ public class NPC : MonoBehaviour
                 RadomWalk();
             }
         }
-        else if (NPCstate == NPCstate.MASS)
+        else if (NPCstate1 == NPCstate.MASS)
         {
             idle();
             if (NPCdata1.NPCType == NPCType.PARTNER)
@@ -350,7 +421,7 @@ public class NPC : MonoBehaviour
                 UpCool();
             }
         }
-        else if (NPCstate == NPCstate.WORK)
+        else if (NPCstate1 == NPCstate.WORK)
         {
             idle();
             if (NPCdata1.NPCType == NPCType.PARTNER)
@@ -358,8 +429,9 @@ public class NPC : MonoBehaviour
                 UpSkill();
                 UpCool();
             }
+
         }
-        else if (NPCstate == NPCstate.NONE)
+        else if (NPCstate1 == NPCstate.NONE)
         {
             idle();
         }
@@ -392,44 +464,51 @@ public class NPC : MonoBehaviour
         if (NPCdata1.NPCType == NPCType.PARTNER)
         {
             var attSystem = BiologySystem.biologySystem.Lolo;
-            if (attSystem.attMode && attSystem.canAtt(NPCstate))
+            if (attSystem.attMode && attSystem.canAtt(NPCstate1))
             {
-                Vector3 playerPos = playerController.playerController_.transform.position;
-                float distance = (NPCdata1.npcOtherData.FolowTransform.position - transform.position).magnitude;
-
                 bool isAtt = attSystem.attTarge.Count > 0;
 
-                if (distance > 15)
+                //如果正在攻擊就不做其他動作
+                if (!IsAttIng)
                 {
-                    transform.position = playerPos;
-                    attSystem.attTarge.Clear();
-                }
-                else if (isAtt)
-                {
-                    if (attSystem.attTarge[0] != null || attSystem.attTarge[0].gameObject.activeSelf)
+                    Vector3 playerPos = playerController.playerController_.transform.position;
+                    float distance = (NPCdata1.npcOtherData.FollowTransform.position - transform.position).magnitude;
+
+                    if (distance > 15)
                     {
-                        if ((attSystem.attTarge[0].position - transform.position).magnitude > 10)
+                        transform.position = playerPos;
+                        attSystem.attTarge.Clear();
+                    }
+                    else if (isAtt)
+                    {
+                        if (attSystem.attTarge[0] != null && attSystem.attTarge[0].gameObject.activeSelf)
                         {
-                            LookAt(attSystem.attTarge[0].position);
-                            walkFront();
+                            if ((attSystem.attTarge[0].position - transform.position).magnitude > 10)
+                            {
+                                LookAt(attSystem.attTarge[0].position);
+                                walkFront();
+                            }
+                            else
+                            {
+                                Attack(attSystem.attTarge[0], attSystem.skillTime);
+                            }
                         }
-                        Attack(attSystem.attTarge[0].position, attSystem.skillTime);
+                        else
+                        {
+                            attSystem.attTarge.RemoveAt(0);
+                        }
                     }
-                    else
+                    else if (distance > 5)
                     {
-                        attSystem.attTarge.RemoveAt(0);
+                        LookAt(playerPos);
+                        walkFront();
                     }
-                }
-                else if (distance > 5)
-                {
-                    LookAt(playerPos);
-                    walkFront();
+
+
                 }
 
                 attSystem.Cooldown(isAtt);
-
                 UpSkill();
-
                 return true;
             }
             else
@@ -451,55 +530,119 @@ public class NPC : MonoBehaviour
         Lolo lolo = BiologySystem.biologySystem.Lolo;
         for (int i = 0; i < lolo.skillTime.Length; i++)
         {
-            if ((lolo.skillTime[i].current -= Time.deltaTime) <= 0)
+
+            if ((lolo.skillTime[i].floatData.current -= Time.deltaTime) <= 0)
             {
-                lolo.skillTime[i].current = 0;
+                lolo.skillTime[i].floatData.current = 0;
+            }
+
+            if (lolo.skillTime[i].floatData.current == 0)
+            {
+                print(i);
             }
         }
     }
 
-    public void Attack(Vector3 monsterPos, floatData[] floatData)
+    public void Attack(Transform monster, LoloSkill[] loloSkills)
     {
-        if (attState == 0)
+        if (物理攻擊(monster, loloSkills[0].floatData))
         {
-            物理攻擊(monsterPos, floatData[0]);
-        }
-        else if (attState == 1)
-        {
-            攻_驅邪(floatData[1]);
-        }
-        else if (attState == 2)
-        {
-            攻_迪奧的祝福(floatData[2]);
-        }
-        else if (attState == 3)
-        {
-            補_神聖洗禮(floatData[3]);
-        }
-    }
 
-    public void 物理攻擊(Vector3 monsterPos, floatData floatData)
-    {
-        // if (floatData.current <= 0)
+            ani.SetBool("SKILL1", true);
+        }
+        // else if (攻_驅邪(monster, loloSkills[1].floatData))
         // {
-        //     BullectSystem.bullectSystem.fire(NPCdata.npcOtherData.bullect[0], transform, monsterPos);
-        //     floatData.current = floatData.max;
+        //     IsAttIng = true;
+        //     StartCoroutine(AttCold(loloSkills[1].continuedTime, 2));
+        //     ani.SetBool("SKILL2", true);
+        // }
+        // else if (攻_迪奧的祝福(monster, loloSkills[2].floatData))
+        // {
+        //     IsAttIng = true;
+        //     StartCoroutine(AttCold(loloSkills[2].continuedTime, 3));
+        //     ani.SetBool("SKILL3", true);
+        // }
+        // else if (補_神聖洗禮(playerController.playerController_.transform, loloSkills[3].floatData))
+        // {
+        //     IsAttIng = true;
+        //     StartCoroutine(AttCold(loloSkills[3].continuedTime, 4));
+        //     ani.SetBool("SKILL4", true);
         // }
     }
 
-    public void 攻_驅邪(floatData floatData)
+    IEnumerator AttCold(float second, int SkillId)
     {
-
+        yield return new WaitForSeconds(second);
+        IsAttIng = false;
+        ani.SetBool("SKILL" + SkillId, false);
     }
 
-    public void 攻_迪奧的祝福(floatData floatData)
+    public bool 物理攻擊(Transform monster, floatData floatData)
     {
+        if (floatData.current <= 0)
+        {
+            IsAttIng = true;
 
+
+            BullectSystem.bullectSystem.fire(NPCdata.npcOtherData.bullect[0], transform, monster.position, null, "monster", Vector3.zero);
+            floatData.current = floatData.max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    public void 補_神聖洗禮(floatData floatData)
+    public bool 攻_驅邪(Transform monster, floatData floatData)
     {
+        if (floatData.current <= 0)
+        {
+            IsAttIng = true;
 
+            if (monster.TryGetComponent<Biology>(out Biology biology))
+            {
+                biology.injuried(800, transform);
+            }
+            floatData.current = floatData.max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool 攻_迪奧的祝福(Transform monster, floatData floatData)
+    {
+        if (floatData.current <= 0)
+        {
+            IsAttIng = true;
+
+            BullectSystem.bullectSystem.fire(NPCdata.npcOtherData.bullect[1], transform, monster.position, monster, "monster", Vector3.zero);
+            floatData.current = floatData.max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool 補_神聖洗禮(Transform monster, floatData floatData)
+    {
+        if (floatData.current <= 0)
+        {
+            IsAttIng = true;
+
+            BullectSystem.bullectSystem.fire(NPCdata.npcOtherData.bullect[2], transform, monster.position, monster, "monster", Vector3.zero);
+            floatData.current = floatData.max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
@@ -517,6 +660,7 @@ public class NPC : MonoBehaviour
         {
             ani.SetBool("RUN", false);
         }
+
 
 
         prePos = transform.position;
@@ -671,6 +815,10 @@ public class NPC : MonoBehaviour
 
     IEnumerator talk(string content)
     {
+
+        ani.SetBool("TALK", true);
+
+
         for (int i = 0; i < content.Length; i++)
         {
             this.content.text += content[i];
@@ -680,6 +828,8 @@ public class NPC : MonoBehaviour
         this.content.text = content;
         yield return new WaitForSeconds(Stiff);
         isFinshTalk = true;
+
+        ani.SetBool("TALK", false);
     }
 
     public void closeConetnt()
@@ -719,7 +869,7 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        if (isTask == false && NPCstate == NPCstate.WORK && NPCdata1.NPCType == NPCType.MERCHANT)
+        if (isTask == false && NPCstate1 == NPCstate.WORK && (NPCdata1.NPCType == NPCType.MERCHANT || NPCdata1.NPCType == NPCType.FATDOVE))
         {
             ShopSystem.shopSystem.OpenShopPanel(
                 NPCdata1.npcOtherData.merchantData[0].buys,

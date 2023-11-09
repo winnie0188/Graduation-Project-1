@@ -60,7 +60,10 @@ public class BiologySystem : MonoBehaviour
 
     public void FixedUpdate()
     {
-        foreach (var monsterList in monsterPool.Live)
+
+        Dictionary<string, List<Transform>> live = monsterPool.Live;
+
+        foreach (var monsterList in live)
         {
             foreach (var monster in monsterList.Value)
             {
@@ -70,6 +73,8 @@ public class BiologySystem : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     public void addEgg(string egg, Biology biology)
@@ -347,11 +352,13 @@ public class floatData
 [System.Serializable]
 public class Lolo : BiologyData
 {
+    //自己
+    [SerializeField] NPC npc;
     //攻擊目標
     public List<Transform> attTarge = new List<Transform>();
     public bool attMode;
     [Header("技能冷卻")]
-    public floatData[] skillTime;
+    public LoloSkill[] skillTime;
 
     [Header("活動冷卻")]
     public floatData ActiveCooldown;
@@ -393,7 +400,7 @@ public class Lolo : BiologyData
 
     public bool canAtt(NPCstate nPCstate)
     {
-        if (ActiveCooldown.current < ActiveCooldown.max && FreeCooldown.current < FreeCooldown.max && nPCstate == NPCstate.WALK)
+        if (ActiveCooldown.current < ActiveCooldown.max && FreeCooldown.current < FreeCooldown.max && nPCstate == NPCstate.WALK && Hp > 0)
         {
             return true;
         }
@@ -402,8 +409,25 @@ public class Lolo : BiologyData
 
     public void UpdateLoloHp(float hp)
     {
-        if (Hp + hp > maxHp || Hp + hp < 0)
+        if (Hp + hp > maxHp)
         {
+            Hp = maxHp;
+            return;
+        }
+        else if (Hp + hp < 0)
+        {
+            for (int i = 0; i < attTarge.Count; i++)
+            {
+                if (attTarge[i].TryGetComponent<Biology>(out Biology biology))
+                {
+                    biology.setAttckObject(playerController.playerController_.transform);
+                }
+            }
+            attTarge.Clear();
+
+            Hp = 0;
+            BloodSystem.bloodSystem.addBlood(npc.transform.position);
+
             return;
         }
 
@@ -414,6 +438,13 @@ public class Lolo : BiologyData
         HpTxt.text = (HpPerson * 100) + "%";
         HpLine.localScale = new Vector3(1 - HpPerson, 1, 1);
     }
+}
+
+[System.Serializable]
+public class LoloSkill
+{
+    public floatData floatData;
+    public float continuedTime;
 }
 
 

@@ -22,9 +22,19 @@ public class BullectSystem : MonoBehaviour
         bullectDatas = new bullectData[0];
     }
 
-    public void fire(string key, Transform parent, Vector3 end, Transform targe)
+    public void fire(string key, Transform parent, Vector3 end, Transform targe, string mask, Vector3 Start)
     {
-        Vector3 start = parent.position;
+
+        Vector3 start;
+        if (Start != Vector3.zero)
+        {
+            start = Start;
+        }
+        else
+        {
+            start = parent.position;
+        }
+
         Vector3 direction = (end - start).normalized;
         start = start + direction * 0.5f;
 
@@ -77,12 +87,12 @@ public class BullectSystem : MonoBehaviour
                 setGameObject(bullect, start, end);
             }
 
-            StartCoroutine(bulletUpdate(data.bullectActiveData, bullect, parent, targe));
+            StartCoroutine(bulletUpdate(data.bullectActiveData, bullect, parent, targe, mask));
         }
 
     }
 
-    IEnumerator bulletUpdate(bullectActiveData bullectActive, Transform bullect, Transform parent, Transform targe)
+    IEnumerator bulletUpdate(bullectActiveData bullectActive, Transform bullect, Transform parent, Transform targe, string mask)
     {
         float currentDeletTime = 0;
 
@@ -106,24 +116,61 @@ public class BullectSystem : MonoBehaviour
 
             bullect.transform.Translate(Vector3.forward * bullectActive.speed * deltaTime);
 
-            if ((bullect.position - targe.position).magnitude < bullectActive.distance)
+
+
+            if (targe == null)
+            {
+                RaycastHit hitInfo;
+                if (Physics.Raycast(bullect.transform.position, bullect.transform.forward, out hitInfo, 3))
+                {
+                    if (mask == "monster" && hitInfo.transform.TryGetComponent<Biology>(out var biology))
+                    {
+                        // 子彈碰到了某個東西
+                        // 在這裡你可以處理碰撞事件
+                        // hitInfo 包含碰撞的詳細資訊，如碰撞點、碰撞的物體等。
+                        targe = hitInfo.transform;
+                    }
+                }
+                else if (Physics.Raycast(bullect.transform.position - Vector3.down * 0.5f, bullect.transform.forward, out hitInfo, 3))
+                {
+                    if (mask == "monster" && hitInfo.transform.TryGetComponent<Biology>(out var biology))
+                    {
+                        // 子彈碰到了某個東西
+                        // 在這裡你可以處理碰撞事件
+                        // hitInfo 包含碰撞的詳細資訊，如碰撞點、碰撞的物體等。
+                        targe = hitInfo.transform;
+                    }
+                }
+                else if (Physics.Raycast(bullect.transform.position + Vector3.down * 0.5f, bullect.transform.forward, out hitInfo, 3))
+                {
+                    if (mask == "monster" && hitInfo.transform.TryGetComponent<Biology>(out var biology))
+                    {
+                        // 子彈碰到了某個東西
+                        // 在這裡你可以處理碰撞事件
+                        // hitInfo 包含碰撞的詳細資訊，如碰撞點、碰撞的物體等。
+                        targe = hitInfo.transform;
+                    }
+                }
+            }
+            else if ((bullect.position - targe.position).magnitude < bullectActive.distance)
             {
                 enemy = targe;
             }
 
             if (enemy != null)
             {
-                if (bullectActive.isBack)
-                {
-                    if ((bullect.position - parent.position).magnitude < 1)
-                    {
-                        currentDeletTime = bullectActive.maxDeletTime;
-                    }
-                    LookAt(bullect, parent.position);
-                }
-
                 if (!isAtt)
                 {
+                    if (bullectActive.Baptism > 0)
+                    {
+                        //幫自己加血
+                        if (parent.TryGetComponent<NPC>(out var Lolo))
+                        {
+                            float maxHp = BiologySystem.biologySystem.Lolo.maxHp;
+                            BiologySystem.biologySystem.Lolo.UpdateLoloHp(maxHp * bullectActive.Baptism);
+                        }
+                    }
+
                     if (bullectActive.buff.Length > 0)
                     {
                         buff buff = bullectActive.buff[0];
@@ -135,13 +182,42 @@ public class BullectSystem : MonoBehaviour
                         );
                     }
 
+                    if (bullectActive.isBack)
+                    {
+                        currentDeletTime = bullectActive.maxDeletTime;
+                        LookAt(bullect, parent.position);
+
+                        if (parent.TryGetComponent<NPC>(out var nPC))
+                        {
+                            if (bullect.GetChild(0).TryGetComponent<Animator>(out var animator))
+                            {
+                                animator.SetTrigger("BACK");
+                            }
+                            nPC.Ani1.SetBool("SKILL1", false);
+
+                        }
+                    }
+
                     if (enemy.TryGetComponent<playerController>(out var player))
                     {
-                        player.HpUpdate(-bullectActive.power);
+                        //幫玩家加血
+                        if (bullectActive.Baptism > 0)
+                        {
+                            float maxHp = player.maxHp;
+                            player.HpUpdate(maxHp * bullectActive.Baptism);
+                        }
+                        else
+                        {
+                            player.HpUpdate(-bullectActive.power);
+                        }
                     }
                     else if (enemy.TryGetComponent<NPC>(out var Lolo))
                     {
                         BiologySystem.biologySystem.Lolo.UpdateLoloHp(-bullectActive.power);
+                    }
+                    else if (enemy.TryGetComponent<Biology>(out Biology biology))
+                    {
+                        biology.injuried(-bullectActive.power, parent);
                     }
 
                     if (bullectActive.isKnock)
@@ -166,11 +242,41 @@ public class BullectSystem : MonoBehaviour
                         isAtt = false;
                     }
                 }
-
             }
         }
 
+        if (bullectActive.isBack)
+        {
+            currentDeletTime = 0;
+
+            while (currentDeletTime < bullectActive.maxDeletTime && bullectActive.isBack)
+            {
+                yield return null;
+                bullect.transform.Translate(Vector3.forward * bullectActive.speed * Time.deltaTime);
+
+                if ((parent.position - bullect.position).magnitude < 1)
+                {
+                    currentDeletTime = bullectActive.maxDeletTime;
+
+                }
+            }
+
+
+            if (parent.TryGetComponent<NPC>(out var npc))
+            {
+                npc.Ani1.SetTrigger("SKILL1BACK");
+                npc.IsAttIng = false;
+            }
+        }
+
+
         bullect.gameObject.SetActive(false);
+
+        //關閉parent物件
+        if (bullectActive.isParentIsGone)
+        {
+            parent.gameObject.SetActive(false);
+        }
     }
 
     void setGameObject(Transform gameobject, Vector3 pos, Vector3 end)
@@ -210,6 +316,12 @@ public class bullectActiveData
     public float speed;
     [Header("是否飛回來")]
     public bool isBack;
+    [Header("parent是否消失")]
+    public bool isParentIsGone;
+
+    [Header("是否是恢復技能")]
+    public float Baptism;
+
     [Header("觸發buff")]
     public buff[] buff;
     [Header("地面生成")]

@@ -17,6 +17,7 @@ public class FinshTask
     public string FinshContent;
     public bool openFinshUi;
     public npcTaskState[] npcTaskState;
+    public AnimaData[] AnimaData;
 }
 
 //順移
@@ -25,4 +26,14 @@ public class Teleport
 {
     public string AiName;
     public Vector3 position;
+}
+
+
+
+[System.Serializable]
+public class AnimaData
+{
+    public string NPC;
+    public string ani;
+    public bool state;
 }

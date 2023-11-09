@@ -13,13 +13,22 @@ MonoBehaviour:
   m_Name: "\u4FE1\u5C01"
   m_EditorClassIdentifier: 
   BagItem_name: "\u4FE1\u5C01"
-  BagItem_icon: {fileID: 21300000, guid: 5b722c445b42d2d459b4faa2628674e4, type: 3}
+  BagItem_icon: {fileID: 21300000, guid: 33b11657b0ad2844fbacd3b76ad693f2, type: 3}
   BagItem_info: "\u4FE1\u5C01"
   sellPrice: 1
   bagSoreIndex: 1
   keySoreIndex: -1
   id: 2
   BagItemType_: 1
+  potion:
+    potionType: 0
+    attackPotion:
+      bullectKey: 
+      aniName: 
+      second: 0
+      generationTime: 0
+      generationIndex: 0
+      time: 0
   other:
     otherType: 1
     otherLetter:
@@ -28,5 +37,10 @@ MonoBehaviour:
       talkContent: {fileID: 11400000, guid: cbca0503db1bda04da60b143ff7e125f, type: 2}
   clothe:
     clotheName: 
+  tool:
+    toolType: 0
+    power: 0
+    maxCooltime: 0
+    ArmCooltime: 0
   block:
     blockPool: {fileID: 0}

@@ -60,14 +60,44 @@ public class NpcFactory : MonoBehaviour
         }
     }
 
+
+    public void setAni(Transform npc, string ani, bool state)
+    {
+        NPC npcScript = npc.GetComponent<NPC>();
+
+        npcScript.Ani1.SetBool(ani, state);
+    }
+
     public void setNpcTask(Transform npc, bool state)
     {
         NPC npcScript = npc.GetComponent<NPC>();
 
-        if (state == false && npcScript.NPCdata1.NPCType == NPCType.MERCHANT)
+        if (state == false)
         {
-            npcScript.CenterPos = npcScript.NPCdata1.ShopPos[0];
+            if (npcScript.NPCstate1 == NPCstate.WORK)
+            {
+                if (npcScript.NPCdata1.NPCType == NPCType.FATDOVE)
+                {
+                    npcScript.fatdoveTranslate(1);
+                }
+                else
+                {
+                    npcScript.setCenter(npcScript.NPCdata1.ShopPos[0], true, 3);
+                }
+            }
+
+            else if (npcScript.NPCstate1 == NPCstate.WALK)
+            {
+                ActivePos activePos = npcScript.NPCdata1.hauntingPlace[Random.Range(0, npcScript.NPCdata1.hauntingPlace.Length)];
+                npcScript.setCenter(
+                    activePos.pos,
+                     false,
+                    activePos.range
+                );
+            }
         }
+
+
         npcScript.isTask = state;
     }
 

@@ -23,8 +23,8 @@ public class NPCdata
 public class NPCotherData
 {
     [Header("精靈洛洛肥啾")]
-    public Transform FolowTransform;
-    [Header("DIO專用")]
+    public Transform FollowTransform;
+    [Header("DIO專用:目前沒用到")]
     public ActivePos[] activePos;
     [Header("洛洛專用")]
     public string[] bullect;

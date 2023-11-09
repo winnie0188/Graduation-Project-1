@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 7249016755828448315}
   - component: {fileID: 2734670151335203539}
   - component: {fileID: 2715247731321658214}
+  - component: {fileID: -4120274481975348749}
   m_Layer: 3
   m_Name: "\u6C81\u96E8\u679C"
   m_TagString: Untagged
@@ -240,3 +241,14 @@ MonoBehaviour:
     count:
       current: 1
       max: 1
+--- !u!210 &-4120274481975348749
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249016755828448314}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

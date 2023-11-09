@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f781f3c09e5a345bd1d15699134ea1, type: 3}
+  m_Name: Task4-4
+  m_EditorClassIdentifier: 
+  task_Title: "\u524D\u5F80\u795E\u6BBF"
+  task_Content: "\u8DDF\u96A8\u6D1B\u6D1B"
+  task_need: "\u7121"
+  task_get: 
+  TaskType: 2
+  task_Walk:
+    taskPos: {x: 0, y: 0, z: 0}
+    distance: 0
+  task_Collect:
+    task_Items: []
+  task_Follow:
+    npcName: "\u6D1B\u6D1B"
+    npcEnd: 0
+    distance: 7
+    endPOS: {x: 0, y: 0, z: 0}
+    endDistance: 0
+    followSayType: 1
+    isIdle: 1
+    nPCsays:
+    - whoTalk: "\u96D9\u99AC\u5C3E\u54A9\u54A9"
+      content: "\u963F\u5947\u7F85\u796D\u53F8\u56DE\u4F86\u4E86\u8036\uFF01"
+    - whoTalk: "\u6D1B\u53EF\u592A\u592A"
+      content: "\u54C7~\u4ECA\u5929\u4F86\u9019\u4E00\u8D9F\u771F\u662F\u503C\u4E86\uFF01"
+    - whoTalk: "\u6D1B\u53EF\u5148\u751F"
+      content: "\u6211\u53EF\u8981\u5403\u918B\u5566\uFF01\u5927\u796D\u53F8\u80FD\u6709\u6211\u5E25\u55CE\uFF1F"
+    - whoTalk: "\u6D1B\u53EF\u592A\u592A"
+      content: "\u5225\u751F\u6C23\u561B~\u4F60\u5728\u6211\u5FC3\u4E2D\u6C38\u9060\u90FD\u662F\u6700\u597D\u770B\u7684
+        <3"
+    - whoTalk: "\u96D9\u99AC\u5C3E\u54A9\u54A9"
+      content: "\u8A71\u8AAA\uFF0C\u5927\u796D\u53F8\u8EAB\u908A\u7684\u90A3\u4F4D\u662F......\u52D2\u7C73\u8036\u5BB6\u7684\u5C0F\u59D0\u55CE\uFF1F"
+    - whoTalk: "\u6D1B\u53EF\u5148\u751F"
+      content: "\u54A6\uFF1F\u662F\u90A3\u4F4D\u4F4F\u5728\u5967\u83F2\u7279\u5C71\u9644\u8FD1\u7684\u52D2\u7C73\u8036\u5BB6\u55CE\uFF1F\u9019\u4F4D\u5C0F\u59D0\u4E0D\u6703\u662F\u88AB\u963F\u5947\u7F85\u5927\u796D\u53F8\u85CF\u8D77\u4F86\u7684\u79D8\u5BC6\u592B\u4EBA\u5427\uFF1F"
+    - whoTalk: "\u6D1B\u53EF\u592A\u592A"
+      content: "\u770B\u770B\u4F60\u4F60\u60F3\u591A\u4E86\u3002\u6B77\u4EE3\u7684\u5927\u796D\u53F8\u54EA\u6709\u4E00\u500B\u662F\u6709\u7D50\u5A5A\u7684\uFF1F"
+    - whoTalk: "\u96D9\u99AC\u5C3E\u54A9\u54A9"
+      content: "\u6211\u8AAA......\u4ED6\u8A72\u4E0D\u6703\u662F\u8056\u5973\u5427\uFF1F"
+    - whoTalk: "\u6D1B\u53EF\u5148\u751F"
+      content: "\u600E\u9EBC\u53EF\u80FD\uFF1F\uFF01"
+    - whoTalk: "\u96D9\u99AC\u5C3E\u54A9\u54A9"
+      content: "\u4F60\u5011\u4ED4\u7D30\u60F3\u60F3\u5927\u796D\u53F8\u63A5\u6536\u5230\u7684\u795E\u65E8\uFF1F"
+    TalkNPCNames:
+    - "\u96D9\u99AC\u5C3E\u54A9\u54A9"
+    - "\u6D1B\u53EF\u5148\u751F"
+    - "\u6D1B\u53EF\u592A\u592A"
+    currentIndex: 0
+    isNearSay: 1
+    npc: {fileID: 0}
+  task_Guide:
+    guide: 0
+    ListLength: 0
+  task_Sign:
+    panelId: 0
+  InstantiateNewCircle: 0
+  isInstantiatePath: 0
+  finshTask:
+    talkContent: {fileID: 0}
+    taskItem: {fileID: 11400000, guid: 18ff6406dfb5d7c429623cbb34103d99, type: 2}
+    bagItem: []
+    removeBagItem: []
+    teleports: []
+    playerRotateY: 0
+    openFadePanel: 0
+    FinshContent: 
+    openFinshUi: 0
+    npcTaskState: []
+    AnimaData:
+    - NPC: "\u4FEE\u5973"
+      ani: BROOM
+      state: 0

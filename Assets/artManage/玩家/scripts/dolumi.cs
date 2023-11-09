@@ -6,12 +6,12 @@ using UnityEngine.Experimental.U2D.Animation;
 public class dolumi : MonoBehaviour
 {
     public List<SpriteResolver> spriteResolvers = new List<SpriteResolver>();
-    public GameObject arm;
-    public GameObject tool;
+    // public GameObject arm;
+    // public GameObject tool;
     // Start is called before the first frame update
     SpriteResolver toolResolver;
 
-    [SerializeField] SpriteRenderer leftLeg;
+    // [SerializeField] SpriteRenderer leftLeg;
 
     string clotheName;
 
@@ -29,7 +29,7 @@ public class dolumi : MonoBehaviour
         {
             resolver.SetCategoryAndLabel(resolver.GetCategory(), "normal");
         }
-        leftLeg.sortingOrder = 10;
+        // leftLeg.sortingOrder = 10;
 
     }
 
@@ -67,7 +67,7 @@ public class dolumi : MonoBehaviour
         {
             resolver.SetCategoryAndLabel(resolver.GetCategory(), type);
         }
-        leftLeg.sortingOrder = sort;
+        // leftLeg.sortingOrder = sort;
     }
 
 
@@ -113,19 +113,19 @@ public class dolumi : MonoBehaviour
         //         leftLeg.sortingOrder = 8;
         //     }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (arm.activeInHierarchy == true)
-            {
-                tool.SetActive(true);
-                arm.SetActive(false);
-            }
-            else if (arm.activeInHierarchy == false)
-            {
-                tool.SetActive(false);
-                arm.SetActive(true);
-            }
-        }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     if (arm.activeInHierarchy == true)
+        //     {
+        //         tool.SetActive(true);
+        //         arm.SetActive(false);
+        //     }
+        //     else if (arm.activeInHierarchy == false)
+        //     {
+        //         tool.SetActive(false);
+        //         arm.SetActive(true);
+        //     }
+        // }
     }
 
 

@@ -32,6 +32,7 @@ public class Supplies : MonoBehaviour
     int time;
 
 
+
     public Vector3[] GenerateLocation { get => generateLocation; set => generateLocation = value; }
     public SuppliesType SuppliesType { get => suppliesType; set => suppliesType = value; }
     public int Time { get => time; set => time = value; }
@@ -55,6 +56,19 @@ public class Supplies : MonoBehaviour
     }
 
 
+    public void running()
+    {
+        if ((playerController.playerController_.transform.position - transform.position).magnitude > 100)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+    }
+
+
     #region 樹石頭專用
     public void UpdateHp(float hp)
     {
@@ -73,7 +87,6 @@ public class Supplies : MonoBehaviour
             SuppliesSystem.suppliesSystem.getKey(transform),
             transform
         );
-
         gameObject.SetActive(false);
     }
 

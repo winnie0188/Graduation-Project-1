@@ -292,6 +292,18 @@ public class talkSystem : MonoBehaviour
         index++;
         cancelTyping = false;
         TextFinsh = true;
+
+
+        if (currentTextDataList[index].teleports.Length != 0)
+        {
+            for (int i = 0; i < currentTextDataList[index].teleports.Length; i++)
+            {
+                NpcFactory.npcFactory.AIteleport(
+                    NpcFactory.npcFactory.factorys[currentTextDataList[index].teleports[i].AiName],
+                    currentTextDataList[index].teleports[i].position
+                );
+            }
+        }
     }
 
 
@@ -405,11 +417,25 @@ public class talkSystem : MonoBehaviour
             case 2:
                 StopAll();
                 taskSystem.taskSystem_.addTask(branchTalk.taskItem);
+                for (int i = 0; i < branchTalk.NPCtasks.Length; i++)
+                {
+                    addNpcTask(branchTalk.NPCtasks[i].npcName, branchTalk.NPCtasks[i].taskItem);
+                }
+
                 break;
         }
-
-
     }
+
+    #region 幫NPC增加任務
+    void addNpcTask(string npcName, taskItem taskItem)
+    {
+        Transform npc = NpcFactory.npcFactory.factorys[npcName];
+        if (npc.TryGetComponent<NPC>(out var n))
+        {
+            n.setTask(taskItem);
+        }
+    }
+    #endregion
 
     public void closeSelect()
     {
@@ -454,11 +480,7 @@ public class talkSystem : MonoBehaviour
             }
             if (finshTalk.NPCtask.taskItem != null)
             {
-                Transform npc = NpcFactory.npcFactory.factorys[finshTalk.NPCtask.npcName];
-                if (npc.TryGetComponent<NPC>(out var n))
-                {
-                    n.setTask(finshTalk.NPCtask.taskItem);
-                }
+                addNpcTask(finshTalk.NPCtask.npcName, finshTalk.NPCtask.taskItem);
             }
             if (finshTalk.removeBagItem.Length != 0)
             {
@@ -469,6 +491,19 @@ public class talkSystem : MonoBehaviour
                     );
                 }
             }
+
+            if (finshTalk.teleports.Length != 0)
+            {
+                for (int i = 0; i < finshTalk.teleports.Length; i++)
+                {
+                    NpcFactory.npcFactory.AIteleport(
+                        NpcFactory.npcFactory.factorys[finshTalk.teleports[i].AiName],
+                        finshTalk.teleports[i].position
+                    );
+                }
+            }
+
+
             if (finshTalk.npcTaskState.Length != 0)
             {
                 for (int i = 0; i < finshTalk.npcTaskState.Length; i++)

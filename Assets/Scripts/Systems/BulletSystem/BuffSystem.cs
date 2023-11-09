@@ -200,10 +200,21 @@ public class BuffSystem : MonoBehaviour
             } while (Physics.RaycastAll(targe.position, Vector3.down, 3f, LayerMask.GetMask("block")).Length <= 0);
             player.setKnock(false);
         }
+        else if (targe.TryGetComponent<Biology>(out Biology biology))
+        {
+            biology.setKnock(true);
+            biology.Rigi.AddForce(Vector3.up * power, ForceMode.Impulse);
+            do
+            {
+                yield return new WaitForSeconds(time);
+            } while (Physics.RaycastAll(targe.position, Vector3.down, 3f, LayerMask.GetMask("block")).Length <= 0);
+            biology.setKnock(false);
+        }
         else
         {
             targe.GetComponent<Rigidbody>().AddForce(Vector3.up * power, ForceMode.Impulse);
         }
+
 
         buffDictions[key] = 0;
     }

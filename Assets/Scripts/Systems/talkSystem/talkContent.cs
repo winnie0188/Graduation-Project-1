@@ -162,6 +162,9 @@ public class TextDataFile
     // 觸發事件
     public List<string> sendMess = new List<string>();
     public List<BranchTalk> branch = new List<BranchTalk>();
+
+    [Header("ai順移到某地")]
+    public Teleport[] teleports;
 }
 
 [System.Serializable]
@@ -171,6 +174,7 @@ public class BranchTalk
     public talkContent eventSelect;
     public string content;
     public taskItem taskItem;
+    public NPCtask[] NPCtasks;
 }
 
 

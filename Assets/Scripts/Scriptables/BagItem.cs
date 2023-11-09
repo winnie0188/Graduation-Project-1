@@ -76,6 +76,11 @@ public class BagItem : ScriptableObject
         return other;
     }
 
+    public potion GetPtion()
+    {
+        return potion;
+    }
+
     public void Create()
     {
         if (bagSoreIndex == 0)
