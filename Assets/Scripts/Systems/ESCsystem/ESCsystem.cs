@@ -40,8 +40,11 @@ public class ESCsystem : MonoBehaviour
         panel.gameObject.SetActive(true);
         peopleOutIndex = 0;
         peopleindex = 0;
-        printloveValue();
-        SaveMange.saveMange.showSave();
+        if (peopleParent) 
+        {
+            printloveValue();
+            SaveMange.saveMange.showSave();
+        }
     }
 
     #region Exit
@@ -84,6 +87,12 @@ public class ESCsystem : MonoBehaviour
 
     public void printloveValue()
     {
+        Debug.Log(1111);
+        if (!peopleParent) 
+        {
+            Debug.Log(1);
+            return;
+        }
         var people = peopleParent.GetChild(peopleOutIndex).GetChild(peopleindex).GetComponent<people>();
         peopleTxt.peopleName.text = people.basicPeople.peoplename;
         peopleTxt.birthday.text = people.basicPeople.birthday;
