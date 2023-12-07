@@ -13,13 +13,22 @@ MonoBehaviour:
   m_Name: "\u93FD\u65A7"
   m_EditorClassIdentifier: 
   BagItem_name: "\u93FD\u65A7"
-  BagItem_icon: {fileID: 21300000, guid: a903bd12d3c6fea4db08cda8feffc3be, type: 3}
+  BagItem_icon: {fileID: 21300000, guid: edb9464b4e6ba3041b82e7ad9be92378, type: 3}
   BagItem_info: "\u660E\u660E\u662F\u5168\u65B0\u8CFC\u8CB7\u7684\uFF0C\u537B\u7E3D\u662F\u5E36\u4E86\u9EDE\u751F\u93FD\u7684\u611F\u89BA\u3002"
   sellPrice: 0
   bagSoreIndex: 5
   keySoreIndex: 0
   id: 0
   BagItemType_: 5
+  potion:
+    potionType: 0
+    attackPotion:
+      bullectKey: 
+      aniName: 
+      second: 0
+      generationTime: 0
+      generationIndex: 0
+      time: 0
   other:
     otherType: 0
     otherLetter:
